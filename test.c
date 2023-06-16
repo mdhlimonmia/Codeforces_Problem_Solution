@@ -3,6 +3,7 @@
 int main(){
     int a[5]={5};
    if(a[1]){
-    printf("%d",a[4]);
+    // printf("%d",a[4]);
    }
+   printf("%d", '3'!='3');
 }
