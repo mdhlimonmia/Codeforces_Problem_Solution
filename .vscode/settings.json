@@ -30,6 +30,7 @@
   ],
   "files.associations": {
     "stdio.h": "c",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "functional": "c"
   }
 }
