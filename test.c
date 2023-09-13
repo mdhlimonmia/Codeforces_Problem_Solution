@@ -1,7 +1,6 @@
 #include<stdio.h>
 
 int main(){
-   long int a;
-    scanf("%ld", &a);
-    printf("%ld\n", a);
+  char a = '\n';
+  printf("%d", a);
 }

@@ -31,6 +31,8 @@
   "files.associations": {
     "stdio.h": "c",
     "ostream": "cpp",
-    "functional": "c"
+    "functional": "c",
+    "iostream": "cpp",
+    "utility": "cpp"
   }
 }

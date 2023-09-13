@@ -1,8 +1,4 @@
-
-            // for (int i = 0; i < n, temp1 > 0; i++)
+ // else if ( (onesub - divided) > 10)
             // {
-            //     if(temp1 >= arr[i]){
-            //         temp1 -= arr[i];
-            //         arr[i] = 0;
-            //     }
+            //     /* code */
             // }
