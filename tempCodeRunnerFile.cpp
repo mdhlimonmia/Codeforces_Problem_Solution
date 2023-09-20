@@ -1,6 +1,11 @@
-for (int i = 0; i < n; i++)
-    // {
-    //     cout<<v[i];
-    // }
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
     
-    // cout<<endl;
+    int a = 1, b=1;
+    cout<< (a|b);
+    
+
+    return 0;
+}

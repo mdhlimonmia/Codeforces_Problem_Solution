@@ -3,8 +3,8 @@ using namespace std;
 
 int main(){
     
-    char a = '9';
-    cout<<a-'0';
+    int a = 0, b=3;
+    cout<< (a^b);
     
 
     return 0;
