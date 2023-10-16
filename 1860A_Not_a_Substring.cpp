@@ -1,45 +1,26 @@
 #include <bits/stdc++.h>
+ 
 using namespace std;
-// #define Limon() iso_base
-int main()
-{
-    int _;
-    cin >> _;
-    while (_--)
-    {
-        string arr;
-        cin >> arr;
-        int sz = arr.size();
-        if (arr[0] == ')' || arr[sz - 1] == '(' || sz % 2 != 0)
-        {
-            puts("YES");
-            for (int i = 0; i < sz; i++)
-            {
-                cout << "()";
-            }
-            cout<<endl;
-        }
-        else
-        {
-            int f = 1;
-            for (int i = 1; i < arr.size(); i++)
-            {
-                if (arr[i] == ')')
-                    f--;
-                else
-                    f++;
-            }
-            if (f == 0)
-                puts("NO");
-            else
-            {
-                puts("YES");
-                for (int i = 0; i < sz; i++)
-                {
-                    cout << "()";
-                }
-                cout<<endl;
-            }
-        }
-    }
-}
+ 
+int main() {
+  ios::sync_with_stdio(false); cin.tie(0);
+  int t;
+  cin >> t;
+  while (t--) {
+	string s;
+	cin >> s;
+	int n = s.size();
+	string a, b;
+	for (int i =  0; i < 2 * n; ++i) {
+	  a += "()"[i & 1];
+	  b += ")("[i < n];
+	}
+	if (a.find(s) == string::npos) {
+	  cout << "YES\n" << a << '\n';
+	} else if (b.find(s) == string::npos) {
+	  cout << "YES\n" << b << '\n';
+	} else {
+	  cout << "NO\n";
+	}
+  }
+} 

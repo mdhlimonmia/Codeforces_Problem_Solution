@@ -4,30 +4,30 @@ using namespace std;
 #define Limon() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define lli long long int
 void solve(){
-    int n = 100;
-    char c;
+    int table[10][10] = {
+        {1,1,1,1,1,1,1,1,1,1},
+        {1,2,2,2,2,2,2,2,2,1},
+        {1,2,3,3,3,3,3,3,2,1},
+        {1,2,3,4,4,4,4,3,2,1},
+        {1,2,3,4,5,5,4,3,2,1},
+        {1,2,3,4,5,5,4,3,2,1},
+        {1,2,3,4,4,4,4,3,2,1},
+        {1,2,3,3,3,3,3,3,2,1},
+        {1,2,2,2,2,2,2,2,2,1},
+        {1,1,1,1,1,1,1,1,1,1}
+    };
     int sum = 0;
-    for (int i = 1; i <= n; i++)
+    for (int i = 0; i < 10; i++)
     {
-        cin>>c;
-        if(c == 'X'){
-            int d = i/10, m = i%10;
-            if(i%10 == 0 || d == 0 || (d == 9 && m!=0) || m == 1 ){
-                sum += 1;
-                continue;
-            }
-            if(d>5) d = 10 - d;
-            if(m>5) m = 10 - m+1;
-            // if(d == 0) d++;
-            // if(m == 0) m++;
-            if(d==m) sum += d;
-            else if(d<m) sum += d+1;
-            else if(d>m) sum += (d-(d-m));
-            // sum += min(d,m);
+        char x;
+        for (int j = 0; j < 10; j++)
+        {
+            cin>>x;
+            if(x == 'X')sum += table[i][j];
         }
-        
     }
     cout<<sum<<endl;
+    
 }
 
 int main()
