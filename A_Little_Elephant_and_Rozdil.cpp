@@ -8,15 +8,14 @@ int main()
 {
     Limon();
 
-    lli n,x;cin>>n;
-    map<lli,lli>m;
-    for (lli i = 0; i < n; i++)
+    int n,x;cin>>n;
+    pair<int,int>p[n];
+    for (int i = 0; i < n; i++)
     {
         cin>>x;
-        m[x]++;
+        p[i] = {x,i+1};
     }
-    auto q = *m.begin();
-    auto r = *--m.end();
-    cout<<r.first - q.first<<" "<<q.second*r.second<<endl;
-
+    sort(p,p+n);
+    if(p[0].first == p[1].first)cout<<"Still Rozdil\n";
+    else cout<<p[0].second<<endl;
 }

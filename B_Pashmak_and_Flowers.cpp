@@ -15,8 +15,13 @@ int main()
         cin>>x;
         m[x]++;
     }
-    auto q = *m.begin();
-    auto r = *--m.end();
-    cout<<r.first - q.first<<" "<<q.second*r.second<<endl;
-
+    if(m.size()== 1){
+        lli k = (n*(n-1))/2;
+        cout<<0<<" "<<k<<endl;
+    }
+    else{
+        auto q = *m.begin();
+        auto r = *--m.end();
+        cout<<r.first - q.first<<" "<<q.second * r.second<<endl;
+    }
 }
