@@ -4,19 +4,13 @@ using namespace std;
 #define Limon() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define lli long long int
 
-int main()
-{
-    Limon();
-
-     int n;cin>>n;
-     int ans = INT32_MAX;
-     for (int i = 1; i < n; i++)
-     {
-        int k = i;
-        while(n>=k+k)k+=k;
-        // cout<<"k"<<k<<endl;
-        ans = min(ans,n-k+i);
-     }
-     
+int main() {
+    int x; cin >> x;
+    int ans = 0;
+    while(x){
+        if(x%2 != 0)ans++;
+        x/=2;
+    }
     cout<<ans<<endl;
+    return 0;
 }

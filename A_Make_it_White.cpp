@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define endl '\n'
+#define Limon() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define lli long long int
+void solve(){
+    int n;cin>>n;
+    string s; cin>>s;
+    int mx = 0, mn = 999999; 
+    for (int i = 0; i < n; i++)
+    {
+        if(s[i] == 'B'){
+            mx = max(mx,i);
+            mn = min(mn, i);
+        }
+    }
+    cout<<mx-mn+1<<endl;
+}
+
+int main()
+{
+    Limon();
+
+     int _;cin>>_;
+     while (_--)
+     {
+       solve();
+     }
+}
