@@ -3,18 +3,16 @@ using namespace std;
 #define endl '\n'
 #define Limon() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define lli long long int
-void solve(){
-    double n,m;cin>>n>>m;
-    cout<<(double)((n/__gcd(n,m))*m)<<endl;
-}
 
 int main()
 {
-    // Limon();
+    Limon();
 
-     int _;cin>>_;
-     while (_--)
-     {
-       solve();
-     }
+    int x, n;cin>>n;
+    map<int,int>m;
+    for(int i = 0; i<n; i++){
+        cin>>x;
+        m[x]++;
+    }
+    cout<<m.size()<<endl;
 }

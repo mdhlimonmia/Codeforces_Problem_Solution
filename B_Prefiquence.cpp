@@ -4,13 +4,22 @@ using namespace std;
 #define Limon() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define lli long long int
 void solve(){
-    double n,m;cin>>n>>m;
-    cout<<(double)((n/__gcd(n,m))*m)<<endl;
+    int n,m;cin>>n>>m;
+    string a,b; cin>>a>>b;
+    lli ans = 0;
+    int i = 0;
+    for(auto u:b){
+        if(u == a[i]){
+            ans++;
+            i++;
+        }
+    }
+    cout<<ans<<endl;
 }
 
 int main()
 {
-    // Limon();
+    Limon();
 
      int _;cin>>_;
      while (_--)
