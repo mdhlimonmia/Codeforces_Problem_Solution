@@ -63,46 +63,14 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 16000+123;
-vll adj[mx];
-vl dis(mx);
-int n,m;
-void dijkstra(int s){
-    for(int i = 0; i<=n; i++)dis[i] = infLL;
-    priority_queue<pll,vll,greater<pll>> pq;
-    pq.push({0,s});
-    dis[s] = 0;
-    while(!pq.empty()){
-        int u = pq.top().S;
-        ll curD = pq.top().F;
-        pq.pop();
-        // if(dis[u]<curD)continue;
-        for(auto v:adj[u]){
-            ll x = max(curD,v.second);
-            if(dis[v.F]>x){
-                dis[v.F] = x;
-                // ans[v.F] = max(dis[v.F],v.S);
-                pq.push({x, v.F});
-            }
-        }
-    }
-}
-void solve(int tc){
-    cin>>n>>m;
-    int u,v,w;
-    for(int i = 0; i<=n; i++)adj[i].clear();
-    for(int i = 0; i<m; i++){
-        cin>>u>>v>>w;
-        adj[u].PB({v,w});
-        adj[v].PB({u,w});
-    }
-    int s; cin>>s;
-    dijkstra(s);
-    cout<<"Case "<<tc<<":\n";
-    for(int i = 0; i<n; i++){
-        if(dis[i] == infLL)cout<<"Impossible\n";
-        else cout<<dis[i]<<"\n";
-    }
+const int mx = LLONG_MAX;
+
+void solve(){
+    ll n;cin>>n;
+    dbg(n);
+    vi v(n);
+    for(auto &u:v)cin>>u;
+    dbg(v);
 }
 
 int main()
@@ -112,6 +80,6 @@ int main()
     int _;cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
-        solve(tc);
+        solve();
     }
 }

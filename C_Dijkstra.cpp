@@ -63,55 +63,53 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 16000+123;
-vll adj[mx];
+const int mx = 2e5+123;
+vii adj[mx];
 vl dis(mx);
+vl parent(mx);
 int n,m;
-void dijkstra(int s){
-    for(int i = 0; i<=n; i++)dis[i] = infLL;
-    priority_queue<pll,vll,greater<pll>> pq;
-    pq.push({0,s});
-    dis[s] = 0;
-    while(!pq.empty()){
-        int u = pq.top().S;
-        ll curD = pq.top().F;
+void dijkstra(){
+   for(int i = 0; i<=n; i++)dis[i] = infLL, parent[i] = -1;
+   priority_queue<pll,vll,greater<pll>>pq;
+   pq.push({0,1});
+   dis[1] = 0;
+   while(!pq.empty()){
+        ll u = pq.top().S;
+        ll d = pq.top().F;
+        // dbg(pq.top());
         pq.pop();
-        // if(dis[u]<curD)continue;
+        if(dis[u]<d)continue;
         for(auto v:adj[u]){
-            ll x = max(curD,v.second);
-            if(dis[v.F]>x){
-                dis[v.F] = x;
-                // ans[v.F] = max(dis[v.F],v.S);
-                pq.push({x, v.F});
+            if(dis[v.F]>d+v.S){
+                dis[v.F] = d+v.S;
+                pq.push({d+v.S,v.F});
+                parent[v.F] = u;
             }
         }
-    }
-}
-void solve(int tc){
-    cin>>n>>m;
-    int u,v,w;
-    for(int i = 0; i<=n; i++)adj[i].clear();
-    for(int i = 0; i<m; i++){
-        cin>>u>>v>>w;
-        adj[u].PB({v,w});
-        adj[v].PB({u,w});
-    }
-    int s; cin>>s;
-    dijkstra(s);
-    cout<<"Case "<<tc<<":\n";
-    for(int i = 0; i<n; i++){
-        if(dis[i] == infLL)cout<<"Impossible\n";
-        else cout<<dis[i]<<"\n";
-    }
+   }
 }
 
 int main()
 {
     optimize();
 
-    int _;cin>>_;
-    for (int tc = 1; tc<=_; tc++)
-    {
-        solve(tc);
+    cin>>n>>m;
+    int u,v,w;
+    for(int i = 0; i<m; i++){
+        cin>>u>>v>>w;
+        adj[u].PB({v,w});
+        adj[v].PB({u,w});
+    }
+    dijkstra();
+    if(parent[n] == -1)cout<<"-1\n";
+    else{
+        vector<int>st;
+        while(parent[n]!=-1){
+            st.push_back(n);
+            n = parent[n];
+        }
+        st.push_back(1);
+        for(int i = st.size()-1; i>=0; i--)cout<<st[i]<<" ";
+        cout<<endl;
     }
 }
