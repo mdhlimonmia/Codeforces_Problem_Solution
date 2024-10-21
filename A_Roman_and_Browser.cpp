@@ -63,32 +63,29 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
-
 
 
 int main()
 {
     optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    int n,k;
+    cin>>n>>k;
+    vi v(n);
+    int t = 0;
+    for(int i = 0; i<n; i++){
+        cin>>v[i];
+        t += v[i];
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
+    int ans = 0;
+
+    for(int i = 0; i<k; i++){
+        int tem = 0;
+        for(int j = i; j<n; j+=k){
+            tem+=v[j];
         }
+        ans = max(ans, abs(t-tem));
     }
     cout<<ans<<endl;
+
 }

@@ -63,32 +63,59 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
+const int mx = 2e5+123;
+vl v[mx];
+bool vis[mx];
+ll n,m;
+void dfs(int s){
+    vis[s] = 1;
+    for(auto u:v[s]){
+        if(!vis[u])dfs(u);
+    }
+}
+void solve(){
+    cin>>n>>m;
+    for(int i = 0; i<=n; i++){
+        v[i].clear();
+        vis[i] = 0;
+    }
+    
+    
+    ll a,d,k;
+    vvl dp(11, vl(n+1, 0));
+    for(int i = 0; i<m; i++){
+        cin>>a>>d>>k;
+        dp[d][a] = max(dp[d][a], k);    
+    }
 
+    for(int i = 1; i<=10; i++){
+        for(int j = 1; j<=n; j++){
+            if(dp[i][j]>0){
+                v[j].push_back(i+j);
+                v[i+j].push_back(j);
+                dp[i][i+j] = max(dp[i][i+j], dp[i][j]-1);
+            }
+        }
+    }
 
+    ll ans = 0;
+    for(int i = 1; i<=n; i++){
+        if(!vis[i]){
+            dfs(i);
+            ans++;
+        }
+    }
+    cout<<ans<<endl;
+}
 
 int main()
 {
     optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    int _ = 1;
+    cin>>_;
+    for (int tc = 1; tc<=_; tc++)
+    {
+        solve();
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
-    }
-    cout<<ans<<endl;
 }

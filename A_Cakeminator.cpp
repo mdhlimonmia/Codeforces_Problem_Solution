@@ -65,28 +65,49 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
-
+void solve(){
+    ll n;cin>>n;
+}
 
 int main()
 {
     optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
+    int x,y; cin>>x>>y;
+    char s[x][y];
+    int ans = 0;
+    for(int i = 0; i<x; i++){
+        for(int j = 0;j<y; j++){
+            cin>>s[i][j];
         }
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
+    for(int i = 0; i<x; i++){
+        bool f = 1;
+        for(int j = 0;j<y; j++){
+            if(s[i][j] == 'S'){
+                f = 0; break;
+            }
+        }
+        if(f){
+            for(int j = 0; j<y; j++){
+                ans++;
+                s[i][j] = '0';
+            }
+        }
+    }
+    for(int i = 0; i<y; i++){
+        bool f = 1;
+        for(int j = 0; j<x; j++){
+            if(s[j][i] == 'S'){
+                f = 0;
+                break;
+            }
+        }
+        if(f){
+            for(int j = 0; j<x; j++){
+                if(s[j][i] == '.'){
+                    ans++;
+                }
             }
         }
     }

@@ -71,24 +71,10 @@ int main()
 {
     optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
-    }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
-    }
-    cout<<ans<<endl;
+    int x,y;cin>>x>>y;
+    int t = abs(x)+abs(y);
+    if(x>0 && y>0)cout<<0<<" "<<t<<" "<<t<<" "<<0<<endl;
+    else if(x<0 && y>0)cout<<t*-1<<" "<<0<<" "<<0<<" "<<t<<endl;
+    else if(x<0 && y<0)cout<<t*-1<<" "<<0<<" "<<0<<" "<<t*-1<<endl;
+    else cout<<0<<" "<<t*-1<<" "<<t<<" "<<0<<endl;
 }

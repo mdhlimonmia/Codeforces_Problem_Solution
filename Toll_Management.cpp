@@ -28,7 +28,7 @@ typedef double dl;
 const double PI = acos(-1);
 const double eps = 1e-9;
 const int inf = 2000000000;
-const ll infLL = 9000000000000000000;
+const ll infLL = 1000000000000000000;
 #define MOD 1000000007
 
 #define mem(a,b) memset(a, b, sizeof(a) )
@@ -63,32 +63,66 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
+const int mx = 1e4+123;
+vii adj[3][mx];
+ll dis[3][mx];
+ll n,m,s, t, p;
+struct info{
+    int u,v,w;
+};
 
+void dijkstra(int s,int f){
+    for(int i = 0; i<=n; i++)dis[f][i] = infLL;
+    priority_queue<pll, vll, greater<pll>>pq;
+    pq.push({0,s});
+    dis[f][s] = 0;
+    while(!pq.empty()){
+        int u = pq.top().S;
+        ll curD = pq.top().F;
+        pq.pop();
+        if(curD>dis[f][u])continue;
+        for(auto v:adj[f][u]){
+            if(dis[f][v.F]>curD+v.S){
+                pq.push({curD+v.S, v.F});
+                dis[f][v.F] = curD+v.S;
+            }
+        }
+    }
+}
 
+void solve(int tc){
+    cin>>n>>m>>s>>t>>p;
+    for(int i = 0; i<n; i++){
+        adj[0][i].clear();
+        adj[1][i].clear();
+    }
+    vector<info>adge;
+    for(int i = 0; i<m; i++){
+        int u,v,w;
+        cin>>u>>v>>w;
+        adj[0][u].PB({v,w});
+        adj[1][v].PB({u,w});
+        adge.push_back({u,v,w});
+    }
+    
+    dijkstra(s,0);
+    dijkstra(t,1);
+
+    ll ans = -1;
+    for(auto u:adge){
+        ll curD = dis[0][u.u]+dis[1][u.v]+u.w;
+        if(curD<=p) ans = max(ans,(ll) u.w) ;
+    }
+    cout<<"Case "<<tc<<": "<<ans<<endl;
+}
 
 int main()
 {
     optimize();
-
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    int _ = 1;
+    cin>>_;
+    for (int tc = 1; tc<=_; tc++)
+    {
+        solve(tc);
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
-    }
-    cout<<ans<<endl;
 }

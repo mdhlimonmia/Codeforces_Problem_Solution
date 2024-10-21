@@ -63,32 +63,52 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
+const int mx = 123;
+int n,m;
+vii adj[mx];
+vl dis(mx);
 
+void dijkstra(int s){
+    for(int i = 0; i<=n; i++) dis[i] = infLL;
+    priority_queue<pll, vll, greater<pll>> pq;
+    dis[s] = 0;
+    pq.push({0, s});
+    while (!pq.empty()) {
+        int u = pq.top().S;
+        ll curD = pq.top().F;
+        pq.pop();
+        if(curD > dis[u]) continue;
+        for (auto v: adj[u]) {
+            if(dis[v.F] > curD + v.S) {
+                dis[v.F] = curD + v.S;
+                pq.push({curD + v.S, v.F});
+            }
+        }
+    }
+}
 
+void solve(int tc){
+    cin>>n>>m;
+    for(int i = 0; i<=n; i++) adj[i].clear();
+    int u,v,w;
+    for(int i = 0; i<m; i++){
+        cin>>u>>v>>w;
+        adj[u].push_back({v,w});
+        adj[v].push_back({u,w});
+    }
+    dijkstra(1);
+    cout<<"Case "<<tc<<": ";
+    if(dis[n]==infLL)cout<<"Impossible\n";
+    else cout<<dis[n]<<endl;
+}
 
 int main()
 {
     optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    int _;cin>>_;
+    for (int tc = 1; tc<=_; tc++)
+    {
+        solve(tc);
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
-    }
-    cout<<ans<<endl;
 }

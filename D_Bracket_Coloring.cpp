@@ -65,30 +65,96 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
-
+void solve(){
+    ll n;cin>>n;
+    string s;cin>>s;
+    if(n%2){
+        cout<<"-1\n"; 
+        return;
+    }
+    int x,y; x=y=0;
+    for(auto u:s){
+        if(u==')')x++;
+        else y++;
+    }
+    if(x!=y){
+        cout<<"-1\n";
+        return;
+    }
+    stack<pair<char,int>>st,st2;
+    vector<int>v(n);
+    bool f1 = 0, f2 = 0;
+    int k = 0;
+    for(int i = 0; i<n; i++){
+        if(st.empty()){
+            st.push({s[i],i});
+            continue;
+        }
+        auto tem = st.top();
+        char c = tem.F;
+        char j = tem.S;
+        if(c=='(' && s[i] == ')'){
+            st.pop();
+            v[j] = 1;
+            v[i] = 1;
+            f1 = 1;
+            k+=2;
+        }else{
+            st.push({s[i],i});
+        }
+    }
+    int p;
+    if(f1==1)p = 2;
+    else p = 1;
+    int k2 = 0;
+    if(k<n){
+        for(int i = 0; i<n; i++){
+        if(st2.empty()){
+            st2.push({s[i],i});
+            continue;
+        }
+        auto tem = st2.top();
+        char c = tem.F;
+        char j = tem.S;
+        if(c==')' && s[i] == '('){
+            st2.pop();
+            v[j] = p;
+            v[i] = p;
+            f2 = 1;
+            k2+=2;
+        }else{
+            st2.push({s[i],i});
+        }
+    }
+    }
+    if(k == n || k2 == n){
+        cout<<"1\n";
+        for(int i = 0; i<n; i++)cout<<"1 ";
+        cout<<endl;
+        return;
+    }
+    else{
+        vector<int>ans(n);
+        while(!st.empty()){
+            int i = st.top().S;
+            ans[i] = 1;
+            st.pop();
+        }
+        cout<<2<<endl;
+        for(auto u:ans){
+            cout<<u+1<<" ";
+        }
+        cout<<endl;
+    }
+}
 
 int main()
 {
     optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    int _;cin>>_;
+    for (int tc = 1; tc<=_; tc++)
+    {
+        solve();
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
-    }
-    cout<<ans<<endl;
 }

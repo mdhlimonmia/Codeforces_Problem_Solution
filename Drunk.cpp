@@ -22,8 +22,8 @@ typedef double dl;
 #define all(a) (a).begin(),(a).end()
 #define rall(a) (a).rbegin(),(a).rend()
 #define sz(x) (int)x.size()
-#define yes cout<<"YES"<<endl
-#define no cout<<"NO"<<endl
+#define yes cout<<"Yes"<<endl
+#define no cout<<"No"<<endl
 
 const double PI = acos(-1);
 const double eps = 1e-9;
@@ -64,31 +64,50 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
+map<string,vector<string>>adj;
+map<string,int> colors;
+bool f;
 
-
+void dfsCycleFinder(string parent){
+    colors[parent] = 1;
+    for(auto node:adj[parent]){
+        if(colors[node] == 0) dfsCycleFinder(node);
+        else if(colors[node] == 1){
+            f = 0;
+            return;
+        }
+    }
+    colors[parent] = 2;
+    return;
+}
+void solve(int tc){
+    ll n;cin>>n;
+    string a,b;
+    for(int i = 0; i<n; i++){
+        cin>>a>>b;
+        adj[a].push_back(b);
+        colors[a] = colors[b] = 0;
+    }
+    f = 1;
+    for(auto node:colors){
+        // dbg(node);
+        if(node.S == 0) dfsCycleFinder(node.F);
+    }
+    cout<<"Case "<<tc<<": ";
+    if(f)yes;
+    else no;
+    
+}
 
 int main()
 {
     optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    int _;cin>>_;
+    for (int tc = 1; tc<=_; tc++)
+    {
+        adj.clear();
+        colors.clear();
+        solve(tc);
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
-    }
-    cout<<ans<<endl;
 }

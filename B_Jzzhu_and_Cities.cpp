@@ -63,32 +63,56 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
+const int mx = 2e5+123;
 
+int n,m;
+vector<vl> adj[mx];
+ll dis[mx];
+map<pair<int,int>,int>cnt;
+bool type[mx];
+void dijkstra(int s){
+    for(int i = 0; i<=n; i++) dis[i] = infLL;
 
+    priority_queue<pll, vll, greater<pll>>pq;
+    dis[s] = 0;
+    pq.push({0,s});
+    while (!pq.empty()) {
+        int u = pq.top().S;
+        ll curD = pq.top().F;
+        pq.pop();
+        if(curD > dis[u]) continue;
+        for (auto v: adj[u]) {
+            if(dis[v[0]] > curD + v[1]) {
+                dis[v[0]] = curD + v[1];
+                pq.push({curD + v[1], v[0]});
+                type[v[0]] = v[2];
+            }else if(dis[v[0]] == curD+v[1] && v[2] == 0 && type[v[0]]==1){
+                type[v[0]] = v[2];
+            }
+        }
+    }
+}
 
 int main()
 {
     optimize();
-
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    ll k;
+    cin>>n>>m>>k;
+    ll u,v,w;
+    for(int i = 0; i<m; i++){
+        cin>>u>>v>>w;
+        adj[u].push_back({v,w,0});
+        adj[v].push_back({u,w,0});
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
+    
+    for(int i = 0; i<k; i++){
+        cin>>u>>w;   
+        adj[1].push_back({u,w,1});
+        adj[u].push_back({1,w,1});
     }
+    dijkstra(1);
+    int ans = k;
+    for(int i = 1; i<=n; i++)ans-=type[i];
     cout<<ans<<endl;
+
 }

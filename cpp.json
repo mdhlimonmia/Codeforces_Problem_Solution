@@ -77,7 +77,8 @@
             "{",
             "    optimize();",
             "",
-            "    int _;cin>>_;",
+            "    int _ = 1;",
+            "    cin>>_;",
             "    for (int tc = 1; tc<=_; tc++)",
             "    {",
             "        solve();",
@@ -127,6 +128,33 @@
                 "}"
             ],
             "description": "Dijkstra's Algorithm using priority queue and adjacency list"
-        }
-      
+        },
+        "Prime Generation Algorithm": {
+    "prefix": "primeGen",
+    "body": [
+        "bitset<mx> isPrime;",
+        "vector<int> primes;",
+        "",
+        "void primeGen(int n) {",
+        "    for (int i = 3; i <= n; i += 2) isPrime[i] = 1;",
+        "",
+        "    int sq = sqrt(n);",
+        "    for (int i = 3; i <= sq; i += 2) {",
+        "        if (isPrime[i]) {",
+        "            for (int j = i * i; j <= n; j += i) {",
+        "                isPrime[j] = 0;",
+        "            }",
+        "        }",
+        "    }",
+        "",
+        "    for (int i = 3; i <= n; i += 2) {",
+        "        if (isPrime[i] == 1) {",
+        "            primes.push_back(i);",
+        "        }",
+        "    }",
+        "}"
+    ],
+    "description": "Generate prime numbers up to n using the Sieve of Eratosthenes"
+}
+     
 }

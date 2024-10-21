@@ -64,31 +64,34 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-
-
+int n;
+string s[2];
+int ok(int x1, int y1, int x2, int y2, int x3, int y3){
+    return ((s[x1][y1] == 'A') + (s[x2][y2]=='A') + (s[x3][y3] == 'A')>=2); 
+}
+int ans(int i){
+    if(i==n)return 0;
+    int ret = 0;
+    if(i+3<=n){
+        ret = max(ret, ok(0, i, 0, i+1, 0, i+2)+ok(1, i, 1, i+1, 1, i+2)+ ans(i+3));
+        ret = max(ret, ok(0, i, 1, i, 0, i+1) + ok(0, i+2, 1, i+2, 1, i+1) + ans(i+3));
+        ret = max(ret, ok(0, i, 1, i, 1, i+1) + ok(0, i+1, 0, i+2, 1, i+2) + ans(i+3));
+    }
+    return ret;
+}
+void solve(){
+    cin>>n;
+    cin>>s[0]>>s[1];
+    cout<<ans(0)<<endl;
+}
 
 int main()
 {
     optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    int _;cin>>_;
+    for (int tc = 1; tc<=_; tc++)
+    {
+        solve();
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
-    }
-    cout<<ans<<endl;
 }

@@ -63,32 +63,24 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
 
-
+bool isPrime(ll n)
+{
+   if (n <= 1)
+   return false;
+   for (int i = 2; i * i <= n; i++) {
+       if (n % i == 0)
+           return false;
+   }
+   return true;
+}
 
 int main()
 {
     optimize();
-
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
-    }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
-    }
-    cout<<ans<<endl;
+    ll n; cin>>n;
+    if(isPrime(n))cout<<"1\n";
+    else if(n%2==0)cout<<"2\n";
+    else if(isPrime(n-3) || isPrime(n-2))cout<<"2\n";
+    else cout<<"3\n";
 }

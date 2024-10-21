@@ -63,32 +63,51 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
-
-
 
 int main()
 {
     optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
-    }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
+    ll n;cin>>n;
+    map<int,set<int>>cnt;
+    unordered_map<int, int>fre;
+    while (n--)
+    {
+        int c;cin>>c;
+        if(c==1){
+            int val; cin>>val;
+            if(fre[val]==0){
+                fre[val]++;
+                cnt[fre[val]].insert(val);
+            }
+            else{
+                cnt[fre[val]].erase(val);
+                if(cnt[fre[val]].empty()){
+                    cnt.erase(fre[val]);
+                }
+                fre[val]++;
+                int tem = fre[val];
+                cnt[tem].insert(val);
+            }
+        }else{
+            if(cnt.empty()) cout<<"empty\n";
+            else{
+                auto k = cnt.rbegin();
+                int mx = k->first;
+                int ele = *(k->second.rbegin());
+                cout<<ele<<endl;
+
+                cnt[mx].erase(ele);
+                if(cnt[mx].empty()){
+                    cnt.erase(mx);
+                }
+                fre.erase(ele);
+                if(mx>1){
+                    fre[ele] = 1;
+                    cnt[fre[ele]].insert(ele);
+                }
             }
         }
     }
-    cout<<ans<<endl;
+    
 }

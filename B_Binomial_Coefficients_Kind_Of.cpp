@@ -63,32 +63,35 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
-
-
+const ll mod = 1e9+7;
+const int mx = 100;
+vvl v(mx);
+void solve(){
+    for(int i = 0; i<mx; i++){
+        v[i].resize(i+1);
+        v[i][0] = 1;
+        v[i][i] = 1;
+        for(int j = 1; j<i; j++){
+            v[i][j] = (v[i-1][j]+v[i-1][j-1]) % mod;
+            // v[i][j] = 1;
+        }
+    }
+}
 
 int main()
 {
-    optimize();
+    // optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    ll n; cin>>n;
+    vll ans(n);
+    for(int i = 0; i<n; i++)cin>>ans[i].F;
+    for(int i = 0; i<n; i++)cin>>ans[i].S;
+    for(auto u:ans){
+        cout<<u.F<<" "<<u.S<<endl;
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
+    solve();
+    for(int i = 0; i<n; i++){
+        cout<<v[ans[i].F][ans[i].S]<<endl;
     }
-    cout<<ans<<endl;
+
 }

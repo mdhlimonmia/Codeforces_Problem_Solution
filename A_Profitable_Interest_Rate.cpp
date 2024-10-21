@@ -65,30 +65,28 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
-
+void solve(){
+    ll n,a;cin>>n>>a;
+    if(n>=a)cout<<n<<endl;
+    else if(n*2 <= a) cout<<"0\n";
+    else{
+        while(a>n){
+            int t =max((ll) 1, (ll)(a-n)/2);
+            a-=(t*2);
+            n-=t;
+        }
+        cout<<n<<endl;
+    }
+}
 
 int main()
 {
     optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    int _ = 1;
+    cin>>_;
+    for (int tc = 1; tc<=_; tc++)
+    {
+        solve();
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
-    }
-    cout<<ans<<endl;
 }

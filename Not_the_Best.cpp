@@ -63,32 +63,63 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
+const int mx = 5e3+123;
+ll n,m;
+vii adj[mx];
+ll dis[3][mx];
+struct info{
+    int u,v,w;
+};
 
+void dijkstra(int s, int f){
+    for(int i = 0; i<=n; i++)dis[f][i]=infLL;
+    priority_queue<pll, vll, greater<pll>>pq;
+    pq.push({0,s});
+    dis[f][s] = 0;
+    while(!pq.empty()){
+        ll u = pq.top().S;
+        ll curD = pq.top().F;
+        pq.pop();
+        if(curD>dis[f][u])continue;
+        for(auto v:adj[u]){
+            if(dis[f][v.F]>curD+v.S){
+                pq.push({curD+v.S, v.F});
+                dis[f][v.F] = v.S+curD;
+            }
+        }
+    }
+}
 
+void solve(int tc){
+    cin>>n>>m;
+    for(int i = 0; i<=n; i++)adj[i].clear();
+    vector<info>edge;
+    for(int i = 0; i<m; i++){
+        int u,v,w;
+        cin>>u>>v>>w;
+        adj[u].PB({v,w});
+        adj[v].PB({u,w});
+        edge.PB({u,v,w});
+    }
+    dijkstra(1,0);
+    dijkstra(n,1);
+    ll ans = infLL;
+    for(auto u:edge){
+        ll curD = min(dis[0][u.u] + dis[1][u.v] + u.w , dis[0][u.v] + dis[1][u.u] + u.w);
+        if(curD>dis[0][n])ans = min(ans,curD);
+        if(curD == dis[0][n]){
+            ans = min(ans, curD+u.w+u.w);
+        }
+    }
+    cout<<"Case "<<tc<<": "<<ans<<endl;
+}
 
 int main()
 {
     optimize();
-
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    int _;cin>>_;
+    for (int tc = 1; tc<=_; tc++)
+    {
+        solve(tc);
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
-    }
-    cout<<ans<<endl;
 }

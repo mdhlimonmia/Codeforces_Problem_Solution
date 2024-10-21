@@ -64,31 +64,66 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
+vi adj[mx];
+ll n;
+void GetInput(){
+    cin>>n;
+    for(int i = 0; i<=n; i++)adj[i].clear();
+    for(int j = 0; j<n; j++){
+        int u; cin>>u;
+        string s; cin>>s;
+        int k=0;
+        for(int i = 1; i<s.size()-1; i++){
+            k*=10;
+            k+=(s[i]-'0');
+        }
+        int v;
+        for(int i = 0; i<k; i++){
+            cin>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+    }
+}
 
+void solve(int tc){
+    GetInput();
+    // for(int i = 0; i<n; i++){
+    //     cout<<i<<" : ";
+    //     for(auto u:adj[i])cout<<u<<" ";
+    //     cout<<endl;
+    // }
+    map<pair<int,int>,int> ans;
+    for(int i = 0; i<n; i++){
+        bool f = 1;
+        int l = adj[i].size();
+        for(int j = 0; j<l-1; j++){
+            if(adj[i][j] != adj[i][j+1]){
+                f = 0;
+                break;
+            }
+        }
+        // dbg(i,f);
+        if(f && l>0){
+            if(i<adj[i][0])ans[{i,adj[i][0]}]++;
 
+            else ans[{adj[i][0], i}]++;
+        }
+    }
+    cout<<"Case "<<tc<<":\n";
+    cout<<ans.size()<<" critical links"<<endl;
+    for(auto u:ans){
+        cout<<u.F.F<<" - "<<u.F.S<<endl;
+    }
+}
 
 int main()
 {
-    optimize();
+    // optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    int _;cin>>_;
+    for (int tc = 1; tc<=_; tc++)
+    {
+        solve(tc);
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
-    }
-    cout<<ans<<endl;
 }

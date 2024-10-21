@@ -71,23 +71,27 @@ int main()
 {
     optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
-    }
+    string s;cin>>s;
+    int n = s.size();
+    string t = "bear";
+    int j = 0, k = 0;
     ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
+    for(int i = 0; i<n; i++){
+        if(s[i] == t[j]){
+            int l = i;
+            while(j<4 && l<n && s[l]==t[j]){
+                l++,j++;
             }
+            if(j==4){
+                ll tem = 0;
+                if(i-k == 0 || n-l == 0)tem = i-k + n-l + 1;
+                else tem = (i-k+1) * (n-l+1);
+                // dbg(i,l,j, k, tem, ans);
+                ans +=tem;
+                k = i+1;
+            }
+            j = 0;
+            i = l-1;
         }
     }
     cout<<ans<<endl;
