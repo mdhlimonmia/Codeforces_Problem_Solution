@@ -64,26 +64,51 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-
+ll mod = 1e9+7;
 void solve(){
     ll n;cin>>n;
     vl v(n);
     for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
+    vl sum(n+1);
+    ll x = 0;
+    for(int i = 0; i<n; i++){
+        if(x%2 || i == 0){
+            sum[i+1] = sum[i]+v[i];
+            sum[i+1]%=mod;
+            x = v[i]%mod;
+            cout<<sum[i+1]<<" ";
+        }else{
+            ll tem = x, tem2 = (x+v[i])%mod, tem3 = x, tem4 = v[i];
+            while(tem%2 == 0){
+                v[i]*=2;
+                v[i]%=mod;
+                if((v[i]+tem)%mod > tem2){
+                    tem2 = v[i]+tem;
+                    tem3 = tem;
+                    tem4 = v[i];
+                }
+                tem/=2;
+            }
+            tem = tem3;
+            v[i] = tem4;
+            dbg(x, tem, v[i]);
+            sum[i]-=x;
+            sum[i]+=tem;
+            sum[i+1] = sum[i]+v[i];
+            sum[i+1]%=mod;
+            cout<<sum[i+1]<<" ";
+            x = v[i]%mod;
         }
     }
+    cout<<endl;
 }
 
 int main()
 {
     optimize();
-
+    // dbg(mod);
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         solve();

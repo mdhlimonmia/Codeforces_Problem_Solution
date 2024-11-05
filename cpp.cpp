@@ -67,15 +67,6 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
-    }
 }
 
 int main()
@@ -83,9 +74,88 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         solve();
     }
+}
+
+////////////////////////
+bitset<mx> isPrime;
+vector<int> primes;
+
+void primeGen(int n) {
+    for (int i = 3; i <= n; i += 2) isPrime[i] = 1;
+
+    int sq = sqrt(n);
+    for (int i = 3; i <= sq; i += 2) {
+        if (isPrime[i]) {
+            for (int j = i * i; j <= n; j += i) {
+                isPrime[j] = 0;
+            }
+        }
+    }
+
+    primes.push_back(2);
+    for (int i = 3; i <= n; i += 2) {
+        if (isPrime[i] == 1) {
+            primes.push_back(i);
+        }
+    }
+}
+
+////////////////
+bool isPrime(ll n) {
+    if (n <= 1)
+        return false;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0)
+            return false;
+    }
+    return true;
+}
+/////////////////////
+const int mx = 1e5+123;
+int n,m;
+vii adj[mx];
+vl dis(mx);
+
+void dijkstra(int s){
+    for(int i = 0; i<=n; i++) dis[i] = infLL;
+    priority_queue<pll, vll, greater<pll>> pq;
+    dis[s] = 0;
+    pq.push({0, s});
+    while (!pq.empty()) {
+        int u = pq.top().S;
+        ll curD = pq.top().F;
+        pq.pop();
+        if(curD > dis[u]) continue;
+        for (auto v: adj[u]) {
+            if(dis[v.F] > curD + v.S) {
+                dis[v.F] = curD + v.S;
+                pq.push({curD + v.S, v.F});
+            }
+        }
+    }
+}
+
+/////////////
+ll numberOfDivisors(ll n) {
+    ll ans = 1;
+    for (auto u : primes) {
+        if (1ll * u * u > n) break;
+        if (n % u == 0) {
+            ll a = 0;
+            while (n % u == 0) {
+                a++;
+                n /= u;
+            }
+            ans *= (a + 1);
+        }
+    }
+    if (n != 1) {
+        ans *= 2;
+    }
+    return ans;
 }

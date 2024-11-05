@@ -66,16 +66,11 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
-    }
+    dl ab,ac,bc,r;
+    cin>>ab>>ac>>bc>>r;
+    dl s = (ab+ac+bc)/2.0;
+    dl abc = sqrt(s*(s-ab)*(s-bc)*(s-ac));
+    
 }
 
 int main()
@@ -83,7 +78,7 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         solve();

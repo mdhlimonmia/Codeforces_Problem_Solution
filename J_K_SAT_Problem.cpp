@@ -65,17 +65,45 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
-void solve(){
-    ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
+void solve(int tc){
+    ll n,m,k;cin>>n>>m>>k;
+    vector<string>adj[n];
+    for(int i = 0; i<n; i++){
+        adj[i].resize(k);
+        for(int j = 0; j<k; j++){
+            string s; cin>>s;
+            adj[i][j] = s;
+            // adj[i].push_back(s);
         }
     }
+    bool vis[m+1];
+    memset(vis, 0, sizeof(vis));
+    int p; cin>>p;
+    for(int i = 0; i<p; i++){
+        int x;
+        cin>>x;
+        vis[x] = 1;
+    }
+    bool f = 1;
+    for(int i = 0; i<n; i++){
+        bool tem = 0;
+        for(auto u:adj[i]){
+            int t = 0;
+            for(int j = 1; j<u.size(); j++){
+                t*=10;
+                t += (u[j]-'0');
+            }
+            // dbg(t);
+            if(u[0]=='+' && vis[t]) tem = 1;
+            if(u[0] == '-' && !vis[t])tem = 1;
+        }
+        if(!tem){
+            f = 0;
+            break;
+        }
+    }
+    if(f)cout<<"Case "<<tc<<": "<<"Yes\n";
+    else cout<<"Case "<<tc<<": "<<"No\n";
 }
 
 int main()
@@ -83,9 +111,9 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
-        solve();
+        solve(tc);
     }
 }

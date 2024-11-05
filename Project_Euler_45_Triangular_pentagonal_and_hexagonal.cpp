@@ -3,7 +3,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-typedef long long ll;
+typedef unsigned long long ll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<vi> vvi;
@@ -67,25 +67,51 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
-    }
+
 }
 
 int main()
 {
     optimize();
 
-    int _ = 1;
-    // cin>>_;
-    for (int tc = 1; tc<=_; tc++)
-    {
-        solve();
+    ll n,x,y;
+    cin>>n>>x>>y;
+    // bool vis[n+123];
+    vl v;
+    if(y==5){
+        for(int i = 2; ;i++){
+            ll t1 = i*(i+1) / 2; 
+            ll t2 = i*(3*i-1) / 2;
+            // dbg(i,t1,t2);
+            if(t2>n || t1>n)break;
+            // vis[t2] = 1;
+            // if(vis[t1])v.PB(t1);
+            // vis[t1] = 1;
+            v.push_back(t1);
+            v.push_back(t2);
+        }
+    }else{
+        for(int i = 2; ;i++){
+            ll t1 = i*(3*i-1) / 2;
+            ll t2 = i*(2*i-1); 
+            if(t2>n || t1>n)break;
+            // vis[t2] = 1;
+            // if(vis[t1])v.PB(t1);
+            // vis[t1] = 1;
+            v.push_back(t1);
+            v.push_back(t2);
+        }
     }
+    // cout<<v.size()<<endl;
+    // for(auto u:v)cout<<u<<" ";
+    // cout<<endl;
+    sort(all(v));
+    ll ans = 0;
+    vl v2;
+    for(int i = 0; i<v.size()-1; i++){
+        if(v[i] == v[i+1])v2.PB(v[i]);
+    }
+    cout<<v2.size()<<endl;
+    for(auto u:v2)cout<<u<<" ";
+    // if(v2.size()!=0) cout<<endl;
 }

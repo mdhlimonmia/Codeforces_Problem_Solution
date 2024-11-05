@@ -3,7 +3,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-typedef long long ll;
+typedef unsigned long long ll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<vi> vvi;
@@ -64,17 +64,30 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-
-void solve(){
+bool isPrime(ll n) {
+    if (n <= 1)
+        return false;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0)
+            return false;
+    }
+    return true;
+}
+void solve(int tc){
     ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
+    if(n%2) cout<<"Case "<<tc<<": Impossible\n";
+    else if((n&(n-1)) == 0) cout<<"Case "<<tc<<": 1 "<<n<<endl;
+    else{
+        ll ans = 1, l = sqrt(n);
+        for(ll i = 2; ; i+=2){
+            if((n%i==0 && (n/i)%2)){
+                ans = i;
+                break;
+            }
+            // dbg(ans, i);
         }
+
+        cout<<"Case "<<tc<<": "<<n/ans<<" "<<ans<<endl;
     }
 }
 
@@ -83,9 +96,9 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
-        solve();
+        solve(tc);
     }
 }

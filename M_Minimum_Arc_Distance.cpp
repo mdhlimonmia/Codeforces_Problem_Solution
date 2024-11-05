@@ -65,17 +65,16 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
-void solve(){
-    ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
-    }
+void solve(int tc){
+    dl ox,oy, ax,ay,bx,by;
+    cin>>ox>>oy>>ax>>ay>>bx>>by;
+    dl r = sqrt(((ox-ax)*(ox-ax)) + ((oy-ay)*(oy-ay)));
+    dl c = sqrt(((bx-ax)*(bx-ax)) + ((by-ay)*(by-ay)));
+    // dbg(r,c);
+    dl thta = 2*(asin(c/(2*r)));
+    dl ans = r*thta;
+    fraction()
+    cout<<"Case "<<tc<<": "<<ans<<endl;
 }
 
 int main()
@@ -83,9 +82,9 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
-        solve();
+        solve(tc);
     }
 }

@@ -67,14 +67,30 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
+    if(n%2){
+        cout<<n<<endl;
+        for(int i = 2; i<=n; i++){
+            if(i == 3 || i == n-1 || i == n)continue;
+            cout<<i<<" ";
+
         }
+        cout<<1<<" "<<3<<" "<<n-1<<" "<<n<<endl;
+    }else{
+        ll tem = n, i = 0;
+        while(tem){
+            tem>>=1;
+            i++;
+            // dbg(tem, 1<<i);
+        }
+        // dbg(tem);
+        ll k = 1<<(i-1);
+        // cout<<k<<endl;
+        cout<<(k|(k-1))<<endl;
+        for(int i = 1; i<=n; i++){
+            if(i == k || i == k-1 || i == k-2 || i == k-3)continue;
+            cout<<i<<" ";
+        }
+        cout<<k-2<<" "<<k-3<<" "<<k-1<<" "<<k<<endl;
     }
 }
 
@@ -83,7 +99,7 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         solve();

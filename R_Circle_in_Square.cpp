@@ -35,7 +35,7 @@ const ll infLL = 9000000000000000000;
 #define sqr(a) ((a) * (a))
 
 #define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-#define fraction() cout.unsetf(ios::floatfield); cout.precision(10); cout.setf(ios::fixed,ios::floatfield);
+#define fraction() cout.unsetf(ios::floatfield); cout.precision(2); cout.setf(ios::fixed,ios::floatfield);
 #define file() freopen("input.txt","r",stdin);freopen("output.txt","w",stdout);
 //
 //debug
@@ -65,17 +65,14 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
-void solve(){
-    ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
-    }
+void solve(int tc){
+    dl n;cin>>n;
+    dl sr = PI*n*n;
+    n+=n;
+    dl sq = (n*n);
+    dl ans = sq-sr;
+    fraction();
+    cout<<"Case "<<tc<<": "<<ans<<endl;
 }
 
 int main()
@@ -83,9 +80,9 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
-        solve();
+        solve(tc);
     }
 }

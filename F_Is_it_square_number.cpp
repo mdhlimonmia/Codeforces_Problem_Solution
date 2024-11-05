@@ -65,27 +65,13 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
-void solve(){
-    ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
-    }
-}
 
 int main()
 {
     optimize();
 
-    int _ = 1;
-    // cin>>_;
-    for (int tc = 1; tc<=_; tc++)
-    {
-        solve();
-    }
+    ll n; cin>>n;
+    ll x = sqrt(n);
+    if(x*x == n)yes;
+    else no;
 }

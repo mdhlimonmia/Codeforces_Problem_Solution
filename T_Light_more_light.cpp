@@ -63,29 +63,82 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
+const ll mx = 1e6+123;
 
-void solve(){
-    ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
+// long long numberOfDivisors(long long num) {
+//     long long total = 1;
+//     for (int i = 2; (long long)i * i <= num; i++) {
+//         if (num % i == 0) {
+//             int e = 0;
+//             do {
+//                 e++;
+//                 num /= i;
+//             } while (num % i == 0);
+//             total *= e + 1;
+//         }
+//     }
+//     if (num > 1) {
+//         total *= 2;
+//     }
+//     return total;
+// }
+
+
+bitset<mx> isPrime;
+vector<ll> primes;
+
+void primeGen(ll n) {
+    for (ll i = 3; i <= n; i += 2) isPrime[i] = 1;
+
+    ll sq = sqrt(n);
+    for (ll i = 3; i <= sq; i += 2) {
+        if (isPrime[i]) {
+            for (ll j = i * i; j <= n; j += i) {
+                isPrime[j] = 0;
+            }
+        }
+    }
+
+    primes.push_back(2);
+    for (ll i = 3; i <= n; i += 2) {
+        if (isPrime[i] == 1) {
+            primes.push_back(i);
         }
     }
 }
 
+ll numberOfDivisors(ll n) {
+    ll ans = 1;
+    for (auto u : primes) {
+        if (1ll * u * u > n) break;
+        if (n % u == 0) {
+            ll a = 0;
+            while (n % u == 0) {
+                a++;
+                n /= u;
+            }
+            ans *= (a + 1);
+        }
+    }
+    if (n != 1) {
+        ans *= 2;
+    }
+    return ans;
+}
+
+
+
 int main()
 {
     optimize();
-
-    int _ = 1;
-    // cin>>_;
-    for (int tc = 1; tc<=_; tc++)
+    primeGen(mx);
+    ll n;
+    while (cin>>n)
     {
-        solve();
+        if(n==0)break;
+        ll ans = numberOfDivisors(n);
+        if(ans%2==0)cout<<"no\n";
+        else cout<<"yes\n";
     }
+    
 }

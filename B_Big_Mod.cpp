@@ -64,28 +64,23 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-
-void solve(){
-    ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
-    }
+ll b, m;
+ll solve(ll p){
+    if(p==0) return 1;
+    if(p%2==0){
+        ll t = solve(p/2);
+        return (t*t)%m;
+    }else return (b*solve(p-1))%m;
 }
-
 int main()
 {
-    optimize();
+    // optimize();
 
-    int _ = 1;
-    // cin>>_;
-    for (int tc = 1; tc<=_; tc++)
+    ll p;
+    while (cin>>b>>p>>m)
     {
-        solve();
+        ll ans = solve(p);
+        cout<<ans%m<<endl;
     }
+    
 }

@@ -66,25 +66,21 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    multiset<int>m;
-    int n; cin>>n;
-    while (n--)
-    {
-        int x;
-        cin>>x;
-        m.insert(x);
-    }
-    for(auto u:m)cout<<u<<" ";
-    cout<<endl;
-    int q; cin>>q;
-    while (q--)
-    {
+    ll n;cin>>n;
+    bool f = 0;
+    ll ans = 0;
+    for(int i = 1; i<=n; i++){
         int x; cin>>x;
-        m.erase(x);
-        for(auto u:m)cout<<u<<" ";
-        cout<<endl;
+        if(f){
+            ans |=x;
+        }else{
+            ans &=x;
+        }
+        // cout<<ans<<" ";
+        dbg(f, x, ans);
+        f^=1;
     }
-    
+    cout<<ans<<endl;
 }
 
 int main()
@@ -98,3 +94,28 @@ int main()
         solve();
     }
 }
+
+
+
+//   ll n;cin>>n;
+//     if(n%2){
+//         cout<<n<<endl;
+//         for(int i = 1; i<=n; i++)cout<<i<<" ";
+//         cout<<endl;
+//     }else{
+//         ll tem = n, i = 0;
+//         while(tem){
+//             tem>>=1;
+//             i++;
+//             // dbg(tem, 1<<i);
+//         }
+//         // dbg(tem);
+//         ll k = 1<<(i-1);
+//         // cout<<k<<endl;
+//         cout<<(k|(k-1))<<endl;
+//         for(int i = 1; i<=n; i++){
+//             if(i == k || i == k-1 || i == k-2 || i == k-3)continue;
+//             cout<<i<<" ";
+//         }
+//         cout<<k-2<<" "<<k-3<<" "<<k-1<<" "<<k<<endl;
+//     }

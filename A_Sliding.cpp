@@ -66,16 +66,11 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
-    }
+    ll m,r,c, n;cin>>n>>m>>r>>c;
+    unsigned long long ans = 0;
+    ans = (n-r)*m + (n-r+1)*(m-1) - (c-1);
+    cout<<ans<<endl;
+
 }
 
 int main()
@@ -83,7 +78,7 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         solve();

@@ -29,7 +29,7 @@ const double PI = acos(-1);
 const double eps = 1e-9;
 const int inf = 2000000000;
 const ll infLL = 9000000000000000000;
-#define MOD 1000000007
+#define MOD 131071
 
 #define mem(a,b) memset(a, b, sizeof(a) )
 #define sqr(a) ((a) * (a))
@@ -67,25 +67,31 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
-    }
 }
 
 int main()
 {
-    optimize();
+    // optimize();
 
-    int _ = 1;
-    // cin>>_;
-    for (int tc = 1; tc<=_; tc++)
+    string s;
+    while (cin>>s)
     {
-        solve();
+        ll l = s.size()-1;
+        // dbg(s,l);
+        if((s[0]=='#') || (l==1 && s=="1#")){
+            cout<<"NO\n";
+            continue;
+        }
+        ll ans = 0, x = 1;
+        for(int i = l-1; i>=0; i--){
+            ans+=((s[i]=='1')*x);
+            x*=2;   
+            x%=MOD;
+            ans%=MOD;
+            // dbg(ans);
+        }
+        if(ans%MOD==0)cout<<"YES\n";
+        else cout<<"NO\n";
     }
+    
 }

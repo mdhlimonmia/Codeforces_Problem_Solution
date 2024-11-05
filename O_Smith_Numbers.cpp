@@ -65,25 +65,82 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
-void solve(){
-    ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
+bitset<mx> isPrime;
+vector<int> primes;
+
+bool isPrimee(ll n) {
+    if (n <= 1)
+        return false;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0)
+            return false;
+    }
+    return true;
+}
+
+void primeGen(int n) {
+    for (int i = 3; i <= n; i += 2) isPrime[i] = 1;
+
+    int sq = sqrt(n);
+    for (int i = 3; i <= sq; i += 2) {
+        if (isPrime[i]) {
+            for (int j = i * i; j <= n; j += i) {
+                isPrime[j] = 0;
+            }
         }
     }
+
+    primes.push_back(2);
+    for (int i = 3; i <= n; i += 2) {
+        if (isPrime[i] == 1) {
+            primes.push_back(i);
+        }
+    }
+}
+
+int sum_of_digit(ll n){
+    int sum = 0;
+    while(n){
+        sum+=(n%10);
+        n/=10;
+    }
+    // dbg(n,sum);
+    return sum;
+}
+
+int sod(ll n){
+    int res = 0;
+    if(isPrimee(n))return -1;
+    for(auto u:primes){
+        if(u*u>n) break;
+        if(n%u == 0){
+            int s = sum_of_digit(u);
+            while(n%u == 0){
+                n/=u;
+                res += s;
+            }
+        }
+    }
+    if(n!=1) res +=sum_of_digit(n);
+    // dbg(n,res);
+    return res;
+}
+
+
+void solve(){
+    ll n;cin>>n;
+    n++;
+    while(sum_of_digit(n) != sod(n))n++;
+    
+    cout<<n<<endl;
 }
 
 int main()
 {
     optimize();
-
+    primeGen(mx);
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         solve();

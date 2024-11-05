@@ -3,7 +3,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-typedef long long ll;
+typedef unsigned long long ll;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<vi> vvi;
@@ -67,25 +67,16 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
-    }
 }
 
 int main()
 {
-    optimize();
+    // optimize();
 
-    int _ = 1;
-    // cin>>_;
-    for (int tc = 1; tc<=_; tc++)
-    {
-        solve();
+    ll i = 1, a,b, m = 10000007;
+    while(cin>>a>>b){
+        ll t = (a%m)*(b%m);
+        cout<<"Case #"<<i<<": "<<t%m<<endl;
+        i++;
     }
 }

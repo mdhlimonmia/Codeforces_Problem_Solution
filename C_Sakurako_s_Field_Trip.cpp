@@ -67,15 +67,19 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
+    vi v(n+1);
+    for(int i = 1; i<=n; i++)cin>>v[i];
+    int ans = 0, i;
+    for(i = 1; i<(n-i); i++){
+        int x = (v[i] == v[i+1]) + (v[n-i+1] == v[n-i]);
+        int y = (v[i] == v[n-i]) + (v[n-i+1] == v[i+1]);
+        // dbg(v[i], v[i+1], v[n-i+1], v[n-i], x, y);
+
+        ans += min(x,y);
     }
+    // dbg(i, v[i], v[i+1]);
+    if(n%2==0 && v[i] == v[i+1])ans++;
+    cout<<ans<<endl;
 }
 
 int main()
@@ -83,7 +87,7 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         solve();

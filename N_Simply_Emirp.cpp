@@ -65,27 +65,34 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
-void solve(){
-    ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
+bool isPrime(ll n) {
+    if (n <= 1)
+        return false;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0)
+            return false;
     }
+    return true;
 }
 
 int main()
 {
     optimize();
 
-    int _ = 1;
-    // cin>>_;
-    for (int tc = 1; tc<=_; tc++)
+    ll n;
+   while(scanf("%ld",&n) == 1)
     {
-        solve();
+        if(!isPrime(n)) cout<<n<<" is not prime.\n";
+        else{
+            ll t = 0, tem = n;
+            while(tem){
+                t*=10;
+                t +=(tem%10);
+                tem/=10;
+            }
+            if(n!=t && isPrime(t)) cout<<n<<" is emirp.\n";
+            else cout<<n<<" is prime.\n";
+        }
     }
+    
 }

@@ -65,17 +65,20 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
-void solve(){
+void solve(int tc){
     ll n;cin>>n;
     vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
+    for(int i = 0; i<n; i++){
+        cin>>v[i];
+    }
+    ll ans = ceil((v[0]-2)/5.0);;
+    for(int i = 1; i<n; i++){
+        if(v[i-1] != v[i]){
+            int t = ceil((v[i]-v[i-1])/5.0);
+            ans +=t;
         }
     }
+    cout<<"Case "<<tc<<": "<<ans<<endl;
 }
 
 int main()
@@ -83,9 +86,9 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
-        solve();
+        solve(tc);
     }
 }

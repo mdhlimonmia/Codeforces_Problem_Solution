@@ -67,15 +67,30 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
-        }
+    int arr[n][n];
+    for(int i = 0; i<n; i++){
+        for(int j = 0; j<n; j++)cin>>arr[i][j];
     }
+    ll ans = 0;
+    for(int i = 0; i<n; i++){
+        int k = i, t = 0;
+        for(int j = 0; j<n; j++){
+            if(n<=k)break;
+            t = min(t, arr[k][j]);
+            k++;
+        }
+        ans += abs(t); 
+    }
+    for(int i = 1; i<n; i++){
+    int k = i, t = 0;
+    for(int j = 0; j<n; j++){
+        if(n<=k)break;
+        t = min(t, arr[j][k]);
+        k++;
+    }
+    ans += abs(t); 
+    }
+    cout<<ans<<endl;
 }
 
 int main()
@@ -83,7 +98,7 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         solve();
