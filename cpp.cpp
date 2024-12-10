@@ -1,9 +1,10 @@
-///   ***   ---   |||    In the name of ALLAH    |||   ---   ***   ///
+////   ***   ---   |||    In the name of ALLAH    |||   ---   ***   ///
 
 #include<bits/stdc++.h>
 using namespace std;
 
 typedef long long ll;
+typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<vi> vvi;
@@ -156,6 +157,64 @@ ll numberOfDivisors(ll n) {
     }
     if (n != 1) {
         ans *= 2;
+    }
+    return ans;
+}
+///////////////////
+ll sum_of_Digit(ll x) {
+    ll sum = 0;
+    while (x) {
+        sum += (x % 10);
+        x /= 10;
+    }
+    return sum;
+}
+///////////////////
+ll Euler_Phi(ll n) {
+    ll phi = n;
+    for (auto u : primes) {
+        if (1ll * u * u > n) break;
+        if (n % u == 0) {
+            while (n % u == 0) {
+                n /= u;
+            }
+            phi /= u;
+            phi *= (u-1);
+        }
+    }
+    if (n != 1) {
+        phi /= n;
+        phi *= (n-1);
+    }
+    return phi;
+}
+/////////////////
+ll bigMod(ll base, ll pow, ll mod) {
+    if (pow == 0) return 1 % mod;
+    if (pow % 2 == 0) {
+        ll tem = bigMod(base, pow / 2, mod);
+        return (tem * tem) % mod;
+    } else {
+        return (base * bigMod(base, pow - 1, mod)) % mod;
+    }
+}
+/////////////////
+ll SOD(ll n) {
+    ll ans = 1;
+    for (auto u : primes) {
+        if (1ll * u * u > n) break;
+        if (n % u == 0) {
+            ll fa = 1, sum = 1;
+            while (n % u == 0) {
+                fa *= u;
+                sum += fa;
+                n /= u;
+            }
+            ans *= sum;
+        }
+    }
+    if (n != 1) {
+        ans *= (n + 1);
     }
     return ans;
 }

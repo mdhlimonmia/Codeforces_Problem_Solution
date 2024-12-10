@@ -74,13 +74,6 @@ int main()
     ll a,b;
     while(cin>>a>>b){
         if(a==0 && b==0)break;
-        ll x = sqrt(a);
-        ll ans = 0;
-        for(ll i = x; ; i++){
-            ll t = i*i;
-            if(t>b)break;
-            if(t>=a && t<=b)ans++;
-        }
-        cout<<ans<<endl;
+        
     }
 }

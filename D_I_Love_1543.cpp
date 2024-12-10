@@ -52,8 +52,8 @@ template<typename T,typename...hello>void faltu(T arg,const hello&...rest){cerr<
 ll gcd ( ll a, ll b ) { return __gcd ( a, b ); }
 ll lcm ( ll a, ll b ) { return a * ( b / gcd ( a, b ) ); }
 
-int dx[] = { 0, 0, +1, -1, -1  +1, -1, +1 };
-int dy[] = { +1, -1, 0, 0, -1, +1, +1, -1 };
+int dx[] = {-1, 0, 0};
+int dy[] = {0,  1, -1};
 
 inline void normal(ll &a) { a %= MOD; (a < 0) && (a += MOD); }
 inline ll modMul(ll a, ll b) { a %= MOD, b %= MOD; normal(a), normal(b); return (a*b)%MOD; }
@@ -63,10 +63,39 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
+const int mx = 1e3+123;
+
+ll n,m;
+string s[mx], tem = "1543";
+int getVal(int x, int y, int k){
+    // dbg(x, y, k, s[x][y]);
+    if(k==4) return 1;
+    int ans = 0;
+    for(int i = 0; i<4; i++){
+        int x1 = x+dx[i];
+        int y1 = y+dy[i];
+        if(x1 >=0 && x1<n && y1>=0 && y1<m){
+            // dbg(x1, y1, s[x1][y1]);
+            if(s[x1][y1] == tem[k])ans += getVal(x1,y1,k+1);
+        }
+    }
+    return ans;
+}
 
 void solve(){
-    ll n;cin>>n;
+    cin>>n>>m;
+    for(int i = 0; i<n; i++){
+        cin>>s[i];
+    }
+    ll ans = 0;
+    for(int i = 0; i<n; i++){
+        for(int j = 0; j<m; j++){
+            if(s[i][j] == '1'){
+                ans += getVal(i,j,1);
+            }
+        }
+    }
+    cout<<ans<<endl;
 }
 
 int main()

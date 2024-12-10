@@ -64,9 +64,11 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
+ll dp[mx];
 ll b, m;
 ll solve(ll p){
     if(p==0) return 1;
+    // if(dp[p]!= -1)return dp[p];
     if(p%2==0){
         ll t = solve(p/2);
         return (t*t)%m;
@@ -79,6 +81,7 @@ int main()
     ll p;
     while (cin>>b>>p>>m)
     {
+
         ll ans = solve(p);
         cout<<ans%m<<endl;
     }

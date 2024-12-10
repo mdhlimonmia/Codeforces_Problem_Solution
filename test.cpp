@@ -4,6 +4,7 @@
 using namespace std;
 
 typedef long long ll;
+typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<vi> vvi;
@@ -67,55 +68,25 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    bool f = 0;
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        int x; cin>>x;
-        if(f){
-            ans |=x;
-        }else{
-            ans &=x;
-        }
-        // cout<<ans<<" ";
-        dbg(f, x, ans);
-        f^=1;
-    }
-    cout<<ans<<endl;
+    for(int i = 0; i<n; i++)cout<<i*9<<" ";
 }
 
 int main()
 {
-    // optimize();
+    optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         solve();
     }
 }
-
-
-
-//   ll n;cin>>n;
-//     if(n%2){
-//         cout<<n<<endl;
-//         for(int i = 1; i<=n; i++)cout<<i<<" ";
-//         cout<<endl;
-//     }else{
-//         ll tem = n, i = 0;
-//         while(tem){
-//             tem>>=1;
-//             i++;
-//             // dbg(tem, 1<<i);
-//         }
-//         // dbg(tem);
-//         ll k = 1<<(i-1);
-//         // cout<<k<<endl;
-//         cout<<(k|(k-1))<<endl;
-//         for(int i = 1; i<=n; i++){
-//             if(i == k || i == k-1 || i == k-2 || i == k-3)continue;
-//             cout<<i<<" ";
-//         }
-//         cout<<k-2<<" "<<k-3<<" "<<k-1<<" "<<k<<endl;
-//     }
+ll sum_of_Digit(ll x) {
+    ll sum = 0;
+    while (x) {
+        sum += (x % 10);
+        x /= 10;
+    }
+    return sum;
+}

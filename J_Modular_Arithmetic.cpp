@@ -84,7 +84,9 @@ int main()
             else if(c=='-') t = x-y;
             else if(c=='*') t = x*y;
             else {
-                t = (x%(y*n))/y;
+                t = (x%(y*n));
+                dbg(t);
+                t/=y;
             }
 
             if(t<0)t+=n;
