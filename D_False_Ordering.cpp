@@ -64,34 +64,67 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
-bool vis[mx][mx];
-string adj[mx];
-int n,m;
+const int mx = 1e3+123;
+bitset<mx> isPrime;
+vector<int> primes;
+vii list_nod;
+void primeGen(int n) {
+    for (int i = 3; i <= n; i += 2) isPrime[i] = 1;
 
-void dfs_string(int i, int j) {
-    vis[i][j] = 1;
-    for (int k = 0; k < 4; k++) {
-        int x = i + dx[k];
-        int y = j + dy[k];
-        if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {
-            dfs_string(x, y);
+    int sq = sqrt(n);
+    for (int i = 3; i <= sq; i += 2) {
+        if (isPrime[i]) {
+            for (int j = i * i; j <= n; j += i) {
+                isPrime[j] = 0;
+            }
+        }
+    }
+
+    primes.push_back(2);
+    for (int i = 3; i <= n; i += 2) {
+        if (isPrime[i] == 1) {
+            primes.push_back(i);
         }
     }
 }
 
-void solve(){
+ll numberOfDivisors(ll n) {
+    ll ans = 1;
+    for (auto u : primes) {
+        if (1ll * u * u > n) break;
+        if (n % u == 0) {
+            ll a = 0;
+            while (n % u == 0) {
+                a++;
+                n /= u;
+            }
+            ans *= (a + 1);
+        }
+    }
+    if (n != 1) {
+        ans *= 2;
+    }
+    return ans;
+}
+
+void solve(int tc){
     ll n;cin>>n;
+    cout<<"Case "<<tc<<": "<<list_nod[n-1].second * -1<<endl;
 }
 
 int main()
 {
     optimize();
-
+    primeGen(mx);
+    for(int i = 1; i<=1000; i++){
+        int tem = numberOfDivisors(i);
+        list_nod.PB({tem, -i});
+    }
+    sort(all(list_nod));
     int _ = 1;
     cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
-        solve();
+        solve(tc);
     }
 }

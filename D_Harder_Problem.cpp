@@ -64,24 +64,39 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
-bool vis[mx][mx];
-string adj[mx];
-int n,m;
-
-void dfs_string(int i, int j) {
-    vis[i][j] = 1;
-    for (int k = 0; k < 4; k++) {
-        int x = i + dx[k];
-        int y = j + dy[k];
-        if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {
-            dfs_string(x, y);
-        }
-    }
-}
+const int mx = 2e5+123;
 
 void solve(){
     ll n;cin>>n;
+    unordered_map<ll,ll>m;
+    vl v(n), ans;
+    bool vis[n+1];
+    memset(vis, 0,sizeof(vis));
+    for(int i = 0; i<n; i++){
+        cin>>v[i];
+        vis[v[i]] = 1;
+        m[v[i]]++;
+        if(m[v[i]] == 1)ans.PB(v[i]);
+    }
+    int t = 0;
+    for(auto u:ans){
+        // ll x = u.F;
+        // cout<<x<<" ";
+        cout<<u<<" ";
+        // vis[x]= 1;
+        t++;
+    }
+    if(t<n){
+        for(int i = 1;i<=n; i++){
+
+            if(vis[i] == 0){
+                cout<<i<<" ";
+                t++;
+            }
+            if(t==n)break;
+        }
+    }
+    cout<<endl;
 }
 
 int main()

@@ -23,8 +23,8 @@ typedef double dl;
 #define all(a) (a).begin(),(a).end()
 #define rall(a) (a).rbegin(),(a).rend()
 #define sz(x) (int)x.size()
-#define yes cout<<"YES"<<endl
-#define no cout<<"NO"<<endl
+#define yes cout<<"Yes"<<endl
+#define no cout<<"No"<<endl
 
 const double PI = acos(-1);
 const double eps = 1e-9;
@@ -65,23 +65,31 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-bool vis[mx][mx];
-string adj[mx];
-int n,m;
-
-void dfs_string(int i, int j) {
-    vis[i][j] = 1;
-    for (int k = 0; k < 4; k++) {
-        int x = i + dx[k];
-        int y = j + dy[k];
-        if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {
-            dfs_string(x, y);
-        }
-    }
-}
 
 void solve(){
     ll n;cin>>n;
+    string s; cin>>s;
+    int x, y, k = 0;
+    char a,b;
+    for(int i = 0; i<n-1; i++){
+        if(s[i] == s[i+1]){
+            if(k==0){
+                x = i+1;
+                a = s[i];
+            }else if(k == 1){
+                y = i;
+                b = s[i];
+            }else{
+                no;
+                return;
+            }
+            k++;
+        }
+    }
+    // dbg(x, y, a, b);
+    if(k == 0 || (k == 2 && a != b))yes;
+    else if (k == 1 && (a != s[0] || a != s[n-1])) yes;
+    else no;
 }
 
 int main()

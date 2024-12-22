@@ -65,23 +65,39 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-bool vis[mx][mx];
-string adj[mx];
-int n,m;
-
-void dfs_string(int i, int j) {
-    vis[i][j] = 1;
-    for (int k = 0; k < 4; k++) {
-        int x = i + dx[k];
-        int y = j + dy[k];
-        if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {
-            dfs_string(x, y);
-        }
-    }
-}
 
 void solve(){
     ll n;cin>>n;
+    string s;cin>>s;
+    int x = 0;
+    int a = 0, b = 0;
+    for(auto u:s){
+        if(u == 's')a++;
+        else if(u == 'p')b++;
+    }
+    while(s[x] == '.' && x<n)x++;
+    // dbg(s[x], x);
+    if(x == n)yes;
+    else if(a == 1 && s[x] == 's' && (n-x-1) == b)yes;
+    else if(a == 1 && b == 1)yes;
+    else if(s[x] == 's'){
+        for(int i = x; i<n-1; i++){
+            if(s[i] == 'p'){
+                no;
+                return;
+            }
+        }
+        yes;
+    }else if(s[x] == 'p'){
+        for(int i = x; i<n; i++){
+            if(s[i] == 's'){
+                no;
+                return;
+            }
+        }
+        yes;
+    }
+
 }
 
 int main()

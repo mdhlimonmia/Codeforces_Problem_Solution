@@ -65,23 +65,17 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-bool vis[mx][mx];
-string adj[mx];
-int n,m;
-
-void dfs_string(int i, int j) {
-    vis[i][j] = 1;
-    for (int k = 0; k < 4; k++) {
-        int x = i + dx[k];
-        int y = j + dy[k];
-        if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {
-            dfs_string(x, y);
-        }
-    }
-}
 
 void solve(){
-    ll n;cin>>n;
+    // ll n;cin>>n;
+    string s, ans;cin>>s;
+    ll n = s.size();
+    for(int i = n-1; i>=0; i--){
+        if(s[i] =='p')ans+='q';
+        else if(s[i] == 'q')ans+='p';
+        else ans+=s[i];
+    }
+    cout<<ans<<endl;
 }
 
 int main()

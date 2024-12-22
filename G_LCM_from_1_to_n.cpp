@@ -64,24 +64,29 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
-bool vis[mx][mx];
-string adj[mx];
-int n,m;
+const ull mx = 2147483648;
 
-void dfs_string(int i, int j) {
-    vis[i][j] = 1;
-    for (int k = 0; k < 4; k++) {
-        int x = i + dx[k];
-        int y = j + dy[k];
-        if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {
-            dfs_string(x, y);
-        }
-    }
-}
-
-void solve(){
+void solve(int tc){
     ll n;cin>>n;
+    ull ans = n;
+    for(ull i = 2; i<n; i++){
+        ull tem = ans;
+        while(1){
+            if(ans%i == 0)break;
+            ans +=tem;
+            dbg(ans, i);
+            // ans%=mx;
+            // if(ans == 0)ans = i;
+        }
+        // if(ans%mx != 0)ans %= mx;
+        // ans %= mx;
+        // cout<<endl;
+    }
+    // for(int i = 1; i<=n; i++){
+    //     ans *= i;
+    //     ans %= mx;
+    // }
+    cout<<"Case "<<tc<<": "<<ans%mx<<endl;
 }
 
 int main()
@@ -92,6 +97,6 @@ int main()
     cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
-        solve();
+        solve(tc);
     }
 }

@@ -65,23 +65,62 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-bool vis[mx][mx];
-string adj[mx];
-int n,m;
-
-void dfs_string(int i, int j) {
-    vis[i][j] = 1;
-    for (int k = 0; k < 4; k++) {
-        int x = i + dx[k];
-        int y = j + dy[k];
-        if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {
-            dfs_string(x, y);
-        }
-    }
-}
 
 void solve(){
     ll n;cin>>n;
+    vi v;
+    if(n==1 || n == 3){
+        for(int i = 1; i<=n; i++)cout<<i<<" ";
+        cout<<endl;
+    }
+    else if(n%2==0)cout<<"-1\n";
+    else{
+        // cout<<"1 2 "<<n<<" ";
+        // v.push_back(1);
+        // v.push_back(2);
+        // v.push_back(n);
+        // for(int i = 1; i<=n; i++){
+        //     cout<<i<<" ";
+        //     v.push_back(i);
+        // }
+        // cout<<endl;
+        for(int i = 1, j = n-1; ; i+=2, j-=2){
+            if(i>n)break;
+            cout<<i<<" ";
+            // v.push_back(i);
+            if(j>0)cout<<j<<" ";
+            // i++,j++;
+        }
+        cout<<endl;
+    }
+    // vi v(n);
+    // for(int i = 0; i<n; i++)cin>>v[i];
+    // int g = 0;
+    // // do{
+    //     for(auto u:v)cout<<u<<" ";
+    //     cout<<endl;
+    //     int tem = 0;
+    //     for(int i = 0; i<n; i++){
+    //     ll x = 0;
+    //     for(int j = i; j<n; j++){
+    //         x+=v[j];
+    //             if(x%(n+1) == 0){
+    //                 tem ++;
+    //                 // dbg(x);
+    //                 // cout<<"Case :"<<i+1<<" "<<j+1<<endl;
+    //                 // break;
+    //             }
+    //         }
+    //     }
+    //     if(tem == 0){
+    //         cout<<"OK\n";
+    //         g++;
+    //         // break;
+    //         // return;
+    //     }
+    //     cout<<endl;
+    // // }while(next_permutation(all(v)));
+    // cout<<g<<endl;
 }
 
 int main()

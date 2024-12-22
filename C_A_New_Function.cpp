@@ -64,67 +64,29 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const ll mx = 2e9+123;
+const ll mx = 40;
 
-bitset<mx> isPrime;
-vector<int> primes;
-
-void primeGen(int n) {
-    for (int i = 3; i <= n; i += 2) isPrime[i] = 1;
-
-    int sq = sqrt(n);
-    for (int i = 3; i <= sq; i += 2) {
-        if (isPrime[i]) {
-            for (int j = i * i; j <= n; j += i) {
-                isPrime[j] = 0;
-            }
-        }
-    }
-
-    primes.push_back(2);
-    for (int i = 3; i <= n; i += 2) {
-        if (isPrime[i] == 1) {
-            primes.push_back(i);
-        }
-    }
-}
-
-ll SOD(ll n) {
-    ll ans = 1;
-    for (auto u : primes) {
-        if (1ll * u * u > n) break;
-        if (n % u == 0) {
-            ll fa = 1, sum = 1;
-            while (n % u == 0) {
-                fa *= u;
-                sum += fa;
-                n /= u;
-            }
-            ans *= sum;
-        }
-    }
-    if (n != 1) {
-        ans *= (n + 1);
+ull sumSod(ll n){
+    ll sq = sqrt(n);
+    ull ans = 0;
+    for(int i = 2; i<=sq; i++){
+        ull t = n/i;
+        t = max((ull)0, t-1);
+        dbg(i, t);
+        ans += (t*i);
     }
     return ans;
 }
 
 void solve(int tc){
     ll n;cin>>n;
-    ull ans = 0;
-    for(int i = 4; i<=n; i++){
-        ll tem = SOD(i);
-        ans += tem - 1 - i;
-    }
+    ull ans = sumSod(n);
     cout<<"Case "<<tc<<": "<<ans<<endl;
 }
 
 int main()
 {
     optimize();
-    // calSod(mx);
-    int sq = sqrt(mx);
-    primeGen(sq);
     int _ = 1;
     cin>>_;
     for (int tc = 1; tc<=_; tc++)

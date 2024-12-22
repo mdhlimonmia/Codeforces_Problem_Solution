@@ -65,23 +65,31 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-bool vis[mx][mx];
-string adj[mx];
-int n,m;
-
-void dfs_string(int i, int j) {
-    vis[i][j] = 1;
-    for (int k = 0; k < 4; k++) {
-        int x = i + dx[k];
-        int y = j + dy[k];
-        if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {
-            dfs_string(x, y);
-        }
-    }
-}
 
 void solve(){
-    ll n;cin>>n;
+    ll n, k;cin>>n>>k;
+    unordered_map<int,int>m;
+    int mx = 0;
+    vi ans, v(n);
+    for(int i = 0; i<n; i++){
+        cin>>v[i];
+        m[v[i]]++;
+        mx = max(mx, m[v[i]]);
+        if(m[v[i]] == 1)ans.push_back(v[i]);
+    }
+    int tem = m.size();
+    if(tem>k)cout<<"-1\n";
+    else{
+        int l = 10000/k;
+        cout<<(l*k)<<endl;
+        for(int i = 0; i<(k-tem); i++)ans.push_back(v[n-1]);
+        for(int i = 0; i<l; i++){
+            for(auto u:ans)cout<<u<<" ";
+            // for(int j = 0; j<(k-tem); j++)cout<<1<<" ";
+        }
+
+        cout<<endl;
+    }
 }
 
 int main()

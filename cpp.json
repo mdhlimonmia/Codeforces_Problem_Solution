@@ -1,8 +1,8 @@
 {
-	"C++ Competitive Programming Template": {
-	  "prefix": "cpp",
-	  "body": [
-          "///   ***   ---   |||    In the name of ALLAH    |||   ---   ***   ///",
+    "C++ Competitive Programming Template": {
+        "prefix": "cpp",
+        "body": [
+            "///   ***   ---   |||    In the name of ALLAH    |||   ---   ***   ///",
             "",
             "#include<bits/stdc++.h>",
             "using namespace std;",
@@ -26,7 +26,7 @@
             "#define S second",
             "#define all(a) (a).begin(),(a).end()",
             "#define rall(a) (a).rbegin(),(a).rend()",
-            "#define sz(x) (int)x.size()",        
+            "#define sz(x) (int)x.size()",
             "#define yes cout<<\"YES\"<<endl",
             "#define no cout<<\"NO\"<<endl",
             "",
@@ -85,79 +85,77 @@
             "        solve();",
             "    }",
             "}"
-          ],
-          "description": "C++ Competitive Programming Template"
-        },
-        
-        "Yes and No":{
-          "prefix": "nos",
-          "body": [
+        ],
+        "description": "C++ Competitive Programming Template"
+    },
+    "Yes and No": {
+        "prefix": "nos",
+        "body": [
             "if(1){",
             "    cout<<\"YES\"<<endl;",
             "}else{",
             "    cout<<\"NO\"<<endl;",
             "}"
-          ],
-          "description": "C++ Yes No print"
-        },
-
-        "Dijkstra Algorithm": {
-            "prefix": "dijkstra",
-            "body": [
-                "const int mx = 1e5+123;",
-                "int n,m;",
-                "vii adj[mx];",
-                "vl dis(mx);",
-                "",
-                "void dijkstra(int s){",
-                "    for(int i = 0; i<=n; i++) dis[i] = infLL;",
-                "    priority_queue<pll, vll, greater<pll>> pq;",
-                "    dis[s] = 0;",
-                "    pq.push({0, s});",
-                "    while (!pq.empty()) {",
-                "        int u = pq.top().S;",
-                "        ll curD = pq.top().F;",
-                "        pq.pop();",
-                "        if(curD > dis[u]) continue;",
-                "        for (auto v: adj[u]) {",
-                "            if(dis[v.F] > curD + v.S) {",
-                "                dis[v.F] = curD + v.S;",
-                "                pq.push({curD + v.S, v.F});",
-                "            }",
-                "        }",
-                "    }",
-                "}"
-            ],
-            "description": "Dijkstra's Algorithm using priority queue and adjacency list"
-        },
-        "Prime Generation Algorithm": {
-    "prefix": "primeGen",
-    "body": [
-        "bitset<mx> isPrime;",
-        "vector<int> primes;",
-        "",
-        "void primeGen(int n) {",
-        "    for (int i = 3; i <= n; i += 2) isPrime[i] = 1;",
-        "",
-        "    int sq = sqrt(n);",
-        "    for (int i = 3; i <= sq; i += 2) {",
-        "        if (isPrime[i]) {",
-        "            for (int j = i * i; j <= n; j += i) {",
-        "                isPrime[j] = 0;",
-        "            }",
-        "        }",
-        "    }",
-        "",
-        "    primes.push_back(2);",
-        "    for (int i = 3; i <= n; i += 2) {",
-        "        if (isPrime[i] == 1) {",
-        "            primes.push_back(i);",
-        "        }",
-        "    }",
-        "}"
-    ],
-    "description": "Generate prime numbers up to n using the Sieve of Eratosthenes"
-  },
+        ],
+        "description": "C++ Yes No print"
+    },
+    "Dijkstra Algorithm": {
+        "prefix": "dijkstra",
+        "body": [
+            "const int mx = 1e5+123;",
+            "int n,m;",
+            "vii adj[mx];",
+            "vl dis(mx);",
+            "",
+            "void dijkstra(int s){",
+            "    for(int i = 0; i<=n; i++) dis[i] = infLL;",
+            "    priority_queue<pll, vll, greater<pll>> pq;",
+            "    dis[s] = 0;",
+            "    pq.push({0, s});",
+            "    while (!pq.empty()) {",
+            "        int u = pq.top().S;",
+            "        ll curD = pq.top().F;",
+            "        pq.pop();",
+            "        if(curD > dis[u]) continue;",
+            "        for (auto v: adj[u]) {",
+            "            if(dis[v.F] > curD + v.S) {",
+            "                dis[v.F] = curD + v.S;",
+            "                pq.push({curD + v.S, v.F});",
+            "            }",
+            "        }",
+            "    }",
+            "}"
+        ],
+        "description": "Dijkstra's Algorithm using priority queue and adjacency list"
+    },
+    "Prime Generation Algorithm": {
+        "prefix": "primeGen",
+        "body": [
+            "bitset<mx> isPrime;",
+            "vector<int> primes;",
+            "",
+            "void primeGen(int n) {",
+            "    for (int i = 3; i <= n; i += 2) isPrime[i] = 1;",
+            "",
+            "    int sq = sqrt(n);",
+            "    for (int i = 3; i <= sq; i += 2) {",
+            "        if (isPrime[i]) {",
+            "            for (int j = i * i; j <= n; j += i) {",
+            "                isPrime[j] = 0;",
+            "            }",
+            "        }",
+            "    }",
+            "",
+            "    primes.push_back(2);",
+            "    for (int i = 3; i <= n; i += 2) {",
+            "        if (isPrime[i] == 1) {",
+            "            primes.push_back(i);",
+            "        }",
+            "    }",
+            "}"
+        ],
+        "description": "Generate prime numbers up to n using the Sieve of Eratosthenes"
+    },
     "isPrime": {
         "prefix": "isPrime",
         "body": [
@@ -173,45 +171,45 @@
         ],
         "description": "Checks if a number is prime"
     },
-      "numberOfDivisors": {
-          "prefix": "numberOfDivisors",
-          "body": [
-              "ll numberOfDivisors(ll n) {",
-              "    ll ans = 1;",
-              "    for (auto u : primes) {",
-              "        if (1ll * u * u > n) break;",
-              "        if (n % u == 0) {",
-              "            ll a = 0;",
-              "            while (n % u == 0) {",
-              "                a++;",
-              "                n /= u;",
-              "            }",
-              "            ans *= (a + 1);",
-              "        }",
-              "    }",
-              "    if (n != 1) {",
-              "        ans *= 2;",
-              "    }",
-              "    return ans;",
-              "}"
-          ],
-          "description": "Calculates the number of divisors of a given number using a list of primes"
-      },
-         "sum_of_Digit": {
-          "prefix": "sum_of_Digit",
-          "body": [
-              "ll sum_of_Digit(ll x) {",
-              "    ll sum = 0;",
-              "    while (x) {",
-              "        sum += (x % 10);",
-              "        x /= 10;",
-              "    }",
-              "    return sum;",
-              "}"
-          ],
-          "description": "Calculates the sum of digits of a number"
-      },
-        "Euler_Phi": {
+    "numberOfDivisors": {
+        "prefix": "numberOfDivisors",
+        "body": [
+            "ll numberOfDivisors(ll n) {",
+            "    ll ans = 1;",
+            "    for (auto u : primes) {",
+            "        if (1ll * u * u > n) break;",
+            "        if (n % u == 0) {",
+            "            ll a = 0;",
+            "            while (n % u == 0) {",
+            "                a++;",
+            "                n /= u;",
+            "            }",
+            "            ans *= (a + 1);",
+            "        }",
+            "    }",
+            "    if (n != 1) {",
+            "        ans *= 2;",
+            "    }",
+            "    return ans;",
+            "}"
+        ],
+        "description": "Calculates the number of divisors of a given number using a list of primes"
+    },
+    "sum_of_Digit": {
+        "prefix": "sum_of_Digit",
+        "body": [
+            "ll sum_of_Digit(ll x) {",
+            "    ll sum = 0;",
+            "    while (x) {",
+            "        sum += (x % 10);",
+            "        x /= 10;",
+            "    }",
+            "    return sum;",
+            "}"
+        ],
+        "description": "Calculates the sum of digits of a number"
+    },
+    "Euler_Phi": {
         "prefix": "Euler_Phi",
         "body": [
             "ll Euler_Phi(ll n) {",
@@ -234,46 +232,61 @@
             "}"
         ],
         "description": "Calculates the Euler's Totient function for a given number"
-      },
-          "bigMod": {
-          "prefix": "bigMod",
-          "body": [
-              "ll bigMod(ll base, ll pow, ll mod) {",
-              "    if (pow == 0) return 1 % mod;",
-              "    if (pow % 2 == 0) {",
-              "        ll tem = bigMod(base, pow / 2, mod);",
-              "        return (tem * tem) % mod;",
-              "    } else {",
-              "        return (base * bigMod(base, pow - 1, mod)) % mod;",
-              "    }",
-              "}"
-          ],
-          "description": "Calculates (base^pow) % mod efficiently using recursion"
-      },
-          "SOD": {
-          "prefix": "SOD",
-          "body": [
-              "ll SOD(ll n) {",
-              "    ll ans = 1;",
-              "    for (auto u : primes) {",
-              "        if (1ll * u * u > n) break;",
-              "        if (n % u == 0) {",
-              "            ll fa = 1, sum = 1;",
-              "            while (n % u == 0) {",
-              "                fa *= u;",
-              "                sum += fa;",
-              "                n /= u;",
-              "            }",
-              "            ans *= sum;",
-              "        }",
-              "    }",
-              "    if (n != 1) {",
-              "        ans *= (n + 1);",
-              "    }",
-              "    return ans;",
-              "}"
-          ],
-          "description": "Calculates the Sum of Divisors (SOD) of a number using its prime factorization"
-      }
-
+    },
+    "bigMod": {
+        "prefix": "bigMod",
+        "body": [
+            "ll bigMod(ll base, ll pow, ll mod) {",
+            "    if (pow == 0) return 1 % mod;",
+            "    if (pow % 2 == 0) {",
+            "        ll tem = bigMod(base, pow / 2, mod);",
+            "        return (tem * tem) % mod;",
+            "    } else {",
+            "        return (base * bigMod(base, pow - 1, mod)) % mod;",
+            "    }",
+            "}"
+        ],
+        "description": "Calculates (base^pow) % mod efficiently using recursion"
+    },
+    "SOD": {
+        "prefix": "SOD",
+        "body": [
+            "ll SOD(ll n) {",
+            "    ll ans = 1;",
+            "    for (auto u : primes) {",
+            "        if (1ll * u * u > n) break;",
+            "        if (n % u == 0) {",
+            "            ll fa = 1, sum = 1;",
+            "            while (n % u == 0) {",
+            "                fa *= u;",
+            "                sum += fa;",
+            "                n /= u;",
+            "            }",
+            "            ans *= sum;",
+            "        }",
+            "    }",
+            "    if (n != 1) {",
+            "        ans *= (n + 1);",
+            "    }",
+            "    return ans;",
+            "}"
+        ],
+        "description": "Calculates the Sum of Divisors (SOD) of a number using its prime factorization"
+    },
+    "dfs_string": {
+        "prefix": "dfs_string",
+        "body": [
+            "void dfs_string(int i, int j) {",
+            "    vis[i][j] = 1;",
+            "    for (int k = 0; k < 4; k++) {",
+            "        int x = i + dx[k];",
+            "        int y = j + dy[k];",
+            "        if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {",
+            "            dfs_string(x, y);",
+            "        }",
+            "    }",
+            "}"
+        ],
+        "description": "Performs depth-first search (DFS) for a 2D grid of strings, marking connected components."
+    }
 }

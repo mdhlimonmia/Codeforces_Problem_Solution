@@ -64,83 +64,33 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 5e6+123;
-bitset<mx> isPrime;
-vector<int> primes;
-
-void primeGen(int n) {
-    for (int i = 3; i <= n; i += 2) isPrime[i] = 1;
-
-    int sq = sqrt(n);
-    for (int i = 3; i <= sq; i += 2) {
-        if (isPrime[i]) {
-            for (int j = i * i; j <= n; j += i) {
-                isPrime[j] = 0;
+const int mx = 5000123;
+vi phi(mx);
+vector<ull> sumPhi(mx);
+void Euler_Phi() {
+    for(int i = 1; i<mx; i++)phi[i] = i;
+    for(int i = 2; i<mx; i++){
+        if(phi[i] == i){
+            for(int j = i; j<mx; j+=i){
+                 phi[j]-=phi[j]/i;
             }
         }
     }
-
-    primes.push_back(2);
-    for (int i = 3; i <= n; i += 2) {
-        if (isPrime[i] == 1) {
-            primes.push_back(i);
-        }
-    }
-}
-
-ll numberOfDivisors(ll n) {
-    ll ans = 1;
-    for (auto u : primes) {
-        if (1ll * u * u > n) break;
-        if (n % u == 0) {
-            ll a = 0;
-            while (n % u == 0) {
-                a++;
-                n /= u;
-            }
-            ans *= (a + 1);
-        }
-    }
-    if (n != 1) {
-        ans *= 2;
-    }
-    return ans;
-}
-
-ll Euler_Phi(ll n) {
-    ll phi = n;
-    for (auto u : primes) {
-        if (1ll * u * u > n) break;
-        if (n % u == 0) {
-            while (n % u == 0) {
-                n /= u;
-            }
-            phi /= u;
-            phi *= (u-1);
-        }
-    }
-    if (n != 1) {
-        phi /= n;
-        phi *= (n-1);
-    }
-    return phi;
 }
 
 void solve(int tc){
     ll a,b;cin>>a>>b;
-    ll ans = 0;
-    for(int i = a; i<=b; i++){
-        ll tem = Euler_Phi(i);
-        ans += (tem*tem);
-    }
+    ll ans = sumPhi[b] - sumPhi[a-1];
     cout<<"Case "<<tc<<": "<<ans<<endl;
 }
 
 int main()
 {
     optimize();
-    int sq = sqrt(mx);
-    primeGen(sq);
+    Euler_Phi();
+     for(int i = 1; i<mx; i++){
+        sumPhi[i]= ((unsigned long long)phi[i]* (unsigned long long)phi[i])+sumPhi[i-1];
+    }
     int _ = 1;
     cin>>_;
     for (int tc = 1; tc<=_; tc++)

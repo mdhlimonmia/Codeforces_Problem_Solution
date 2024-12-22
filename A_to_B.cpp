@@ -65,23 +65,33 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-bool vis[mx][mx];
-string adj[mx];
-int n,m;
-
-void dfs_string(int i, int j) {
-    vis[i][j] = 1;
-    for (int k = 0; k < 4; k++) {
-        int x = i + dx[k];
-        int y = j + dy[k];
-        if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {
-            dfs_string(x, y);
-        }
-    }
-}
 
 void solve(){
-    ll n;cin>>n;
+    ll a,b,c,d,e,f,k;cin>>a>>b>>c>>d>>e>>f>>k;
+    int x = abs(a-d), y = abs(b-e), z = abs(c-f);
+    // x = ceil((x*1.0)/k);
+    // y = ceil((y*1.0)/k);
+    // z = ceil((z*1.0)/k);
+    // int t = min({x,y,z}), h = max({x,y,z});
+    int v[3] = {x,y,z};
+    sort(v, v+3);
+    int mx = v[2], mid = v[1];
+    int ans = v[0]+v[1]+v[2];
+    int i = mx - mid;
+    // dbg(i, ans);
+    // i/=k;
+    // i/=2;
+    i = ceil((i*1.0)/k);
+    // i = ceil((i*1.0)/3.0);
+    // i/=k;
+    // dbg(i);
+    // dbg(mx, mid, v[0], i, ans);
+    if(i>0)i--;
+    if(k == 1) ans +=(i);
+    else if(i>(v[0]+v[1])){
+        ans += max(0, i - v[0]+v[1]);
+    }
+    cout<<ans<<endl;
 }
 
 int main()

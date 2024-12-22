@@ -218,3 +218,14 @@ ll SOD(ll n) {
     }
     return ans;
 }
+////////////////
+void dfs_string(int i, int j) {
+    vis[i][j] = 1;
+    for (int k = 0; k < 4; k++) {
+        int x = i + dx[k];
+        int y = j + dy[k];
+        if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {
+            dfs_string(x, y);
+        }
+    }
+}

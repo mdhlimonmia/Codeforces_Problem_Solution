@@ -65,33 +65,41 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-bool vis[mx][mx];
-string adj[mx];
 int n,m;
+vi adj[mx];
+bool vis[mx];
+vi ans;
 
-void dfs_string(int i, int j) {
-    vis[i][j] = 1;
-    for (int k = 0; k < 4; k++) {
-        int x = i + dx[k];
-        int y = j + dy[k];
-        if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {
-            dfs_string(x, y);
+void dijkstra(int s){
+    priority_queue<int, vi, greater<int>> pq;
+    vis[s] = 1;
+    pq.push(1);
+    while (!pq.empty()) {
+        int u = pq.top();
+        pq.pop();
+        ans.push_back(u);
+        for (auto v: adj[u]) {
+            if(vis[v] == 0) {
+                vis[v] = 1;
+                pq.push(v);
+            }
         }
     }
 }
 
-void solve(){
-    ll n;cin>>n;
-}
+
 
 int main()
 {
     optimize();
 
-    int _ = 1;
-    cin>>_;
-    for (int tc = 1; tc<=_; tc++)
-    {
-        solve();
+    cin>>n>>m;
+    for(int i = 0; i<m; i++){
+        int u, v; cin>>u>>v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
+    dijkstra(1);
+    for(auto u:ans)cout<<u<<" ";
+    cout<<endl;
 }
