@@ -1,1 +1,0 @@
-{"name":"Local: test","url":"/home/mdhlimonmia/Codeforces_Problem_Solution/test.cpp","tests":[{"id":1728576577032,"input":"2\n2\nsoda wine\nwater wine\n3\nsoda wine\nwater wine\nwine water","output":"Case 1: Yes\nCase 2: No"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/mdhlimonmia/Codeforces_Problem_Solution/test.cpp","group":"local","local":true}
