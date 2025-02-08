@@ -4,6 +4,7 @@
 using namespace std;
 
 typedef long long ll;
+typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<vi> vvi;
@@ -63,29 +64,34 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
 
-void solve(){
-    ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    int ans = 0;
-    for(auto u:v){
-        ans^=u;
-        if(ans == 0){
-            cout<<"Yes\n";  
+int const mx = 2e5+123;
+int n,m, ind = -1;
+ll sum = LLONG_MAX;
+vector<int>v(mx);
+void solve(int i, ll k){
+    if(i+m > n+1)return;
+    if(k == 0){
+        for(int j = 0; j<m; j++){
+            k +=v[i+j];
         }
+    }else{
+        k+=v[i+m-1];
+        k -=v[i-1];
     }
+
+    if(k<sum){
+        sum = k;
+        ind = i;
+    }
+    solve(i+1, k);
 }
 
 int main()
 {
     optimize();
-
-    int _ = 1;
-    // cin>>_;
-    for (int tc = 1; tc<=_; tc++)
-    {
-        solve();
-    }
+    cin>>n>>m;
+    for(int i = 1; i<=n; i++)cin>>v[i];
+    solve(1,0);
+    cout<<ind<<endl;
 }

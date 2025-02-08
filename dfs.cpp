@@ -4,7 +4,7 @@ using namespace std;
 #define Limon() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 #define lli long long int
 vector<int>g[10000];
-bool visit[10000];
+bool vis[10000];
 bool cycle_track[10000];
 stack<int>topological_sort;
 
@@ -21,14 +21,14 @@ void print_graph(int ver);
 void dfs(int root){
     stack<int>s;
     s.push(root);
-    visit[root] = true;
+    vis[root] = true;
     while (!s.empty())
     {
         int start = s.top();
         s.pop();
         for(auto u:g[start]){
-            if(!visit[u]){
-                visit[u] = true;
+            if(!vis[u]){
+                vis[u] = true;
                 s.push(u);
             }
         }
@@ -38,15 +38,15 @@ void dfs(int root){
 
 //Topological Sort
 void tp_sortTo(int root){
-    visit[root] = true;
+    vis[root] = true;
     for(auto u:g[root]){
-        if(!visit[u])tp_sortTo(u);
+        if(!vis[u])tp_sortTo(u);
     }
     topological_sort.push(root);
 }
 
 void tp_sort(int ver){
-    memset(visit, false, sizeof(visit));
+    memset(vis, false, sizeof(vis));
     memset(cycle_track, false, sizeof(cycle_track));
     cout<<"Topological Sort: \n";
     if(isCycle(ver))cout<<"Is not possible\n";
@@ -60,10 +60,10 @@ void tp_sort(int ver){
         5 1
         5 2
         */
-        memset(visit, false, sizeof(visit));
+        memset(vis, false, sizeof(vis));
         for (int i = 1; i <= ver; i++)
         {
-            if(!visit[i])tp_sortTo(i);
+            if(!vis[i])tp_sortTo(i);
         }
         
         while (!topological_sort.empty())
@@ -77,9 +77,9 @@ void tp_sort(int ver){
 
  //Detect Cycle in an Undirected Graph
 bool checkCycle_un(int root, int parent){
-    visit[root] = true;
+    vis[root] = true;
     for(auto u: g[root]){
-        if(!visit[u]){
+        if(!vis[u]){
             if(checkCycle_un(u,root))return true;
         }
         else if(u != parent) return true;
@@ -88,7 +88,7 @@ bool checkCycle_un(int root, int parent){
 }
 bool isCycle_un(int ver){
     for(int i = 1; i<=ver; i++){
-        if(!visit[i]){
+        if(!vis[i]){
             if(checkCycle_un(i,-1))return true;
         }
     }
@@ -97,10 +97,10 @@ bool isCycle_un(int ver){
 
 //Detect Cycle in a Directed Graph
 bool checkCycle(int root){
-    visit[root] = true;
+    vis[root] = true;
     cycle_track[root] = true;
     for(auto u: g[root]){
-        if(!visit[u]){
+        if(!vis[u]){
             if(checkCycle(u))return true;
         }
         else if(cycle_track[u]) return true;
@@ -110,7 +110,7 @@ bool checkCycle(int root){
 }
 bool isCycle(int ver){
     for(int i = 1; i<=ver; i++){
-        if(!visit[i]){
+        if(!vis[i]){
             if(checkCycle(i))return true;
         }
     }
@@ -149,7 +149,7 @@ void UnDirected(){
 int main()
 {
     //Limon();
-    memset(visit, false, sizeof(visit));
+    memset(vis, false, sizeof(vis));
     memset(cycle_track, false, sizeof(cycle_track));
 
     int op;

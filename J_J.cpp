@@ -4,6 +4,7 @@
 using namespace std;
 
 typedef long long ll;
+typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<vi> vvi;
@@ -65,30 +66,31 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
-
+void solve(){
+    int n; cin>>n;
+    if(n%2 == 0)no;
+    else{
+        vi a(n), b(n);
+        yes;
+        for(int i = 0; i<n; i++){
+            a[i] = i*2 +1;
+            b[i] = i*2 + 2;
+            if(i%2)swap(a[i], b[i]);
+        }
+        for(auto u:a)cout<<u<<" ";
+        for(auto u:b)cout<<u<<" ";
+        cout<<endl;
+    }
+}
 
 int main()
 {
     optimize();
 
-    ll n,m;
-    cin>>n>>m;
-    vll adj[n+1];
-    for(int i = 1; i<=n; i++){
-        for(int j = 1; j<=m;j++){
-            int x;
-            cin>>x;
-            adj[x].push_back({i,j});
-        }
+    int _ = 1;
+    // cin>>_;
+    for (int tc = 1; tc<=_; tc++)
+    {
+        solve();
     }
-    ll ans = 0;
-    for(int i = 1; i<=n; i++){
-        for(auto u:adj[i]){
-            for(auto v:adj[i]){
-                ll t = abs(v.first - u.first) + abs(v.second-u.second);
-                ans+=t;
-            }
-        }
-    }
-    cout<<ans<<endl;
 }

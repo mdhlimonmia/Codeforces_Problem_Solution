@@ -1,4 +1,4 @@
-////   ***   ---   |||    In the name of ALLAH    |||   ---   ***   ///
+///   ***   ---   |||    In the name of ALLAH    |||   ---   ***   ///
 
 #include<bits/stdc++.h>
 using namespace std;
@@ -25,6 +25,9 @@ typedef double dl;
 #define sz(x) (int)x.size()
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
+#define POPCOUNT __builtin_popcountll /*number of set bit*/
+#define RIGHTMOST __builtin_ctzll
+#define LEFTMOST(x) (63-__builtin_clzll((x)))
 
 const double PI = acos(-1);
 const double eps = 1e-9;
@@ -52,6 +55,7 @@ template<typename T,typename...hello>void faltu(T arg,const hello&...rest){cerr<
 
 ll gcd ( ll a, ll b ) { return __gcd ( a, b ); }
 ll lcm ( ll a, ll b ) { return a * ( b / gcd ( a, b ) ); }
+ll getSetBit(ll x) {return __builtin_popcount(x);};
 
 int dx[] = { 0, 0, +1, -1, -1  +1, -1, +1 };
 int dy[] = { +1, -1, 0, 0, -1, +1, +1, -1 };
@@ -78,6 +82,7 @@ int main()
     cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
+        //cout<<"Case "<<tc<<": ";
         solve();
     }
 }
@@ -227,5 +232,145 @@ void dfs_string(int i, int j) {
         if (x >= 0 && y >= 0 && x < n && y < m && vis[x][y] == 0 && adj[x][y] == '1') {
             dfs_string(x, y);
         }
+    }
+}
+////////////////
+const int mx = 5000123;
+vi phi(mx);
+vector<ull> sumPhi(mx);
+void Euler_Phi_Sive() {
+    for (int i = 1; i < mx; i++) phi[i] = i;
+    for (int i = 2; i < mx; i++) {
+        if (phi[i] == i) {
+            for (int j = i; j < mx; j += i) {
+                phi[j] -= phi[j] / i;
+            }
+        }
+    }
+}
+
+/////////////////
+void genLPSArray(vi &lps, string &s, int m){
+    int len = 0, i = 1;
+    while(i < m){
+        if(s[i] == s[len]){
+            len++;
+            lps[i] = len;
+            i++;
+        }else{
+            if(len != 0){
+                len = lps[len-1];
+            }else{
+                lps[i] = 0;
+                i++;
+            }
+        }
+    }
+}
+
+ll KMPSearch(string &a, ll n, string &b, ll m){
+    vi lps(m, 0);
+    genLPSArray(lps, b, m);
+    ll i = 0, j = 0, total = 0;
+    while(i < n){
+        if(a[i] == b[j]){
+            i++, j++;
+        }
+        if(j == m){
+            total++;
+            j = lps[j-1];
+        }else if(i < n && a[i] != b[j]){
+            if(j != 0){
+                j = lps[j-1];
+            }else{
+                i++;
+            }
+        }
+    }
+    return total;
+}
+
+
+//////////////
+struct info {
+    ll u, v, w;
+};
+vector<info> e;
+ll dis[mx];
+
+bool bellmanFord(ll s, ll n, ll m) {
+    for (int i = 0; i <= n; i++) dis[i] = inf;
+    dis[s] = 0;
+    bool isCycle = false;
+    for (int i = 1; i <= n; i++) {
+        isCycle = false;
+        for (int j = 0; j < m; j++) {
+            ll u = e[j].u, v = e[j].v, w = e[j].w;
+            //if(dis[u]<inf){
+               if (dis[u]<inf && dis[u] + w < dis[v]) {
+                   dis[v] = max(-infLL, dis[u] + w);
+                   isCycle = true;
+               }
+           //}
+        }
+    }
+    return isCycle;
+}
+
+void solve() {
+    ll n, m;
+    cin >> n >> m;
+    e.clear();
+    ll u, v, w;
+    for (int i = 0; i < m; i++) {
+        cin >> u >> v >> w;
+        e.push_back({u, v, w});
+    }
+    if (bellmanFord(0, n, m))
+        cout << "There is a Negative Cycle\n";
+    else
+        cout << "No Negative Cycle\n";
+}
+
+////////////////////////
+const int mx = 1e3+123;
+ll adj[mx][mx];
+
+// Find shortest path in all pairs
+void floydWarshall(int n) {
+    for (int k = 1; k <= n; k++) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (adj[i][k] + adj[k][j] < adj[i][j]) {
+                    adj[i][j] = adj[i][k] + adj[k][j];
+                }
+            }
+        }
+    }
+}
+
+void solve() {
+    ll n, m;
+    cin >> n >> m;
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= n; j++) {
+            if (i != j) adj[i][j] = infLL;
+        }
+    }
+
+    for (int i = 1; i <= m; i++) {
+        ll u, v, w;
+        cin >> u >> v >> w;
+        adj[u][v] = min(adj[u][v], w);
+        //adj[v][u] = min(adj[v][u], w); // Bidirectional
+    }
+    floydWarshall(n);
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (adj[i][j] != infLL) cout << adj[i][j] << " ";
+            else cout << "inf ";
+        }
+        cout << endl;
     }
 }

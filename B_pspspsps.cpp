@@ -68,36 +68,25 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    string s;cin>>s;
-    int x = 0;
-    int a = 0, b = 0;
-    for(auto u:s){
-        if(u == 's')a++;
-        else if(u == 'p')b++;
-    }
-    while(s[x] == '.' && x<n)x++;
-    // dbg(s[x], x);
-    if(x == n)yes;
-    else if(a == 1 && s[x] == 's' && (n-x-1) == b)yes;
-    else if(a == 1 && b == 1)yes;
-    else if(s[x] == 's'){
-        for(int i = x; i<n-1; i++){
-            if(s[i] == 'p'){
-                no;
-                return;
-            }
+    string s; cin>>s;
+    int a = 0, b = 0, x = -1, y = -1;
+    for(int i = 0; i<n; i++){
+        if(s[i] == 's'){
+            a++;
+            x = i;
         }
-        yes;
-    }else if(s[x] == 'p'){
-        for(int i = x; i<n; i++){
-            if(s[i] == 's'){
-                no;
-                return;
-            }
+        if(s[i] == 'p'){
+            b++;
+            if(y ==-1)y = i;
         }
-        yes;
     }
 
+    if(a == 0 || b==0)yes;
+    else if(x !=-1 && y != -1 && x>y)no;
+    //else if(a>1 && b>1)no;
+    else if( a == 1 && s[0] == 's')yes;
+    else if(b == 1 && s[n-1] == 'p')yes;
+    else no;
 }
 
 int main()
