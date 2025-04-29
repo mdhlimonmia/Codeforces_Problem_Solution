@@ -68,24 +68,131 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
+const int mx = 1e5+123;
 
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+    ll n;cin>>n;
+    vi a(n), b(n), c, d;
+    for(auto &u:a)cin>>u;
+    for(auto &u:b)cin>>u;
+    vi ind(n+1), ind1(n+1);
+    c = a, d = b;
+    for(int i = 0; i<n; i++){
+        ind[a[i]] = i;
+    }
+    vii ans;
+    for(int i = 0, j = n-1; i<n; i++, j--){
+        if(a[i] != b[j]){
+            int k = ind[b[j]];
+            // if(k<j && k>i){
+                ans.push_back({i+1, k+1});
+                ind[b[j]] = i;
+                ind[a[i]] = k;
+                swap(a[i], a[k]);
+                swap(b[i], b[k]);
+            // }
+        }
+    }
+    //dbg(a);
+    //dbg(b);
+    for(int i = 0, j = n-1; i<n; i++, j--){
+        if(a[i]!= b[j]){
+            ans.clear();
+            goto sec;
+        }
+    }
+    cout<<ans.size()<<endl;
+    for(auto [u,v]:ans){
+        cout<<u<<" "<<v<<endl;
+    }
+    return;
+
+    sec:
+    a = c, b = d;
+    for(int i = 0; i<n; i++){
+        ind[c[i]] = i;
+    }
+    for(int i = 0, j = n-1; i<n; j--, i++){
+        if(c[j] != d[i]){
+            int k = ind[d[i]];
+            // if(k<j && k>i){
+                ans.push_back({j+1, k+1});
+                ind[d[i]] = j;
+                ind[c[j]] = k;
+                swap(d[j], d[k]);
+                swap(c[j], c[k]);
+            // }
+        }
+    }
+    for(int i = 0, j = n-1; i<n; i++, j--){
+        if(c[i]!= d[j]){
+            ans.clear();
+            goto thr;
+        }
+    }
+    cout<<ans.size()<<endl;
+    for(auto [u,v]:ans){
+        cout<<u<<" "<<v<<endl;
+    }
+    return;
+
+    thr:
+    c = a, d = b;
+    for(int i = 0; i<n; i++){
+        ind[b[i]] = i;
+    }
+    for(int i = 0, j = n-1; i<n; i++, j--){
+        if(a[i] != b[j]){
+            int k = ind[a[i]];
+            // if(k<j && k>i){
+                ans.push_back({j+1, k+1});
+                ind[a[i]] = j;
+                ind[b[j]] = k;
+                swap(a[j], a[k]);
+                swap(b[j], b[k]);
+            // }
+        }
+    }
+    for(int i = 0, j = n-1; i<n; i++, j--){
+        if(a[i]!= b[j]){
+            // cout<<-1<<endl;
+            // return;
+            ans.clear();
+            goto fot;
+        }
+    }
+    cout<<ans.size()<<endl;
+    for(auto [u,v]:ans){
+        cout<<u<<" "<<v<<endl;
+    }
+    return;
+
+    fot:
+    for(int i = 0; i<n; i++){
+        ind[d[i]] = i;
+    }
+    for(int i = 0, j= n-1; i<n; i++, j--){
+        if(c[j]!=d[i]){
+            int k = ind[c[j]];
+            ans.push_back({i+1, k+1});
+            ind[c[j]] = i;
+            ind[d[i]] = k;
+            swap(c[j], c[k]);
+            swap(c[j], c[k]);
+        }
+    }
+    for(int i = 0, j = n-1; i<n; i++, j--){
+        if(c[i]!=d[j]){
+            cout<<-1<<endl;
+            return;
+           
+        }
+    }
+    cout<<ans.size()<<endl;
+    for(auto [u,v]:ans){
+        cout<<u<<" "<<v<<endl;
+    }
+
 }
 
 int main()

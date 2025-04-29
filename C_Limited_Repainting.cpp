@@ -68,24 +68,119 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
+const int mx = 2e5+123;
+ll t[mx*4], a[mx], bx[mx], t2[mx*4];
+void init ( int id, int b, int e )
+{
+    if ( b == e ) {
+    t[id] = a[b];
+    return;
     }
+    int mid = ( b + e ) >> 1;
+    init ( id*2, b, mid );
+    init ( id*2+1, mid+1, e );
+    t[id] = max(t[id*2] , t[id*2+1]);
 }
 
+void init2 ( int id, int b, int e )
+{
+    if ( b == e ) {
+    t2[id] = bx[b];
+    return;
+    }
+    int mid = ( b + e ) >> 1;
+    init2 ( id*2, b, mid );
+    init2 ( id*2+1, mid+1, e );
+    t2[id] = max(t2[id*2] , t2[id*2+1]);
+}
+
+ 
+ll ask1 ( int id, int b, int e, int l, int r )
+{
+    if ( b > r || e < l ) return 0;
+    if ( l <= b && e <= r ) {
+        return t[id];
+    }
+    int mid = ( b + e ) >> 1;
+    ll sumL = ask1 ( id*2, b, mid, l, r );
+    ll sumR = ask1 ( id*2+1, mid+1, e, l, r );
+    return max(sumL , sumR);
+}
+
+ll ask2 ( int id, int b, int e, int l, int r )
+{
+    if ( b > r || e < l ) return 0;
+    if ( l <= b && e <= r ) {
+        return t2[id];
+    }
+    int mid = ( b + e ) >> 1;
+    ll sumL = ask2 ( id*2, b, mid, l, r );
+    ll sumR = ask2 ( id*2+1, mid+1, e, l, r );
+    return max(sumL, sumR);
+}
+ 
+
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+    int n, k;
+    cin >> n >> k;
+    string s; cin>>s;
+    vl v(n+1);
+    for ( int i = 1; i <= n; i++ ) cin >> v[i];
+    for ( int i = 1; i <= n; i++ ){
+        if(s[i-1] == 'B')bx[i] = v[i];
+        if(s[i-1] == 'R')a[i] = v[i];
+    }
+    init ( 1, 1, n );
+    init2 ( 1, 1, n);
+    vl tem;
+    dbg(s);
+    for(int i = 0; i<n; i++){
+        if(s[i] == 'B'){
+            tem.push_back(i+1);
+            while(i+1<n && s[i] == s[i+1])i++;
+        }
+    }
+    dbg(tem);
+
+    ll ans = min(ask1(1,1,n,1,n), ask2(1,1,n,1,n));
+    dbg(ans);
+    vl tem2;
+    for(int i = 1; i<tem.size(); i++){
+        for(int j = 0; j<i; j++){
+            ll x = ask1(1,1,n,tem[j], tem[i]);
+            ll y = ask2(1,1,n,tem[j], tem[i]);
+            if(x<y){
+                tem2.PB(x);
+            }
+        }
+    }
+    dbg(tem2);
+    sort(all(tem2));
+    if(tem2.size()<=k){
+        cout<<tem2[0]<<endl;
+    }else{
+        
+    }
+    // for(int i = 1; i<tem.size(); i++){
+
+    // }
+    // while ( q-- ) {
+    //     int typ;
+    //     cin >> typ;
+ 
+    //     if ( typ == 1 ) {
+    //         int a, b, u;
+    //         cin >> a >> b >> u;
+    //         upd ( 1, 1, n, a, b, u );
+    //     }
+    //     else {
+    //         int k;
+    //         cin >> k;
+    //         cout << ask ( 1, 1, n, k ) << endl;
+    //     }
+    // }
+ 
+ 
 }
 
 int main()
@@ -100,3 +195,14 @@ int main()
         solve();
     }
 }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

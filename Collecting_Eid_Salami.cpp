@@ -1,3 +1,4 @@
+
 ///   ***   ---   |||    In the name of ALLAH    |||   ---   ***   ///
 
 #include<bits/stdc++.h>
@@ -68,24 +69,18 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
+const int mx = 1e5+123;
 
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
+    ll n;cin>>n;
+    ll ans = 1000;
+    while (n--)
+    {
+        ll x; cin>>x;
+        ans+=x;
+    }
     cout<<ans<<endl;
+    
 }
 
 int main()
@@ -93,7 +88,7 @@ int main()
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

@@ -68,30 +68,51 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
+const int mx = 7e6+123;
+
+bitset<mx> isPrime;
+vector<int> primes;
+
+void primeGen(int n) {
+    for (int i = 3; i <= n; i += 2) isPrime[i] = 1;
+
+    int sq = sqrt(n);
+    for (int i = 3; i <= sq; i += 2) {
+        if (isPrime[i]) {
+            for (int j = i * i; j <= n; j += i) {
+                isPrime[j] = 0;
+            }
+        }
+    }
+
+    primes.push_back(2);
+    for (int i = 3; i <= n; i += 2) {
+        if (isPrime[i] == 1) {
+            primes.push_back(i);
+        }
     }
 }
 
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+    ll n;cin>>n;
+    vl v(n);
+    for(auto &u:v)cin>>u;
+    sort(rall(v));
+    ll tem = 0, ans = 0;
+    for(int i = 0; i<n; i++){
+        if(v[i]+tem >=primes[i]){
+            tem = (v[i]+tem) - primes[i];
+        }else break;
+        ans++;
+    }
+    cout<<n- ans<<endl;
+    
 }
 
 int main()
 {
     optimize();
-
+    primeGen(mx);
     int _ = 1;
     cin>>_;
     for (int tc = 1; tc<=_; tc++)

@@ -68,24 +68,78 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
+// const int mx = 0;
 
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+    ll n,m;cin>>n>>m;
+    int adj[n][m];
+    map<int,int>mp;
+    for(int i = 0; i<n; i++){
+        for(int j = 0; j<m; j++){
+            cin>>adj[i][j];
+            mp[adj[i][j]]++;
+        }
+    }
+    map<int,int>m2;
+    for(int i = 0; i<n; i++){
+        for(int j = 0; j<m; j++){
+            for(int k = 0; k<4; k++){
+                int x = i+dx[k], y = j+dy[k];
+                if(x<n && y<m && x>=0 && y>=0 && adj[i][j] == adj[x][y]){
+                    m2[adj[i][j]]++;
+                    break;
+                }
+            }
+        }
+    }
+    int tem = m2.size();
+    // dbg(mp.size(), tem);
+    if(tem!=0){
+        cout<<(mp.size() - tem) + (tem-1)*2<<endl;
+    }
+    else cout<<mp.size()-1<<endl;
+
+}
+
+void solve2()
+{
+    int n, m,f = 0;
+    cin>>n>>m;
+    set<int>st;
+    ll arr[n + 2][m + 2];
+    memset(arr, -1, sizeof arr);
+    for(int i = 1; i<=n; i++)
+    {
+        for( int j =1 ; j <= m; j ++)
+        {
+
+            cin>>arr[i][j];
+            st.insert(arr[i][j]);
+        }
+
+    }
+    map<int,int>m2;
+    for(int i = 1; i<=n; i++)
+    {
+        for( int j =1 ; j <= m; j ++)
+        {
+
+            if(arr[i][j-1] == arr[i][j] or arr[i][j+1] == arr[i][j]
+               or arr[i-1][j] == arr[i][j] or arr[i + 1][j] == arr[i][j])
+               m2[arr[i][j]] = 1;
+        }
+    }
+    for(auto u:m2) cout<<u.first<<" ";
+    cout<<endl;
+    cout<<m2.size()<<endl;
+    dbg(m2.size(), st.size());
+    if(m2.size())
+    {
+        cout<<(st.size() - m2.size()) + ((m2.size() - 1) * 2)<<endl;
+        return;
+    }
+    else
+        cout<<st.size() -1 <<endl;
 }
 
 int main()

@@ -68,24 +68,33 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
+const ll m = 1e9+7;
 
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+    ll x, y; cin>>x>>y;
+    ll n;cin>>n;
+    n%=6;
+    if(n==0)n+=6;
+    if(n==1){
+        if(x<0)x+=m;
+        cout<<x%m<<endl;
+        return;
+    }
+    if(n==2){
+        if(y<0)y+=m;
+        cout<<y%m<<endl;
+        return;
+    }
+    ll ans;
+    for(int i = 3; i<=n; i++){
+        ans = y-x;
+        x = y;
+        y = ans%m;
+        if(y<0)y+=m;
+    }
+    ans%=m;
+    if(ans<0)ans+=m;
+    cout<<ans%m<<endl;
 }
 
 int main()
@@ -93,7 +102,7 @@ int main()
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

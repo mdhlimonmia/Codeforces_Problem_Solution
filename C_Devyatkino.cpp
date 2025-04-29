@@ -68,24 +68,65 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
+const int mx = 1e5+123;
+
+bool have7(ll n){
+    while (n)
+    {
+        if(n%10 == 7){
+            return true;
+        }
+        n/=10;
     }
+    return false;
 }
 
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
+    ll n;cin>>n;
+    ll len = 0, n1 = n;
+
+    while (n1)
+    {
+        if(n1%10 == 7){
+            cout<<"0\n";
+            return;
+        }
+        n1/=10;
+        len++;
+    }
+    // dbg(len);
+    int ans = INT16_MAX;
+    ll x = 0;
+    for(int i = 1; i<=len; i++){
+        x*=10;
+        x+=9;
+        for(int j = 1; j<10; j++){
+            ll tem = n+(x*j);
+            // dbg(j, x, tem);
+            if(have7(tem)) ans = min(ans, j);
+        }
+    }
     cout<<ans<<endl;
+
+}
+
+void solve1() {
+    int n;
+    cin >> n;
+    for (int l = 0; l <= 9; l++) {
+        string s = to_string(n - l);
+        int md = 0;
+        for (auto c: s) {
+            if (c <= '7') {
+                md = max(md, c - '0');
+            }
+        }
+        dbg(s, md);
+        if (l >= 7 - md) {
+            cout << l << '\n';
+            return;
+        }
+    }
 }
 
 int main()

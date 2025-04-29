@@ -68,24 +68,40 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
+const int mx = 1e5+123;
 
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+    ll n,m;cin>>n>>m;
+    vi v(n+1), q(m);
+    for(int i = 1; i<=n; i++)cin>>v[i];
+    for(auto &u:q)cin>>u;
+    sort(all(q));
+    v[0] = -inf;
+    for(int i = 1; i<=n; i++){
+        int l = 0, r = m-1, x = v[i]+v[i-1], mid, j = -1;
+        while(l<=r){
+            mid = (l+r)/2;
+            if(q[mid] >= x){
+                j = mid;
+                r = mid-1;
+            }else l = mid+1;
+        }
+        if(j ==-1)continue;
+        if ( v[i] < v[i-1])v[i] = q[j] - v[i];
+        else v[i] = min( v[i] , q[j]-v[i]);
+    }
+    // dbg(v);
+    bool f = 1;
+    for(int i = 1; i<n; i++){
+        if(v[i]>v[i+1]){
+            f = 0;
+            break;
+        }
+    }
+
+    if(f)yes;
+    else no;
+
 }
 
 int main()

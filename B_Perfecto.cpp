@@ -68,29 +68,64 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
-
+const int mx = 1e5+123;
+vl v = {1, 8, 49, 288, 1681, 9800, 57121, 332928 };
+map<ll, int>mp;
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+    ll n;cin>>n;
+    if(mp[n] == 1){
+        cout<<"-1\n";
+        return;
+    }
+    ll x = 0;
+    ll tem = sqrt(n);
+    queue<ll>q;
+    for(int i = 1; i<=n; i++){
+        q.push(i);
+    }
+    while (!q.empty())
+    {
+        ll i = q.front();
+        q.pop();
+        x+=i;
+        ll y =sqrt(x);
+        if(y*y == x){
+            q.push(i);
+            x-=i;
+            continue;
+            dbg(i, x);
+        }
+        cout<<i<<" ";
+        // if(i==3)x++;
+    }
+    cout<<endl;
+    
+    // for(int i = n; i>tem; i--){
+    //     x+=i;
+    //     ll y =sqrt(x);
+    //     if(y*y == x){
+    //         dbg(i, x);
+    //     }
+    //     // if(i==3)x++;
+    // }
+}
+void solve1(){
+    ll n; cin>>n;
+    ll x = 0;
+    for(int i = 1; i<=n; i++){
+        x+=i;
+        ll y =sqrt(x);
+        if(y*y == x){
+            dbg(i, x);
+        }
+        // if(i==3)x++;
+    }
 }
 
 int main()
 {
     optimize();
+    for(auto u:v)mp[u]++;
 
     int _ = 1;
     cin>>_;

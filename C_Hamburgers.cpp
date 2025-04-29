@@ -68,24 +68,72 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
+const int mx = 1e5+123;
 
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
+    string S; cin>>S;
+    int b,s,c;
+    b = s = c = 0;
+    for(auto u:S){
+        if(u == 'B')b++;
+        if(u == 'S')s++;
+        if(u == 'C')c++;
+    }
+    int nb, ns, nc; cin>>nb>>ns>>nc;
+    int pb, ps, pc; cin>>pb>>ps>>pc;
+    ll rate; cin>>rate;
+
+    ll ans = 0;
+    ll l = 0, r = 1e13+123;
+    while(l<=r){
+        ll m = (l+r)/2;
+        bool f = 1;
+        ll cost = rate;
+        if(m*b > (nb + cost/pb)) f = 0;
+        else{
+            ll k = m*b;
+            if(k>nb){
+                k-=nb;
+                cost-=(k*pb);
+            }
+        }
+        if(m*s > (ns + cost/ps)) f = 0;
+        else{
+            ll k = m*s;
+            if(k>ns){
+                k-=ns;
+                cost-=(k*ps);
+            }
+        }
+        if(m*c > (nc + cost/pc)) f = 0;
+        else{
+            ll k = m*c;
+            if(k>nc){
+                k-=nc;
+                cost-=(k*pc);
+            }
+        }
+        if(f){
+            ans = max(ans, m);
+            l = m+1;
+        }else r = m-1;
+    }
     cout<<ans<<endl;
+
+    // int kb, ks, kc;
+    // kb = nb/b, ks = ns/s, kc = nc/c;
+    // int ans = min({kb, ks, kc});
+    // nb -= ans*b, ns -= ans*s, nc -= ans*c;
+    // kb-=ans, ks-=ans, kc-=ans;
+
+    // int mxx = max({kb, ks, kc});
+    // if(kb>ks){
+    //     if(kb>kc){
+            
+    //     }
+    // }
+    // dbg(ans, nb, ns, nc);
+
 }
 
 int main()
@@ -93,7 +141,7 @@ int main()
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

@@ -68,24 +68,45 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
+const int mx = 1e5+123;
+
+
+// Precompute bit counts for optimization
+vector<int> precomputeBitCounts(const vector<int>& arr) {
+    vector<int> bitCounts(32, 0); // For 32-bit integers
+    for (int num : arr) {
+        for (int i = 0; i < 32; ++i) {
+            if (num & (1 << i)) {
+                bitCounts[i]++;
+            }
+        }
     }
+    return bitCounts;
 }
 
+// Compute sum using precomputed bit counts
+int computeXorSumOptimized(const vector<int>& bitCounts, int k, int n) {
+    int sum = 0;
+    for (int i = 0; i < 32; ++i) {
+        int kBit = (k >> i) & 1;
+        sum += (1 << i) * (kBit ? (n - bitCounts[i]) : bitCounts[i]);
+    }
+    return sum;
+}
+
+
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+    int n; cin>>n;
+    vector<int> arr(n-1);
+    for(int i = 0; i<n-1; i++)cin>>arr[i];
+    int k;
+    cin>>k;
+    n--;
+    vector<int> bitCounts = precomputeBitCounts(arr);
+    int result = computeXorSumOptimized(bitCounts, k, n);
+
+    cout << result << endl;
+
 }
 
 int main()

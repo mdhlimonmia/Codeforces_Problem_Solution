@@ -23,8 +23,8 @@ typedef double dl;
 #define all(a) (a).begin(),(a).end()
 #define rall(a) (a).rbegin(),(a).rend()
 #define sz(x) (int)x.size()
-#define yes cout<<"YES"<<endl
-#define no cout<<"NO"<<endl
+#define yes cout<<"Yes"<<endl
+#define no cout<<"No"<<endl
 #define POPCOUNT __builtin_popcountll /*number of set bit*/
 #define RIGHTMOST __builtin_ctzll
 #define LEFTMOST(x) (63-__builtin_clzll((x)))
@@ -68,24 +68,38 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
+const int mx = 1e5+123;
 
-void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+
+
+void solve1(){
+    ll n;cin>>n;
+    vl v(n), vis(n+1);
+    for(auto &u:v)cin>>u;
+    // bool mp[1123];
+    for(auto u:v){
+        vis[u]++;
+    }
+    // dbg(vis);
+    for(int i = 1; i<=n; i++){
+        if(vis[i] != 0){
+           if(vis[i] == 1){
+              no;
+            //   dbg(vis[i]);
+              return;
+           }else if(vis[i]%2 == 0){
+              if(i!= n) vis[i+1] += vis[i] - 2;
+           }else{
+                if( i!= n)vis[i+1] += vis[i] - 2;
+                else{
+                    // dbg(vis[i]);
+                    no;
+                    return;
+                }
+           }
+        }
+    }
+    yes;
 }
 
 int main()
@@ -97,6 +111,6 @@ int main()
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
-        solve();
+        solve1();
     }
 }

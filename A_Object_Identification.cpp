@@ -16,7 +16,7 @@ typedef vector<pii> vii;
 typedef vector<pll> vll;
 typedef double dl;
 
-#define endl '\n'
+// #define endl '\n'
 #define PB push_back
 #define F first
 #define S second
@@ -68,24 +68,36 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
+const int mx = 1e5+123;
 
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+    ll n;cin>>n;
+    vi v(n), vis(n+1);
+    int x,y;
+    for(int i = 0; i<n; i++){
+        cin>>v[i];
+        if(v[i] == 1)x = i+1;
+        if(v[i] == n)y = i+1;
+        vis[v[i]]++;
+    }
+    for(int i = 1; i<=n; i++){
+        if(vis[i] == 0){
+            cout<<"? "<<i<<' '<<1+(i==1)<<endl;
+            int t; cin>>t;
+            if(t == 0) cout<<"! A"<<endl;
+            else cout<<"! B"<<endl;
+            return;
+        }
+    }
+    cout<<"? "<<x<<' '<<y<<endl;
+    int t; cin>>t;
+    if(t<n-1)cout<<"! A"<<endl;
+    else{
+        cout<<"? "<<y<<' '<<x<<endl;
+        int t1; cin>>t1;
+        if(t1 == t)cout<<"! B"<<endl;
+        else cout<<"! A"<<endl;
+    }
 }
 
 int main()

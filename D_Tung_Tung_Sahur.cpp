@@ -68,24 +68,39 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
+const int mx = 1e5+123;
 
 void solve(){
     // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+    string a,b;cin>>a>>b;
+    ll x = a.size(), y = b.size();
+    ll i = 0, j = 0;
+    for(j = 0; j<y; j++){
+        if(a[i] == b[j]){
+            // dbg(a[i], b[j]);
+            ll p = 1, q = 1;
+            while(i+1<x && a[i] == a[i+1]){
+                p++;
+                i++;
+            }
+            while(j+1<y && b[j] == b[j+1]){
+                q++;
+                j++;
+            }
+            // dbg(p, q, i, j);
+            if(p*2<q || p>q){
+                no;
+                return;
+            }
+            // j--;
+            i++;
+        }else{
+            no;
+            return;
+        }
+    }
+    if(i<x || j<y)no;
+    else yes;
 }
 
 int main()

@@ -68,32 +68,71 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
+const int mx = 1e5+123;
+
+// void solve(){
+//     ll n,k;cin>>n>>k;
+//     vll v(n);
+//     for(int i = 0; i<n; i++){
+//         cin>>v[i].F>>v[i].S;
+//         v[i].F;
+//     }
+//     sort(all(v));
+//     // cout<<endl;
+//     // for(auto [x,y]:v)cout<<x<<' '<<y<<endl;
+
+//     ll ans = 0, i = 0, d = 1, f = k;
+//     while(i<n){
+//        // dbg(i, ans, v[i]);
+//         if(d-1>v[i].F){
+//             i++;
+//         }
+//         else if(v[i].S == f){
+//             ans += f;
+//             i++;
+//             d = max(d+1, v[i].F+1);
+//             f = k;
+//         }
+//         else if(v[i].S>f){
+//             ans += f;
+//             v[i].S -= f;
+//             d = max(d+1, v[i].F+1);
+//             f = k;
+//         }else{
+//             ans += v[i].S;
+//             f -= v[i].S;
+//             d = max(d, v[i].F);
+//             i++;
+//         }
+//     }
+//     cout<<ans<<endl;
+// }
 
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
+    ll n,k;cin>>n>>k;
+    vl v(3012);
+    int x,y;
+    for(int i = 0; i<n; i++){
+        cin>>x>>y;
+        v[x]+=y;
+    }
+   
+    ll ans = 0, f = k;
+    for(int i = 1; i<=3005; i++){
+        ans += min(v[i],k);
+        v[i] -= min(v[i],k);
+        v[i+1] += min(v[i], k);
+    }
     cout<<ans<<endl;
 }
+
 
 int main()
 {
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

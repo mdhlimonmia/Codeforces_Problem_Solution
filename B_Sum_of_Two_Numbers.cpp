@@ -68,24 +68,36 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
+const int mx = 1e5+123;
+ll sum_of_Digit(ll x) {
+    ll sum = 0;
+    while (x) {
+        sum += (x % 10);
+        x /= 10;
     }
+    return sum;
 }
-
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+    ll n;cin>>n;
+    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
+    else if(n%10 != 9){
+        cout<<n/2+1<<" "<<n/2<<endl;
+    }
+    else{
+        n/=10;\]
+        int x = 0 , y = 0;
+        while (n)
+        {
+            if(x>=y){
+                x = x*10+4, y = y*10+5;
+            }else{
+                x = x*10+5, y = y*10+4;
+            }
+            n/=10;
+        }
+        
+        cout<<x<<" "<<y<<endl;
+    }
 }
 
 int main()

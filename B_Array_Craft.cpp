@@ -68,24 +68,47 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mod = 1e9+7;
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
+const int mx = 1e5+123;
 
 void solve(){
-    // ll n;cin>>n;
-    ll u, v;
-    cin>>u>>v;
-    ll ans = bigMod(2, u-1, mod);
-    ans = (ans*v)%mod;
-    cout<<ans<<endl;
+    ll n, x,y;cin>>n>>x>>y;
+    if(x == n && y == 1){
+        for(int i = 1; i<=n; i++) cout<<"1 ";
+    }
+    else if(x==n){
+        for(int i = 1; i<n; i++){
+            if(i == y-1)cout<<"-1 1 ";
+            else cout<<"1 ";
+        }
+    }else if(y == 1){
+        for(int i = 1; i<n; i++){
+            if(i == x) cout<<"1 -1 ";
+            else cout<<"1 ";
+        }
+    }else{
+        for(int i = 1; i<=n; i++){
+            if(i == y-1){
+                cout<<"-1 1 ";
+                i++;
+            }else if(i == x){
+                cout<<"1 -1 ";
+                i++;
+            }else cout<<"1 ";
+        }
+    }
+    cout<<endl;
+}
+void solve1(){
+    ll n, x, y; cin>>n>>x>>y;
+    vi v(n+1, 1);
+    ll pre = (y)/2;
+    ll suf = (n - x + 1)/2;
+    ll mid = n - pre - suf;
+    for(int i = y-1; i>0; i-=2)v[i] = -1;
+    for(int i = x+1; i<=n; i+=2) v[i] = -1;
+    for(int i = 1; i<=n; i++)cout<<v[i]<<" ";
+    cout<<endl;
+
 }
 
 int main()
@@ -97,6 +120,6 @@ int main()
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
-        solve();
+        solve1();
     }
 }
