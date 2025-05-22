@@ -446,4 +446,24 @@ void union_sets(ll a, ll b) {
 }
 ll get_size(ll v){
     return siz[find_set(v)];
+<<<<<<< HEAD
+=======
+}
+
+
+///////ncr => n!/(r! * (n-r)! )
+ll nCr(int n, int r) {
+    if (r > n) return 0;
+    if (r > n - r) r = n - r; // C(n, r) == C(n, n - r)
+    ll res = 1;
+    for (int i = 1; i <= r; ++i) {
+        res *= (n - r + i);
+        res /= i;
+    }
+    return res;
+}
+///// number of sub-squares(KxK) that cover the cell(i,j)
+ll cal_nssccell(ll i, ll j, ll k){
+    return (min(i,n-k)-max(-1LL,i-k))*(min(j,m-k)-max(-1LL,j-k));
+>>>>>>> 63e708f (22/05/25)
 }

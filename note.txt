@@ -1,0 +1,75 @@
+1. number of pair(at a time take 2 element) from n element = (n*(n-1))/2;
+2. Number of triple(at a time take 3 element) from n element = (n*(n-1)*(n-2))/6; 
+        https://codeforces.com/contest/1922/problem/B
+3. Number of sub-array = (n*(n+1))/2;
+
+4. number of sub-squares (KxK) that cover the cell(i, j) = (min(i,n-k)-max(-1LL,i-k))*(min(j,m-k)-max(-1LL,j-k));
+        https://codeforces.com/problemset/problem/2000/E
+5. Contiguous Integers: The expression n(n+1)(n+2)(n+3) + 1 results in a perfect square. This outcome is based on the product of four consecutive integers and holds true for specific values of n.
+
+6. Perfect Squares: For any positive integer n, the difference n^2 - (n-1)^2 = 2n - 1 represents an odd number. That is, the difference between the squares of two consecutive integers is always an odd number.
+
+7. Sum of First n Natural Numbers: The formula 1 + 2 + 3 + ... + n = n(n + 1)/2 denotes the sum of the first n natural numbers and can also be interpreted geometrically as the area of a trapezoid.
+
+8. Fermat's Little Theorem: If p is a prime number and a is an integer not divisible by p, then a^(p-1) ≡ 1 (mod p).
+
+9. Divisibility Rules:
+        Divisibility rules for various numbers are very useful. 
+        For example, a number is divisible by 3 if the sum of its digits is divisible by 3.
+        And, A Number is Divisible by 9 if the Sum of its Digits is Divisible by 9
+
+10. Goldbach's Conjecture: 
+        According to this conjecture, every even integer n ≥ 2 can be expressed as the sum of two prime numbers.
+        And every odd integer can be expressed as a sum of three prime number. But if num-2 is prime then two prime number.
+
+11. Congruences: The expression a ≡ b (mod m) means that a and b leave the same remainder when divided by m. This concept plays a significant role in solving various number-theoretic problems.
+
+12. Chinese Remainder Theorem:
+If m1, m2, ..., mk are pairwise coprime positive integers and a1, a2, ..., ak are any integers, then the system of congruences x ≡ ai (mod mi) has a unique solution modulo M = m1 * m2 * ... * mk.
+
+12. Sum of Divisors Function:
+The function σ(n) denotes the sum of all positive divisors of a number n, and it plays an important role in various mathematical problems.
+
+14. Euler's Totient Function:
+Euler’s Totient Function is used to count the number of integers less than or equal to n that are relatively prime to n. It is particularly significant in number theory and cryptography.
+
+15. Prime Numbers:- 
+    A prime Number is a number that has exactly two factors- 1 and itself.
+    EX: 2, 3, 5, 7, 17, etc.
+
+    Fun fact: The product of two prime numbers always has 4 divisors.
+    Example:
+    6 --> 1, 2, 3, 6
+    15 --> 1, 3, 5, 15
+
+16. Armstrong Number:-
+    An Armstrong number is a number that is equal to the sum of its digits raised to the power of the number of digits.
+    EX: 1, 
+        153 = 1^3 + 5^3 + 3^3, 
+        1634 = 1^4 + 6^4 + 3^4 + 4^4
+
+17. If any number has only three positive divisors, then the number has to be the perfect square of a prime number.
+    EX: 4 = 2^2; Divisors of 4 = 1, 2, 4
+        25 = 5^2; Divisors of 25 = 1, 5, 25
+
+18. Palindrome Number:-
+    A palindromic number is a number that is the same as its reverse form.
+    EX: 123321, 1111, 1331, etc.
+
+19. Digital Root:-
+    The digital root of a number is the single-digit value we get by repeatedly adding the digits of a number until we reach a single digit.
+    It's also known as the digital sum or seed number.
+    EX: 221 --> 2 + 2 + 1 = 5
+        698 --> 6 + 9 + 8 = 23 --> 2 + 3 = 5
+
+    Fun fact:- DR = remainder when the number is divided by 9 (Number % 9). [If number % 9 = 0 and 𝑛umber ≠ 0, then DR = 9.]
+
+20. Simplest but important rules of number theory:-
+    - Perfect Squares Have an Odd Number of Total Divisors.
+    - Any Two Consecutive Numbers are Co-prime. [gcd(n,n+1)=1]
+    - The Product of Two Consecutive Integers is Never a Perfect Square.
+    - Any Power of an Odd Number is Odd. [odd^𝑛 = odd]
+
+21. Any even number will be one if( num = |num - 2^x| ) where x = 29 to 0
+    And every odd number will be zero if (num = |num - 2^x|) where x = 29 to 0;
+        https://codeforces.com/problemset/problem/1991/C

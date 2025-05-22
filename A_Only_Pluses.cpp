@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ///   ***   ---   |||    In the name of ALLAH    |||   ---   ***   ///
 
 #include<bits/stdc++.h>
@@ -72,10 +73,28 @@ void solve(){
         (a<b)?(a<c)?a++:c++:(b<c)?b++:c++;
     }
     cout<<a*b*c<<endl;
+=======
+#include <bits/stdc++.h>
+using namespace std;
+#define endl '\n'
+#define Limon() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define lli long long int
+void solve(){
+    int a[3]; cin>>a[0]>>a[1]>>a[2];
+    sort(a,a+3);
+    int t = 5; 
+    while(t--){
+        a[0]++;
+        sort(a,a+3);
+    }
+
+    cout<<(1LL*a[0]*a[1]*a[2])<<endl;
+>>>>>>> 63e708f (22/05/25)
 }
 
 int main()
 {
+<<<<<<< HEAD
     optimize();
 
     int _ = 1;
@@ -84,4 +103,13 @@ int main()
     {
         solve();
     }
+=======
+    Limon();
+
+     int _;cin>>_;
+     while (_--)
+     {
+       solve();
+     }
+>>>>>>> 63e708f (22/05/25)
 }

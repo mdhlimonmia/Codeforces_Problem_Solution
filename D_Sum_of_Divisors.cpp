@@ -45,11 +45,11 @@ ll arr[mx];
 int main() {
    Limon();
    ll n; cin>>n;
-   ll ans = 0;
-   for(ll i = 1; i<=n; i++){
-    for(ll j = i; j<=n; j+=i)arr[j]++;
-    ans += arr[i]*i*1ll;
+   ll ans = 0, l = sqrt(n);
+   for(ll i = 2; i<=l; i++){
+    for(ll j = i+i; j<=n; j+=i)arr[j]++;
    }
-   cout<<ans<<endl;
+   for(int i = 1; i<=n; i++) ans += (arr[i]+2)*i*1ll;
+   cout<<ans-1<<endl;
    return 0;
 }

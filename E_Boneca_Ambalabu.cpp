@@ -70,6 +70,7 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
+<<<<<<< HEAD
 
 // Precompute bit counts for optimization
 vector<int> precomputeBitCounts(const vector<int>& arr) {
@@ -107,6 +108,29 @@ void solve(){
 
     cout << result << endl;
 
+=======
+void solve(){
+    ll n;cin>>n;
+    vl v(n);
+    for(auto &u:v)cin>>u;
+    vl cnt(30, 0);
+    for(int i = 0; i<30; i++){
+        for(auto u:v){
+            if((u & (1<<i)))cnt[i]++;
+        }
+    }
+    ll ans = 0;
+    for(int i = 0; i<n; i++){
+        ll tem = 0;
+        for(int j = 0; j<30; j++){
+            if(v[i]&(1<<j)) tem += (n-cnt[j])*(1<<j);
+            else tem += (cnt[j])*(1<<j);
+        }
+        ans = max(ans, tem);
+    }
+    // dbg(cnt);
+    cout<<ans<<endl;
+>>>>>>> 63e708f (22/05/25)
 }
 
 int main()

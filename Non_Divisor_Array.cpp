@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ///   ***   ---   |||    In the name of ALLAH    |||   ---   ***   ///
 
 #include<bits/stdc++.h>
@@ -80,11 +81,40 @@ void solve(){
     cout<<mx<<endl;
     v[1] = mx;
     for(int i = 1; i<=n; i++)cout<<v[i]<<" ";
+=======
+#include <bits/stdc++.h>
+using namespace std;
+#define endl '\n'
+#define Limon() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define lli long long int
+
+void solve(){
+    int n;cin>>n;
+    vector<lli>ans(n+1,0);
+    lli mx = 0;
+    for(lli i = 2; i<=n; i++){
+        if(ans[i] == 0){
+            for(lli j = i; j<=n; j+=i){
+                lli t = 0, k = j;
+                while(k%i == 0){
+                    t++;
+                    k/=i;
+                }
+                ans[j] += t;
+                mx = max(mx,ans[j]);
+            }
+        }
+    }
+    cout<<mx+1<<endl;
+    cout<<mx+1<<" ";
+    for(lli i = 2; i<=n; i++)cout<<ans[i]<<" ";
+>>>>>>> 63e708f (22/05/25)
     cout<<endl;
 }
 
 int main()
 {
+<<<<<<< HEAD
     optimize();
 
     int _ = 1;
@@ -93,4 +123,13 @@ int main()
     {
         solve();
     }
+=======
+    Limon();
+
+     int _;cin>>_;
+     while (_--)
+     {
+       solve();
+     }
+>>>>>>> 63e708f (22/05/25)
 }

@@ -66,6 +66,7 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
+<<<<<<< HEAD
 ll get_n(dl t, dl k) {
     if(t==0)return 0;
     dbg(t,k);
@@ -113,6 +114,71 @@ void solve(){
             dbg(ans, '\n');
         }
     }
+=======
+// ll get_n(dl t, dl k) {
+//     if(t==0)return 0;
+//     dbg(t,k);
+//     ll n = (log(t) / log(k));
+//     dbg(n);
+//     return n;
+// }
+
+// ll slf(ll t){
+//     if (t == 0) {
+//         return 0;
+//     } else if ((t & (t - 1)) != 0) {
+//         return 0;
+//     } else {
+//         // Calculate n using bitwise operations
+//         int n = 0;
+//         while (t > 1) {
+//             t >>= 1; // Right shift (divide by 2)
+//             n++;
+//         }
+
+//         return n;
+//     }
+
+
+// }
+
+// void solve(){
+//     ll k, l1, r1, l2, r2;cin>>k>>l1>>r1>>l2>>r2;
+//     ll ans = 0;
+//     if(k!=2){
+//             for(ll i = l1; i<=r1; i++){
+//             dl t1 = (r2*1.0)/i;
+//             dl t2 = ((l2-1)*1.0)/i;
+//             ll x = get_n(t1,k) - get_n(t2,k);
+//             ans+=x;
+//             dbg(ans, '\n');
+//         }
+//     }else{
+//         for(ll i = l1; i<=r1; i++){
+//             dl t1 = (r2*1.0)/i;
+//             dl t2 = ((l2-1)*1.0)/i;
+//             ll x = slf(t1) - slf(t2);
+//             ans+=x;
+//             dbg(ans, '\n');
+//         }
+//     }
+//     cout<<ans<<endl;
+// }
+void solve(){
+    ll k, l1, r1, l2, r2;
+    cin>>k>>l1>>r1>>l2>>r2;
+    ll x = -1,l = l2, r = r2;
+    ll tem1 = (l2/k );
+    tem1*=k;
+    dbg(tem1);
+    ll ans = 0;
+    for(int i = tem1; i<=r2; i+=k){
+        if(i/k>=l1 && i/k<=r1){
+            dbg(i/k, i);
+            ans++;
+        }
+    } 
+>>>>>>> 63e708f (22/05/25)
     cout<<ans<<endl;
 }
 
