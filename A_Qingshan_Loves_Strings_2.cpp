@@ -68,67 +68,62 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 2e5+123;
-vl adj[mx];
-bool vis[mx];
-vl parent(mx);
-ll n, a, b;
-
-ll entryNode = -1;
-bool isCycle(ll s, ll par){
-    vis[s] = 1;
-    for(auto u:adj[s]){
-        if(vis[u] == 1 && par != u){
-            entryNode = u;
-            return 1;
-        }else if(u != par && vis[u] == 0) {
-            if(isCycle(u, s))return 1;
-        }
-    }
-    return 0;
-}
-
-// ll cost = 0;
-ll dfs(int node){
-    vis[node] = 1;
-    ll cost = inf;
-    for(auto u:adj[node]){
-        if(u == entryNode){
-            return 1;
-        }
-        if(!vis[u]){
-            cost = min(dfs(u)+1, cost);
-        }
-    }
-    return cost;
-}
+const int mx = 1e5+123;
 
 void solve(){
-    cin>>n>>a>>b;
-    for(int i = 0; i<n; i++){
-        ll u, v;
-        cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+    ll n;cin>>n;
+    string s; cin>>s;
+    ll a = 0, b = 0;
+    for(auto u:s){
+        if(u=='0')a++;
+        else b++;
     }
-    if(a==b){
-        no;
-        return;
+    if(a!=b)cout<<"-1\n";
+    else{
+        vl ans;
+        ll x, y;
+        x = 0, y = 0;
+        for(int i = 0, j = n-1; i<j;){
+            if(s[i] == s[j]){
+                if(s[i] == '1'){
+                    ll l = 1;
+                    ll k = 1;
+                    if(i == 0)k = 0;
+                    ans.push_back(i+x);
+                    x+=2;
+                    j--;
+                    while (l!=0)
+                    {
+                        if(s[j] == '1'){
+                            ans.push_back(i+x-l);
+                            l++;
+                            x+=2;
+                        }else l--;
+                        j--;
+                    }
+                }else{
+                    ll l = 1;
+                    ans.push_back(j+x+1);
+                    i++;
+                    while(l != 0){
+                        if(s[i] == '0'){
+                            ans.push_back(j+x+l + 1);
+                            l++;
+                        }
+                        else l--;
+                        i++;
+                    }
+                }
+                // dbg(x);
+            }else{
+                i++, j--;
+            }
+        }
+        // dbg(x, y);
+        cout<<ans.size()<<endl;
+        if(ans.size()>0) for(auto u:ans)cout<<u<<" ";
+        cout<<endl;
     }
-    if(isCycle(b, -1)){
-        ll mar,val;
-        mem(vis, 0);
-        if(entryNode == a)mar = 0;
-        else mar = dfs(a);
-
-        mem(vis, 0);
-        if(entryNode == b)val = 0;
-        else val = dfs(b);
-
-        if(val<mar)yes;
-        else no;
-        // dbg(entryNode, mar, val);
-    }else no;
 }
 
 int main()
@@ -140,11 +135,6 @@ int main()
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
-        for(int i = 0; i<mx; i++){
-            adj[i].clear();
-            vis[i] = 0;
-            parent[i] = 0;
-        }
         solve();
     }
 }

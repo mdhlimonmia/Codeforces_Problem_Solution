@@ -70,19 +70,13 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
 
-ll bigMod(ll base, ll pow, ll mod) {
-    if (pow == 0) return 1 % mod;
-    if (pow % 2 == 0) {
-        ll tem = bigMod(base, pow / 2, mod);
-        return (tem * tem) % mod;
-    } else {
-        return (base * bigMod(base, pow - 1, mod)) % mod;
-    }
-}
-
 void solve(){
-    ll n = bigMod(15, 24, 26);
-    cout<<n<<endl;
+    ll n,k;cin>>n>>k;
+    if(n>k){
+        if((n+k)%2 != 0)cout<<1<<endl;
+        else cout<<"0\n";
+    }
+    else cout<<abs(k-n)<<endl;
 }
 
 int main()

@@ -68,83 +68,73 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 2e5+123;
-vl adj[mx];
-bool vis[mx];
-vl parent(mx);
-ll n, a, b;
+const int mx = 5e3+123;
+bitset<mx> isPrime;
+vector<int> primes;
+int cntPrime[mx];
 
-ll entryNode = -1;
-bool isCycle(ll s, ll par){
-    vis[s] = 1;
-    for(auto u:adj[s]){
-        if(vis[u] == 1 && par != u){
-            entryNode = u;
-            return 1;
-        }else if(u != par && vis[u] == 0) {
-            if(isCycle(u, s))return 1;
+void primeGen ( int n )
+{
+    for ( int i = 3; i <= n; i += 2 ) isPrime[i] = 1;
+    int sq = sqrt(n);
+    for ( int i = 3; i <= sq; i += 2 ) {
+        if(isPrime[i])
+            for ( int j = i*i; j <= n; j += i )isPrime[j] = 0;
+    }
+    isPrime[2] = 1;
+    primes.push_back(2);
+    for ( int i = 3; i <= n; i += 2 ) {
+        if(isPrime[i] == 1) {
+            primes.push_back(i);
         }
     }
-    return 0;
 }
-
-// ll cost = 0;
-ll dfs(int node){
-    vis[node] = 1;
-    ll cost = inf;
-    for(auto u:adj[node]){
-        if(u == entryNode){
-            return 1;
-        }
-        if(!vis[u]){
-            cost = min(dfs(u)+1, cost);
-        }
-    }
-    return cost;
-}
-
 void solve(){
-    cin>>n>>a>>b;
+    ll n;cin>>n;
+    vl v(n), v1;
     for(int i = 0; i<n; i++){
-        ll u, v;
-        cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+        cin>>v[i];
     }
-    if(a==b){
-        no;
-        return;
+    sort(all(v));
+    v1 = v;
+    ll tar = 1;
+    for(auto u:primes){
+        ll x = n;
+        bool f = 0;
+        for(int i = 0; i<n; i++){
+            ll tem = 0;
+            if(u<v[i])f = 1;
+            while(v[i]%u == 0){
+                tem++;
+                v[i]/=u;
+            }
+            x = min(x, tem);
+        }
+        // dbg(u, x);
+        if(f == 0)break;
+        tar *=pow(u,x);
     }
-    if(isCycle(b, -1)){
-        ll mar,val;
-        mem(vis, 0);
-        if(entryNode == a)mar = 0;
-        else mar = dfs(a);
-
-        mem(vis, 0);
-        if(entryNode == b)val = 0;
-        else val = dfs(b);
-
-        if(val<mar)yes;
-        else no;
-        // dbg(entryNode, mar, val);
-    }else no;
+    dbg(tar);
+    ll k = 0;
+    for(auto u:v1){
+        if(tar == u)k++;
+    }
+    dbg(k);
+    if(k == 0){
+        
+    }
+    cout<<n-k<<endl;
 }
 
 int main()
 {
     optimize();
-
+    primeGen(mx);
     int _ = 1;
     cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
-        for(int i = 0; i<mx; i++){
-            adj[i].clear();
-            vis[i] = 0;
-            parent[i] = 0;
-        }
         solve();
     }
 }

@@ -69,66 +69,41 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 2e5+123;
-vl adj[mx];
-bool vis[mx];
-vl parent(mx);
-ll n, a, b;
+int n,m;
+vii adj[mx];
+vl dis(mx);
+vl b(mx);
 
-ll entryNode = -1;
-bool isCycle(ll s, ll par){
-    vis[s] = 1;
-    for(auto u:adj[s]){
-        if(vis[u] == 1 && par != u){
-            entryNode = u;
-            return 1;
-        }else if(u != par && vis[u] == 0) {
-            if(isCycle(u, s))return 1;
+void dijkstra(ll s){
+    for(ll i = 0; i<=n; i++) dis[i] = infLL;
+    priority_queue<pair<ll, pair<ll, ll>>, vector<pair<ll, pair<ll, ll>>>, greater<pair<ll, pair<ll, ll>>>> pq;
+    dis[s] = 0;
+    pq.push({0, {b[s], s}});
+    while (!pq.empty()) {
+        ll u = pq.top().S.S;
+        ll curD = pq.top().F;
+        ll old = pq.top().S.F;
+        pq.pop();
+        if(curD > dis[u]) continue;
+        for (auto v: adj[u]) {
+            if(max(curD , (ll)v.S) <= old) {
+                dis[v.F] = max(curD , (ll)v.S);
+                pq.push({max(curD , (ll)v.S), {old + b[v.F] , v.F}});
+            }
         }
     }
-    return 0;
 }
-
-// ll cost = 0;
-ll dfs(int node){
-    vis[node] = 1;
-    ll cost = inf;
-    for(auto u:adj[node]){
-        if(u == entryNode){
-            return 1;
-        }
-        if(!vis[u]){
-            cost = min(dfs(u)+1, cost);
-        }
-    }
-    return cost;
-}
-
 void solve(){
-    cin>>n>>a>>b;
-    for(int i = 0; i<n; i++){
-        ll u, v;
-        cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+    cin>>n>>m;
+    for(int i = 1; i<=n; i++)cin>>b[i];
+    for(int i = 0; i<m; i++){
+        ll u, v,w;
+        cin>>u>>v>>w;
+        adj[u].push_back({v,w});
     }
-    if(a==b){
-        no;
-        return;
-    }
-    if(isCycle(b, -1)){
-        ll mar,val;
-        mem(vis, 0);
-        if(entryNode == a)mar = 0;
-        else mar = dfs(a);
-
-        mem(vis, 0);
-        if(entryNode == b)val = 0;
-        else val = dfs(b);
-
-        if(val<mar)yes;
-        else no;
-        // dbg(entryNode, mar, val);
-    }else no;
+    dijkstra(1);
+    if(dis[n] == infLL)cout<<"-1\n";
+    else cout<<dis[n]<<endl;
 }
 
 int main()
@@ -142,9 +117,8 @@ int main()
         //cout<<"Case "<<tc<<": ";
         for(int i = 0; i<mx; i++){
             adj[i].clear();
-            vis[i] = 0;
-            parent[i] = 0;
         }
+        b.clear();
         solve();
     }
 }

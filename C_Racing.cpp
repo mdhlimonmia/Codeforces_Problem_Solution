@@ -68,67 +68,62 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 2e5+123;
-vl adj[mx];
-bool vis[mx];
-vl parent(mx);
-ll n, a, b;
-
-ll entryNode = -1;
-bool isCycle(ll s, ll par){
-    vis[s] = 1;
-    for(auto u:adj[s]){
-        if(vis[u] == 1 && par != u){
-            entryNode = u;
-            return 1;
-        }else if(u != par && vis[u] == 0) {
-            if(isCycle(u, s))return 1;
-        }
-    }
-    return 0;
-}
-
-// ll cost = 0;
-ll dfs(int node){
-    vis[node] = 1;
-    ll cost = inf;
-    for(auto u:adj[node]){
-        if(u == entryNode){
-            return 1;
-        }
-        if(!vis[u]){
-            cost = min(dfs(u)+1, cost);
-        }
-    }
-    return cost;
-}
+const int mx = 1e5+123;
 
 void solve(){
-    cin>>n>>a>>b;
+    ll n;cin>>n;
+    vl v(n);
+    for(auto &u:v)cin>>u;
+    vector<pll> h(n);
     for(int i = 0; i<n; i++){
-        ll u, v;
-        cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+        int x, y;
+        cin>>x>>y;
+        h[i] = {x,y};
     }
-    if(a==b){
-        no;
-        return;
+    ll t = infLL;
+    for(int i = n-1; i>=0; i--){
+        t = min(t,h[i].S);
+        h[i].S = t;
     }
-    if(isCycle(b, -1)){
-        ll mar,val;
-        mem(vis, 0);
-        if(entryNode == a)mar = 0;
-        else mar = dfs(a);
-
-        mem(vis, 0);
-        if(entryNode == b)val = 0;
-        else val = dfs(b);
-
-        if(val<mar)yes;
-        else no;
-        // dbg(entryNode, mar, val);
-    }else no;
+    t = h[n-1].F;
+    for(int i = n-2; i>=0; i--){
+        if(v[i+1] == 0)h[i].F = max(h[i+1].F, h[i].F);
+        else h[i].F = max(h[i+1].F - 1, h[i].F);
+    }
+    for(int i = 0; i<n; i++){
+        if(h[i].F>h[i].S){
+            cout<<"-1\n";
+            return;
+        }
+    }
+    // dbg(h);
+    ll sum = 0;
+    for(int i = 0; i<n; i++){
+        if(v[i] != -1){
+            sum += v[i];
+            if(sum<h[i].F || sum > h[i].S){
+                cout<<"-1\n";
+                // dbg(v);
+                return;
+            }
+        }
+        else{
+            if(sum>=h[i].F && sum <= h[i].S){
+                v[i] = 0;
+            }
+            else if(sum+1 >= h[i].F && sum+1 <= h[i].S){
+                sum++;
+                v[i] = 1;
+            }
+            else{
+                cout<<"-1\n";
+                // dbg(v);
+                return;
+            }
+        }
+    }
+    for(auto u:v)cout<<u<<" ";
+    cout<<endl;
 }
 
 int main()
@@ -140,11 +135,6 @@ int main()
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
-        for(int i = 0; i<mx; i++){
-            adj[i].clear();
-            vis[i] = 0;
-            parent[i] = 0;
-        }
         solve();
     }
 }

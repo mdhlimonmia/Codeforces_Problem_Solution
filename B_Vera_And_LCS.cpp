@@ -68,67 +68,52 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 2e5+123;
-vl adj[mx];
-bool vis[mx];
-vl parent(mx);
-ll n, a, b;
-
-ll entryNode = -1;
-bool isCycle(ll s, ll par){
-    vis[s] = 1;
-    for(auto u:adj[s]){
-        if(vis[u] == 1 && par != u){
-            entryNode = u;
-            return 1;
-        }else if(u != par && vis[u] == 0) {
-            if(isCycle(u, s))return 1;
-        }
-    }
-    return 0;
-}
-
-// ll cost = 0;
-ll dfs(int node){
-    vis[node] = 1;
-    ll cost = inf;
-    for(auto u:adj[node]){
-        if(u == entryNode){
-            return 1;
-        }
-        if(!vis[u]){
-            cost = min(dfs(u)+1, cost);
-        }
-    }
-    return cost;
-}
+const int mx = 1e5+123;
 
 void solve(){
-    cin>>n>>a>>b;
-    for(int i = 0; i<n; i++){
-        ll u, v;
-        cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+    ll n,k;cin>>n>>k;
+    string s; cin>>s;
+    vector<int>v(26);
+    for(auto u:s){
+        int i = u-'a';
+        v[i]++;
     }
-    if(a==b){
-        no;
+    vii pa;
+    for(int i = 0; i<26; i++){
+        pa.push_back({v[i], i});
+    }
+    sort(all(pa));
+    if(k>n || pa[0].F>k){
+        cout<<"WRONGANSWER\n";
         return;
     }
-    if(isCycle(b, -1)){
-        ll mar,val;
-        mem(vis, 0);
-        if(entryNode == a)mar = 0;
-        else mar = dfs(a);
-
-        mem(vis, 0);
-        if(entryNode == b)val = 0;
-        else val = dfs(b);
-
-        if(val<mar)yes;
-        else no;
-        // dbg(entryNode, mar, val);
-    }else no;
+    if(pa[0].F == 0){
+        for(int i = 0; i<k; i++){
+            cout<<s[i];
+        }
+        for(int i = k; i<n; i++){
+            char a = pa[0].S+'a';
+            cout<<a;
+        }
+        cout<<endl;
+        return;
+    }
+    string ans(n, '0');
+    for(auto u:pa){
+        for(int i = 0; i<n && k>0; i++){
+            char c = u.S + 'a';
+            if(s[i] == c){
+                ans[i] = s[i];
+                k--;
+            }
+        }
+        if(k == 0)break;
+    }
+    char c = pa[0].S + 'a';
+    for(int i = 0; i<n; i++){
+        if(ans[i] == '0')ans[i] = c;
+    }
+    cout<<ans<<endl;
 }
 
 int main()
@@ -136,15 +121,10 @@ int main()
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
-        for(int i = 0; i<mx; i++){
-            adj[i].clear();
-            vis[i] = 0;
-            parent[i] = 0;
-        }
         solve();
     }
 }

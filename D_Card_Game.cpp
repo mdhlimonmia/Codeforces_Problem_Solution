@@ -68,67 +68,53 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 2e5+123;
-vl adj[mx];
-bool vis[mx];
-vl parent(mx);
-ll n, a, b;
-
-ll entryNode = -1;
-bool isCycle(ll s, ll par){
-    vis[s] = 1;
-    for(auto u:adj[s]){
-        if(vis[u] == 1 && par != u){
-            entryNode = u;
-            return 1;
-        }else if(u != par && vis[u] == 0) {
-            if(isCycle(u, s))return 1;
-        }
-    }
-    return 0;
-}
-
-// ll cost = 0;
-ll dfs(int node){
-    vis[node] = 1;
-    ll cost = inf;
-    for(auto u:adj[node]){
-        if(u == entryNode){
-            return 1;
-        }
-        if(!vis[u]){
-            cost = min(dfs(u)+1, cost);
-        }
-    }
-    return cost;
-}
+const int mx = 1e5+123;
 
 void solve(){
-    cin>>n>>a>>b;
-    for(int i = 0; i<n; i++){
-        ll u, v;
-        cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+    ll n;cin>>n;
+    char trm; cin>>trm;
+    map<char, int>mp;
+    vector<string>v(n+n);
+    vector<pair<char,int>>p, tm, k;
+    for(int i = 0; i<n+n; i++){
+        cin>>v[i];
+        mp[v[i][1]]++;
+        if(v[i][1] != trm)p.push_back({v[i][1], v[i][0]-'0'});
+        else tm.push_back({v[i][1], v[i][0]-'0'});
     }
-    if(a==b){
-        no;
+    ll km = 0;
+    for(auto u:mp){
+        if(trm != u.F && u.second%2 != 0){
+            km++;
+        }
+    }
+    if(mp[trm]<km || (mp[trm] - km)%2 != 0){
+        // dbg(v);
+        cout<<"IMPOSSIBLE\n";
         return;
     }
-    if(isCycle(b, -1)){
-        ll mar,val;
-        mem(vis, 0);
-        if(entryNode == a)mar = 0;
-        else mar = dfs(a);
-
-        mem(vis, 0);
-        if(entryNode == b)val = 0;
-        else val = dfs(b);
-
-        if(val<mar)yes;
-        else no;
-        // dbg(entryNode, mar, val);
-    }else no;
+    sort(rall(p));
+    // for(auto u:p){
+    //     cout<<u.S<<u.F<<" ";
+    // }
+    for(int i = 0; i<p.size();){
+        if(i+1<p.size() && p[i].F == p[i+1].F){
+            cout<<p[i+1].S<<p[i+1].F<<" "<<p[i].S<<p[i].F<<endl;
+            i+=2;
+        }else{
+            k.push_back(p[i]);
+            i++;
+        }
+    }
+    if(!tm.empty())sort(rall(tm));
+    if(!k.empty()){
+        for(int i = 0; i<k.size(); i++){
+            cout<<k[i].S<<k[i].F<<" "<<tm[i].S<<tm[i].F<<endl;
+        }
+    }
+    for(int i = k.size(); i<tm.size(); i+=2){
+        cout<<tm[i+1].S<<tm[i+1].F<<" "<<tm[i].S<<tm[i].F<<endl;
+    }
 }
 
 int main()
@@ -140,11 +126,6 @@ int main()
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
-        for(int i = 0; i<mx; i++){
-            adj[i].clear();
-            vis[i] = 0;
-            parent[i] = 0;
-        }
         solve();
     }
 }

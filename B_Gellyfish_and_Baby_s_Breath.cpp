@@ -68,83 +68,45 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 2e5+123;
-vl adj[mx];
-bool vis[mx];
-vl parent(mx);
-ll n, a, b;
-
-ll entryNode = -1;
-bool isCycle(ll s, ll par){
-    vis[s] = 1;
-    for(auto u:adj[s]){
-        if(vis[u] == 1 && par != u){
-            entryNode = u;
-            return 1;
-        }else if(u != par && vis[u] == 0) {
-            if(isCycle(u, s))return 1;
-        }
-    }
-    return 0;
-}
-
-// ll cost = 0;
-ll dfs(int node){
-    vis[node] = 1;
-    ll cost = inf;
-    for(auto u:adj[node]){
-        if(u == entryNode){
-            return 1;
-        }
-        if(!vis[u]){
-            cost = min(dfs(u)+1, cost);
-        }
-    }
-    return cost;
-}
+const ll mod = 998244353;
+const ll mx = 1e5+1;
+vl dp(mx);
 
 void solve(){
-    cin>>n>>a>>b;
+    ll n;cin>>n;
+    vi p(n), q(n);
+    for(auto &u:p)cin>>u;
+    for(auto &u:q)cin>>u;
+    vl ans(n);
+    ll x = 0, y = 0;
     for(int i = 0; i<n; i++){
-        ll u, v;
-        cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+        if(p[x]<p[i])x = i;
+        if(q[y]<q[i])y = i;
+        ll tem1 = (dp[p[x]]+dp[q[i-x]])%mod;
+        ll tem2 = (dp[p[i-y]] + dp[q[y]])%mod;
+        if(p[x]>q[y]) ans[i] = tem1;
+        else if(p[x]<q[y]) ans[i] = tem2;
+        else if(p[x] == q[y] && q[i-x]<p[i-y])ans[i] = tem2;
+        else ans[i] = tem1;
     }
-    if(a==b){
-        no;
-        return;
-    }
-    if(isCycle(b, -1)){
-        ll mar,val;
-        mem(vis, 0);
-        if(entryNode == a)mar = 0;
-        else mar = dfs(a);
-
-        mem(vis, 0);
-        if(entryNode == b)val = 0;
-        else val = dfs(b);
-
-        if(val<mar)yes;
-        else no;
-        // dbg(entryNode, mar, val);
-    }else no;
+    for(auto u:ans)cout<<u<<" ";
+    cout<<endl;
 }
 
 int main()
 {
     optimize();
-
+    ll k = 1;
+    for(int i = 0; i<mx; i++){
+        dp[i] = k;
+        k*=2;
+        k%=mod;
+    }
     int _ = 1;
     cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
-        for(int i = 0; i<mx; i++){
-            adj[i].clear();
-            vis[i] = 0;
-            parent[i] = 0;
-        }
         solve();
     }
 }

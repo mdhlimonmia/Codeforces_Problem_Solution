@@ -1,53 +1,3 @@
-<<<<<<< HEAD
-// #include<bits/stdc++.h>
-// using namespace std;
-
-// int main(){
-//     string s;
-//     cin>>s;
-//     int k = s.size();
-//     if((s[0] == '-' || s[0] == '+') && k>1)s[0] = '0';
-//     bool e = 0, dot = 0, ok = 1;
-//     for(int i = 0; i<s.size(); i++){
-//         if(isdigit(s[i]) == 0){
-//             if((s[i] == 'e' || s[i] == 'E') && e == 0 && i+1<k) e = 1;
-//             else if( s[i] == '.' && (e == 0 && dot == 0) && i+1<k)dot = 1;
-//             else if((s[i] == '-' || s[i] == '+') && (s[i-1] == 'e' || s[i-1] == 'E') && i+1<k) continue;
-//             else{
-//                 ok = 0;
-//                 break;
-//             }
-//         }
-//     }
-//     if(ok)cout<<"Is Digit\n";
-//     else cout<<"Not Digit\n";
-// }
-
-#include <iostream>
-#include <string>
-#include <cctype>
-
-bool isValidInteger(const std::string& input) {
-    int i = 0, len = input.length();
-    if (i < len && (input[i] == '+' || input[i] == '-')) i++;
-    bool hasDigits = false;
-    while (i < len && std::isdigit(input[i])) { i++; hasDigits = true; }
-    if (i < len && (input[i] == 'e' || input[i] == 'E')) {
-        i++;
-        if (i < len && (input[i] == '+' || input[i] == '-')) i++;
-        bool hasExpDigits = false;
-        while (i < len && std::isdigit(input[i])) { i++; hasExpDigits = true; }
-        if (!hasExpDigits) return false;
-    }
-    return i == len && hasDigits;
-}
-
-int main() {
-    std::string input;
-    std::cin >> input;
-    std::cout << (isValidInteger(input) ? "Valid integer format.\n" : "Invalid integer format.\n");
-    return 0;
-=======
 ///   ***   ---   |||    In the name of ALLAH    |||   ---   ***   ///
 
 #include<bits/stdc++.h>
@@ -119,40 +69,8 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-bool isBalancedBrackets(string str){
-    stack<char>q;
-    for(int i = 0; i<str.size(); i++){
-        if(str[i] == '(' || str[i] == '{' || str[i] == '[')q.push(str[i]);
-        else{
-            if(q.empty())return 0;
-            else{
-                char c = q.top();
-                q.pop();
-                if((str[i] == ')' && c != '(' ) || (str[i] == '}' && c != '{') || (str[i] == ']' && c != '['))return 0;
-            }
-        }
-    }
-    if(q.empty())return 1;
-    else return 0;
-	
-}
-int firstUniqueCharacter(string str){
-    vector<int>v(26,0);
-    for(auto u:str){
-        v[u-'a']++;
-    }
-    char c = '1';
-    for(int i = 0; i<26; i++){
-        if(v[i] == 1)c = i+'a';
-    }
-    if(c=='1')return -1;
-    for(int i = 0; i<str.size(); i++){
-        if(c==str[i])return i+1;
-    }
-}
 void solve(){
-    string s; cin>>s;
-    cout<<firstUniqueCharacter(s)<<endl;
+    ll n;cin>>n;
 }
 
 int main()
@@ -166,5 +84,4 @@ int main()
         //cout<<"Case "<<tc<<": ";
         solve();
     }
->>>>>>> 63e708f (22/05/25)
 }

@@ -316,6 +316,7 @@
     "KMP String Search": {
         "prefix": "kmp_search",
         "body": [
+            "/*KMP String Search Algorithm to find occurrences of B in A.*/",
             "void genLPSArray(vi &lps, string &s, int m){",
             "    int len = 0, i = 1;",
             "    while(i < m){",
@@ -449,9 +450,6 @@
             "}"
         ],
         "description": "Floyd-Warshall Algorithm for All-Pairs Shortest Path"
-<<<<<<< HEAD
-    }
-=======
     },
     "nCr Function (Binomial Coefficient)": {
         "prefix": "nCr",
@@ -468,16 +466,157 @@
         "}"
         ],
         "description": "Calculates C(n, r) using an efficient iterative method"
-        },
-        "Calculate Number of Sub-squares Covering a Cell": {
-            "prefix": "cal_nssccell",
-            "body": [
-            "// number of sub-squares(KxK) that cover the cell(i,j)",
-            "ll cal_nssccell(ll i, ll j, ll k){",
-            "    return (min(i,n-k)-max(-1LL,i-k))*(min(j,m-k)-max(-1LL,j-k));",
-            "}"
-            ],
-            "description": "Returns number of k×k sub-squares covering cell (i, j) in an n×m grid"
-        }
->>>>>>> 63e708f (22/05/25)
+    },
+    "Calculate Number of Sub-squares Covering a Cell": {
+        "prefix": "cal_nssccell",
+        "body": [
+        "// number of sub-squares(KxK) that cover the cell(i,j)",
+        "ll cal_nssccell(ll i, ll j, ll k){",
+        "    return (min(i,n-k)-max(-1LL,i-k))*(min(j,m-k)-max(-1LL,j-k));",
+        "}"
+        ],
+        "description": "Returns number of k×k sub-squares covering cell (i, j) in an n×m grid"
+    },
+    "Cycle Detection in Undirected Graph (DFS)": {
+        "prefix": "isCycle",
+        "body": [
+        "//Call isCycle(source, -1)",
+        "bool isCycle(ll s, ll parent){",
+        "    vis[s] = 1;",
+        "    for(auto u : adj[s]){",
+        "        if(vis[u] == 1 && parent != u){",
+        "            return 1;",
+        "        }else if(vis[u] == 0){",
+        "            if(isCycle(u, s)) return 1;",
+        "        }",
+        "    }",
+        "    return 0;",
+        "}"
+        ],
+        "description": "Detects cycle in an undirected graph using DFS"
+    },
+    "Segment Tree (Range Sum)": {
+        "prefix": "segmenttree",
+        "body": [
+        "//Segment Tree",
+        "const int mx = 2e5+123;",
+        "ll t[mx*4], a[mx];",
+        "",
+        "void init ( int id, int b, int e ) {",
+        "    if ( b == e ) {",
+        "        t[id] = a[b];",
+        "        return;",
+        "    }",
+        "    int mid = ( b + e ) >> 1;",
+        "    init ( id*2, b, mid );",
+        "    init ( id*2+1, mid+1, e );",
+        "    t[id] = t[id*2] + t[id*2+1];",
+        "}",
+        "",
+        "void upd ( int id, int b, int e, int i, int val ) {",
+        "    if ( b > i || e < i ) return;",
+        "    if ( b == e && b == i ) {",
+        "        t[id] = val;",
+        "        return;",
+        "    }",
+        "    int mid = ( b + e ) >> 1;",
+        "    upd ( id*2, b, mid, i, val );",
+        "    upd ( id*2+1, mid+1, e, i, val );",
+        "    t[id] = t[id*2] + t[id*2+1];",
+        "}",
+        "",
+        "ll ask ( int id, int b, int e, int l, int r ) {",
+        "    if ( b > r || e < l ) return 0;",
+        "    if ( l <= b && e <= r ) return t[id];",
+        "    int mid = ( b + e ) >> 1;",
+        "    ll sumL = ask ( id*2, b, mid, l, r );",
+        "    ll sumR = ask ( id*2+1, mid+1, e, l, r );",
+        "    return sumL + sumR;",
+        "}"
+        ],
+        "description": "Segment Tree for range sum queries with point updates"
+    },
+    "Disjoint Set Union (DSU)": {
+        "prefix": "dsu",
+        "body": [
+        "/* To get number of different sets - count non-zero elements in siz or use set of leaders.",
+        "   Clear parent and siz if DSU is reused. */",
+        "",
+        "// Disjoint Set Union",
+        "ll parent[mxN]; // or use: map<ll,ll> parent;",
+        "ll siz[mxN];    // or use: map<ll,ll> siz;",
+        "",
+        "void make_set(ll v) {",
+        "    parent[v] = v;",
+        "    siz[v] = 1;",
+        "}",
+        "",
+        "ll find_set(ll v) {",
+        "    return (v == parent[v]) ? v : parent[v] = find_set(parent[v]);",
+        "}",
+        "",
+        "void union_sets(ll a, ll b) {",
+        "    a = find_set(a);",
+        "    b = find_set(b);",
+        "    if (a == b) return;",
+        "    if (siz[a] < siz[b]) swap(a, b);",
+        "    parent[b] = a;",
+        "    siz[a] += siz[b];",
+        "    siz[b] = 0; // siz.erase(b); if using map",
+        "}"
+        ],
+        "description": "Disjoint Set Union (Union-Find) with size and path compression"
+    },
+    "Longest Common Substring (actual string)": {
+        "prefix": "longestCommonSubstr",
+        "body": [
+        "/*ans is length of longest Common Sub-string and s is the Substring.*/",
+        "int dp[1005][1005];",
+        "string longestCommonSubstr(string& s1, string& s2) {",
+        "    memset(dp, 0, sizeof(dp));",
+        "    int ans = 0, x = 0, y = 0;",
+        "    for(int i = 1; i <= s1.size(); i++) {",
+        "        for(int j = 1; j <= s2.size(); j++) {",
+        "            if(s1[i - 1] == s2[j - 1]) {",
+        "                dp[i][j] = 1 + dp[i - 1][j - 1];",
+        "                if(dp[i][j] > ans) {",
+        "                    ans = dp[i][j];",
+        "                    x = i - 1;",
+        "                }",
+        "            }",
+        "        }",
+        "    }",
+        "    string s = \"\";",
+        "    while(ans > 0) {",
+        "        s += s1[x];",
+        "        x--;",
+        "        ans--;",
+        "    }",
+        "    reverse(s.begin(), s.end());",
+        "    return s;",
+        "}"
+        ],
+        "description": "Returns the actual Longest Common Substring between two strings"
+    },
+    "Longest Common Subsequence Function": {
+        "prefix": "longest_common_sub_sequence",
+        "body": [
+        "int dp[1000][1000];",
+        "string a, b;",
+        "int n, m;",
+        "int longest_common_sub_sequence(int i, int j) {", 
+        "    if (i >= n || j >= m) return 0;",
+        "    if (dp[i][j] != -1) return dp[i][j];",
+        "    int res;",
+        "    if (a[i] == b[j]) {",
+        "        res = longest_common_sub_sequence(i + 1, j + 1) + 1;",
+        "    } else {",
+        "        res = max(longest_common_sub_sequence(i, j + 1), longest_common_sub_sequence(i + 1, j));",
+        "    }",
+        "    return dp[i][j] = res;",
+        "}"
+        ],
+        "description": "Function to calculate the length of the longest common subsequence using recursion and memoization."
+    }
+
 }

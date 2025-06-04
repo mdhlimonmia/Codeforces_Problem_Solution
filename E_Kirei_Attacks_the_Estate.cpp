@@ -69,66 +69,42 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 2e5+123;
+ll n;
+vl v(mx);
 vl adj[mx];
 bool vis[mx];
-vl parent(mx);
-ll n, a, b;
-
-ll entryNode = -1;
-bool isCycle(ll s, ll par){
+vl ans(mx);
+void dfs(ll s, ll even, ll odd, ll k){
     vis[s] = 1;
+    if(k&1) ans[s] = max(v[s], v[s]+odd);
+    else ans[s] = max(v[s], v[s]+even);
+    // dbg(s, even, odd, par,  ans[s]);
     for(auto u:adj[s]){
-        if(vis[u] == 1 && par != u){
-            entryNode = u;
-            return 1;
-        }else if(u != par && vis[u] == 0) {
-            if(isCycle(u, s))return 1;
+        if(vis[u]!=1){
+            if(k&1)dfs(u, max(even - v[s], 0LL), odd+v[s], k+1);
+            else dfs(u, even+v[s], max(odd - v[s], 0LL), k+1);
         }
     }
-    return 0;
-}
-
-// ll cost = 0;
-ll dfs(int node){
-    vis[node] = 1;
-    ll cost = inf;
-    for(auto u:adj[node]){
-        if(u == entryNode){
-            return 1;
-        }
-        if(!vis[u]){
-            cost = min(dfs(u)+1, cost);
-        }
-    }
-    return cost;
+    return;
 }
 
 void solve(){
-    cin>>n>>a>>b;
-    for(int i = 0; i<n; i++){
-        ll u, v;
-        cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+    cin>>n;
+    for(int i = 1; i<=n; i++){
+        cin>>v[i];
+        adj[i].clear();
+        vis[i] = 0;
     }
-    if(a==b){
-        no;
-        return;
+    for(int i = 1; i<n; i++){
+        ll x, y;
+        cin>>x>>y;
+        adj[x].PB(y);
+        adj[y].PB(x);
     }
-    if(isCycle(b, -1)){
-        ll mar,val;
-        mem(vis, 0);
-        if(entryNode == a)mar = 0;
-        else mar = dfs(a);
-
-        mem(vis, 0);
-        if(entryNode == b)val = 0;
-        else val = dfs(b);
-
-        if(val<mar)yes;
-        else no;
-        // dbg(entryNode, mar, val);
-    }else no;
+    ans.clear();
+    dfs(1, 0, 0, 1);
+    for(int i = 1; i<=n; i++)cout<<ans[i]<<" ";
+    cout<<endl;
 }
 
 int main()
@@ -140,11 +116,6 @@ int main()
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
-        for(int i = 0; i<mx; i++){
-            adj[i].clear();
-            vis[i] = 0;
-            parent[i] = 0;
-        }
         solve();
     }
 }

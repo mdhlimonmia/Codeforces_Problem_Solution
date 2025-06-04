@@ -446,10 +446,7 @@ void union_sets(ll a, ll b) {
 }
 ll get_size(ll v){
     return siz[find_set(v)];
-<<<<<<< HEAD
-=======
 }
-
 
 ///////ncr => n!/(r! * (n-r)! )
 ll nCr(int n, int r) {
@@ -462,8 +459,64 @@ ll nCr(int n, int r) {
     }
     return res;
 }
-///// number of sub-squares(KxK) that cover the cell(i,j)
+
+// number of sub-squares(KxK) that cover the cell(i,j)
 ll cal_nssccell(ll i, ll j, ll k){
     return (min(i,n-k)-max(-1LL,i-k))*(min(j,m-k)-max(-1LL,j-k));
->>>>>>> 63e708f (22/05/25)
+}
+
+//Call isCycle(source, -1)
+bool isCycle(ll s, ll parent){
+    vis[s] = 1;
+    for(auto u : adj[s]){
+        if(vis[u] == 1 && parent != u){
+            return 1;
+        }else if(vis[u] == 0){
+            if(isCycle(u, s)) return 1;
+        }
+    }
+    return 0;
+}
+
+
+/////*ans is length of longest Common Sub-string and s is the Substring.*/
+int dp[1005][1005];
+string longestCommonSubstr(string& s1, string& s2) {
+    memset(dp, 0, sizeof(dp));
+    int ans = 0, x = 0, y = 0;
+    for(int i = 1; i <= s1.size(); i++) {
+        for(int j = 1; j <= s2.size(); j++) {
+            if(s1[i - 1] == s2[j - 1]) {
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+                if(dp[i][j] > ans) {
+                    ans = dp[i][j];
+                    x = i - 1;
+                }
+            }
+        }
+    }
+    string s = "";
+    while(ans > 0) {
+        s += s1[x];
+        x--;
+        ans--;
+    }
+    reverse(s.begin(), s.end());
+    return s;
+}
+
+///////////
+int dp[1000][1000];
+string a, b;
+int n, m;
+int longest_common_sub_sequence(int i, int j) {
+    if (i >= n || j >= m) return 0;
+    if (dp[i][j] != -1) return dp[i][j];
+    int res;
+    if (a[i] == b[j]) {
+        res = longest_common_sub_sequence(i + 1, j + 1) + 1;
+    } else {
+        res = max(longest_common_sub_sequence(i, j + 1), longest_common_sub_sequence(i + 1, j));
+    }
+    return dp[i][j] = res;
 }

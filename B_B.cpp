@@ -25,6 +25,9 @@ typedef double dl;
 #define sz(x) (int)x.size()
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
+#define POPCOUNT __builtin_popcountll /*number of set bit*/
+#define RIGHTMOST __builtin_ctzll
+#define LEFTMOST(x) (63-__builtin_clzll((x)))
 
 const double PI = acos(-1);
 const double eps = 1e-9;
@@ -52,6 +55,7 @@ template<typename T,typename...hello>void faltu(T arg,const hello&...rest){cerr<
 
 ll gcd ( ll a, ll b ) { return __gcd ( a, b ); }
 ll lcm ( ll a, ll b ) { return a * ( b / gcd ( a, b ) ); }
+ll getSetBit(ll x) {return __builtin_popcount(x);};
 
 int dx[] = { 0, 0, +1, -1, -1  +1, -1, +1 };
 int dy[] = { +1, -1, 0, 0, -1, +1, +1, -1 };
@@ -64,34 +68,36 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
+const int mx = 1e5+123;
 
-int const mx = 2e5+123;
-int n,m, ind = -1;
-ll sum = LLONG_MAX;
-vector<int>v(mx);
-void solve(int i, ll k){
-    if(i+m > n+1)return;
-    if(k == 0){
-        for(int j = 0; j<m; j++){
-            k +=v[i+j];
-        }
-    }else{
-        k+=v[i+m-1];
-        k -=v[i-1];
+void solve(){
+    ll n;cin>>n;
+    vi v(n);
+    for(auto &u:v)cin>>u;
+    // sort(all(v));
+    ll x = 0, t=0;
+    for(auto u:v){
+        x ^= u;
+        if(u == 0)t++;
+        // dbg(u, x);
     }
-
-    if(k<sum){
-        sum = k;
-        ind = i;
+    ll ans = 0;
+    for(auto u:v){
+        ans ^=(x^u);
     }
-    solve(i+1, k);
+    if(ans == 0)cout<<x<<endl;
+    else cout<<"-1\n";
 }
 
 int main()
 {
     optimize();
-    cin>>n>>m;
-    for(int i = 1; i<=n; i++)cin>>v[i];
-    solve(1,0);
-    cout<<ind<<endl;
+
+    int _ = 1;
+    cin>>_;
+    for (int tc = 1; tc<=_; tc++)
+    {
+        //cout<<"Case "<<tc<<": ";
+        solve();
+    }
 }

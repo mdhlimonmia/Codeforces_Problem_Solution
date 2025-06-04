@@ -25,6 +25,9 @@ typedef double dl;
 #define sz(x) (int)x.size()
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
+#define POPCOUNT __builtin_popcountll /*number of set bit*/
+#define RIGHTMOST __builtin_ctzll
+#define LEFTMOST(x) (63-__builtin_clzll((x)))
 
 const double PI = acos(-1);
 const double eps = 1e-9;
@@ -52,6 +55,7 @@ template<typename T,typename...hello>void faltu(T arg,const hello&...rest){cerr<
 
 ll gcd ( ll a, ll b ) { return __gcd ( a, b ); }
 ll lcm ( ll a, ll b ) { return a * ( b / gcd ( a, b ) ); }
+ll getSetBit(ll x) {return __builtin_popcount(x);};
 
 int dx[] = { 0, 0, +1, -1, -1  +1, -1, +1 };
 int dy[] = { +1, -1, 0, 0, -1, +1, +1, -1 };
@@ -67,8 +71,50 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    string s; cin>>s;
-    
+    ll n;cin>>n;
+    vl v(n);
+    for(auto &u:v)cin>>u;
+    sort(rall(v));
+    map<int,int>mp, mp2;
+    for(auto u:v){
+        mp[u]++;
+    }
+    mp2 = mp;
+    ll x = 0;
+    for(auto u:v){
+        if(u>0)x++;
+        else if(mp[-u]>0){
+            x--;
+            mp[-u]--;
+        }
+        cout<<x<<" ";
+    }
+    cout<<endl;
+    sort(all(v));
+    x = 0;
+    for(auto u:v){
+        if(u>0 && mp2[u]>0){
+            x++;
+            cout<<x<<" ";
+        }
+        else if(u<0){
+            if(mp2[-u]>0){
+                mp2[-u]--;
+                cout<<x+1<<" ";
+            }
+            cout<<x<<" ";
+        }
+    }
+    cout<<endl;
+    // for(int i = 0; i<n; i++){
+    //     if(v[i]<0)v[i]*=-1;
+    // }
+    // sort(all(v));
+    // dbg(v);
+    // for(int i = 0; i<n; i++){
+
+    // }
+
 }
 
 int main()
@@ -79,6 +125,7 @@ int main()
     cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
+        //cout<<"Case "<<tc<<": ";
         solve();
     }
 }

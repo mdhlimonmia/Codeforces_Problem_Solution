@@ -68,69 +68,91 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 2e5+123;
-vl adj[mx];
-bool vis[mx];
-vl parent(mx);
-ll n, a, b;
-
-ll entryNode = -1;
-bool isCycle(ll s, ll par){
-    vis[s] = 1;
-    for(auto u:adj[s]){
-        if(vis[u] == 1 && par != u){
-            entryNode = u;
-            return 1;
-        }else if(u != par && vis[u] == 0) {
-            if(isCycle(u, s))return 1;
-        }
-    }
-    return 0;
-}
-
-// ll cost = 0;
-ll dfs(int node){
-    vis[node] = 1;
-    ll cost = inf;
-    for(auto u:adj[node]){
-        if(u == entryNode){
-            return 1;
-        }
-        if(!vis[u]){
-            cost = min(dfs(u)+1, cost);
-        }
-    }
-    return cost;
-}
+const int mx = 1e5+123;
 
 void solve(){
-    cin>>n>>a>>b;
-    for(int i = 0; i<n; i++){
-        ll u, v;
-        cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+    ll n, k;cin>>n>>k;
+    string s;cin>>s;
+    if(k>(n/2)){
+        no;
+        return; 
     }
-    if(a==b){
+    ll a, b;
+    a = b = 0;
+    for(auto u:s){
+        if(u == '0')a++;
+        else b++;
+    }
+    int p = a, q = b;
+    // dbg(a,b);
+    if(a == 0) a++;
+    if(b == 0) b++;
+    a/=2;
+    b/=2;
+    if(a+b<k){
         no;
         return;
     }
-    if(isCycle(b, -1)){
-        ll mar,val;
-        mem(vis, 0);
-        if(entryNode == a)mar = 0;
-        else mar = dfs(a);
-
-        mem(vis, 0);
-        if(entryNode == b)val = 0;
-        else val = dfs(b);
-
-        if(val<mar)yes;
-        else no;
-        // dbg(entryNode, mar, val);
-    }else no;
+    if( a+b == k){
+        yes;
+        return;
+    }
+    if(q == 0 || p == 0){
+        no;
+        return;
+    }
+    ll x = a, y = b;
+    if(k%2 == 0 && n%2 != 0)k--;
+    while(x>0){
+        if(x+y == k){
+            yes;
+            return;
+        }
+        x--, y--;
+    }
+    x = a, y = b;
+    while (y>0)
+    {
+        if(x+y == k){
+            yes;
+            return;
+        }
+        y--, x--;
+    }
+    no;
 }
-
+void solve1(){
+     ll n, k;cin>>n>>k;
+    string s;cin>>s;
+    if(k>(n/2)){
+        no;
+        return; 
+    }
+    ll a, b;
+    a = b = 0;
+    for(auto u:s){
+        if(u == '0')a++;
+        else b++;
+    }
+    ll x = abs(a-b);
+    ll p = a/2, q = b/2;
+    if(k>p+q){
+        no;
+        return;
+    }
+    if(a/2 + b/2 == k){
+        yes;
+        return;
+    }
+    while(a>0 && b>0){
+        if(a/2 + b/2 == k){
+            yes;
+            return;
+        }
+        a--, b--;
+    }
+    no;
+}
 int main()
 {
     optimize();
@@ -140,11 +162,6 @@ int main()
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
-        for(int i = 0; i<mx; i++){
-            adj[i].clear();
-            vis[i] = 0;
-            parent[i] = 0;
-        }
-        solve();
+        solve1();
     }
 }
