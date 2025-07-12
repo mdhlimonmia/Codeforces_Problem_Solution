@@ -69,22 +69,46 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
-    }
-    return sum;
-}
+
 void solve(){
     ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
+    vl v(n), suf(n+2);
+    for(auto &u:v)cin>>u;
+    if(n==1)cout<<v[0]<<endl;
+    else if(n == 2)cout<<v[0]+min(v[0], v[1])<<endl;
     else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+        ll ans = infLL;
+        ans = min(v[0]*n, ans);
+        ans = min(v[0]+v[1]*(n-1), ans);
+        ans = min(v[0]+v[1], ans);
+        ans = min(ans, v[0]+min(v[0], v[1]+v[2]));
+        ans = min(ans, v[0]+v[2] + min(v[0]+v[2], v[1]));
+        cout<<ans<<endl;
     }
+    // for(int i = n-1; i>=0; i--){
+    //     suf[i] = max(suf[i+1], v[i]);
+    // }
+    // ll mn = infLL, ans = 0;
+    // for(int i = 0; i<n; i++){
+    //     if(mn<v[i]){
+    //         ans+=mn;
+    //         cout<<ans<<endl;
+    //         return;
+    //     }
+    //     mn = min(mn, v[i]);
+    //     ans += mn;
+    // }
+    // cout<<ans<<endl;
+
+    //ll ans = infLL, mn = v[0], tem = v[0];
+
+    // for(int i = 1; i<n; i++){
+    //     ans = min(ans, (v[0]+v[i]));
+    //     mn = min(mn, v[i]);
+    //     tem+=mn;
+    //     dbg(ans, mn, tem);
+    // }
+    // cout<<min(tem, ans)<<endl;
 }
 
 int main()

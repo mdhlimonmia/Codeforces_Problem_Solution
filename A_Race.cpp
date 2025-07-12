@@ -69,22 +69,18 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
-    }
-    return sum;
-}
+
 void solve(){
-    ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
-    else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+    ll a,x , y;cin>>a>>x>>y;
+    // if(x>y)swap(x,y);
+    for(int i = 0; i<110; i++){
+        if(a != i &&  abs(x-a)>abs(x-i) && abs(y-a)>abs(y-i) ){
+            yes;
+            return;
+        }
     }
+    no;
+    // dbg(a, x, y);
 }
 
 int main()

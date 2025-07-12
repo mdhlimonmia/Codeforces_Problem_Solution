@@ -69,22 +69,69 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
-    }
-    return sum;
-}
+
 void solve(){
     ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
+    vi v(n);
+    for(auto &u:v)cin>>u;
+    if(n==1)no;
     else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+        for(int i = 0; i<n-1; i++){
+            if(v[i]>v[i+1]){
+                yes;
+                cout<<2<<endl;
+                cout<<v[i]<<" "<<v[i+1]<<endl;
+                return;
+            }
+        }
+        no;
     }
+    // else if(n==2){
+    //     if(v[0]>v[1]){
+    //         yes;
+    //         cout<<n<<endl;
+
+    //     }
+    // }
+    // if(n==3){
+    //     if(v[0] !=1 && v[1] != 2 && v[2] != 3){
+    //         yes;
+    //         cout<<n<<endl;
+    //         for(auto u:v)cout<<u<<" ";
+    //         cout<<endl;
+    //     }else no;
+    //     return;
+    // }
+    // for(int i = 0; i<n; i++){
+    //     for(int j = i+1; j<n; j++){
+    //         for(int k = j+1; k<n; k++){
+    //             for(int l = k+1; l<n; l++){
+    //                 vi tem, tem2;
+    //                 tem.push_back(v[i]);
+    //                 tem.push_back(v[j]);
+    //                 tem.push_back(v[k]);
+    //                 tem.push_back(v[l]);
+    //                 tem2 = tem;
+    //                 sort(all(tem2));
+    //                 bool f = 1;
+    //                 for(int i = 0; i<4; i++){
+    //                     if(tem[i]==tem2[i]){
+    //                         f = 0;
+    //                         break;
+    //                     }
+    //                 }
+    //                 if(f){
+    //                     yes;
+    //                     cout<<4<<endl;
+    //                     for(auto u:tem)cout<<u<<" ";
+    //                     cout<<endl;
+    //                     return;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+    // no;
 }
 
 int main()

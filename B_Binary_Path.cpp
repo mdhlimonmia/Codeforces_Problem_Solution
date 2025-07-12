@@ -69,22 +69,49 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
-    }
-    return sum;
-}
+
 void solve(){
     ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
-    else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+    string a, b;
+    cin>>a>>b;
+    string ans = "";
+    ans += a[0];
+    bool f = 1;
+    for(int i = 1; i<n; i++){
+        if(f){
+            if(a[i] == '0'){
+                ans += '0';
+            }else if(b[i-1] == '0'){
+                ans += '0';
+                f = 0;
+                i--;
+            }else ans+='1';
+        }else ans += b[i];
+        // dbg(f, i, ans);
     }
+    if(f == 1)ans += b[n-1];
+    
+    ll t = 0;
+    string tem = ans, a1 = a, b1 = b;
+    reverse(all(tem));
+    reverse(all(b1));
+    reverse(all(a1));
+    // dbg(tem, b1);
+    string x = "", y = "";
+    for(int i = 0; i<n; i++){
+        char c = tem.back();
+        tem.pop_back();
+        if(b1==tem && x == y)t++;
+        // dbg(t, tem, b1+a[i]);
+        // dbg(x, y, a1);
+        x += c;
+        y += a1.back();
+
+        b1.pop_back();
+        a1.pop_back();
+    }
+    cout<<ans<<endl;
+    cout<<t<<endl;
 }
 
 int main()

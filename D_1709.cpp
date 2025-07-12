@@ -69,21 +69,115 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
-    }
-    return sum;
-}
+
 void solve(){
     ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
-    else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+    vi a(n), b(n);
+    for(auto &u:a)cin>>u;
+    for(auto &u:b)cin>>u;
+    if(n == 1){
+        if(a[0] == 1)cout<<0<<endl;
+        else{
+            cout<<1<<endl;
+            cout<<3 <<" "<<1<<endl;
+        }
+        return;
+    }
+    vector<pll>ans;
+    ll x = 0;
+    for(int i = 1; i<=n+n; i+=2){
+            x++;
+            // dbg(x);
+            bool f = 0;
+            if(a[x-1] == i)continue;
+            // dbg(x);
+            for(int j = n; j>x; j--){
+                if(a[j-1] == i){
+                    swap(a[j-1], a[j-2]);
+                    ans.push_back({1, j-1});
+                    f = 1;
+                }
+            }
+            // dbg(x);
+            if(f)continue;
+            for(int j = n; j>x; j--){
+                if(b[j-1] == i){
+                    swap(b[j-1], b[j-2]);
+                    ans.push_back({2, j-1});
+                    f = 1;
+                }
+            }
+            if(f){
+                swap(a[x-1], b[x-1]);
+                ans.push_back({3, x});
+                continue;
+            }
+            // dbg(x);
+            for(int j = 1; j<x; j++){
+                // dbg(b[j-1]);
+                if(b[j-1] == i){
+                    swap(b[j-1], b[j]);
+                    ans.push_back({2, j});
+                    f = 1;
+                }
+            }
+            // if(f){
+                swap(a[x-1], b[x-1]);
+                ans.push_back({3, x});
+                continue;
+            // }
+            // dbg(a, b);
+            // dbg(b);
+        }
+        // dbg(a, b);
+    x = 0;
+    for(int i = 2; i<=n+n; i+=2){
+            x++;
+            if(b[x-1] == i){
+                continue;
+            }
+            bool f = 0;
+            for(int j = n; j>x; j--){
+                if(b[j-1] == i){
+                    swap(b[j-1], b[j-2]);
+                    ans.push_back({2, j-1});
+                    f = 1;
+                }
+            }
+            if(f){
+                continue;
+            }
+            for(int j = n; j>x; j--){
+                if(a[j-1] == i){
+                    swap(a[j-1], a[j-2]);
+                    ans.push_back({1, j-1});
+                    f = 1;
+                }
+            }
+            if(f){
+                swap(a[x-1], b[x-1]);
+                ans.push_back({3, x});
+                continue;
+            }
+            for(int j = 1; j<x; j++){
+                if(a[j-1] == i){
+                    swap(a[j-1], a[j]);
+                    ans.push_back({1, j});
+                    f = 1;
+                }
+            }
+            // if(f){
+                swap(a[x-1], b[x-1]);
+                ans.push_back({3, x});
+                continue;
+            // }
+    }
+
+    // dbg(a);
+    // dbg(b);
+    cout<<ans.size()<<endl;
+    for(auto u:ans){
+        cout<<u.F<<" "<< u.S<<endl;
     }
 }
 

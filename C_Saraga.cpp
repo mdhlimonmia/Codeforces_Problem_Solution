@@ -69,21 +69,32 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
-    }
-    return sum;
-}
+
 void solve(){
-    ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
+    string a, b; cin>>a>>b;
+    int n = a.size(), m = b.size();
+    ll x, y, l = infLL;
+    vi pos(26, -1);
+    for(int i = m-2; i>=0; i--){
+        ll c = b[i] - 'a';
+        pos[c] = max(pos[c], i);
+    }
+    for(int i = 1; i<n; i++){
+        int c = a[i] - 'a';
+        if(pos[c] != -1){
+            ll tem = i+m-pos[c];
+            if(l>tem){
+                l = tem;
+                x = i, y = pos[c];
+            }
+        }
+    }
+    // dbg(x,y, l);
+    if(l == infLL)cout<<"-1\n";
     else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+        string s;
+        s = a.substr(0, x) + b.substr(y, m-y);
+        cout<<s<<endl;
     }
 }
 
@@ -92,7 +103,7 @@ int main()
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

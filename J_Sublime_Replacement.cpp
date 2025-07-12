@@ -68,23 +68,37 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
-    }
-    return sum;
-}
+
+const ll mx = 1e9;
+
 void solve(){
     ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
-    else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+    vl v(n+2);
+    for(int i = 1; i<=n; i++)cin>>v[i];
+    ll ans = 0, k = 0, tem = 0;
+    for(int i = 1; i<=n; i++){
+        if(v[i] == -1){
+            while(i<=n && v[i] == -1){
+                i++;
+                k++;
+            }
+            ll tem1 = tem + (1LL * mx*k);
+            ans = max(ans, tem1);
+            // dbg(i, ans, k, tem);
+            if(i<=n && v[i]>=v[i-k-1])tem += (1LL * k *v[i]) + v[i];
+            else tem = v[i] + v[i]*k;
+            k = 0;
+            // dbg(i, tem);
+        }
+        else if(v[i]>=v[i-1]){
+            tem+=v[i];
+        }else{
+            ans = max(tem, ans);
+            tem = v[i];
+        }
     }
+    ans = max(tem, ans);
+    cout<<ans<<endl;
 }
 
 int main()

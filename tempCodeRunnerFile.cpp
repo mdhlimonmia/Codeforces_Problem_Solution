@@ -1,13 +1,3 @@
-<<<<<<< HEAD
- // for(int i = 2; i<10; i++){
-    //     int x = 0;
-    //     for(int j = 1; j<n; j++){
-    //         x*=10;
-    //         x+=i;
-    //         dbg(x, dl(x/.0));
-    //     }
-    // }
-=======
 ///   ***   ---   |||    In the name of ALLAH    |||   ---   ***   ///
 
 #include<bits/stdc++.h>
@@ -81,17 +71,28 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n,m,k;cin>>n>>m>>k;
-    ll d = k/n;
-    d += k - (d*n);
-    ll ans = d, l = 1, r = d;
-    while(l<=r){
-        ll mid = (l+r)>>1;
-        ll tem = ceil((d*1.0)/mid);
-        if(mid+d-1<=m){
-            ans = tem;
-            l = mid+1;
-        }else r = mid-1;
+    ll k, a, b, x, y;cin>>k>>a>>b>>x>>y;
+    ll ans = 0;
+    if((x<y || (x==y && a<b)) && k>=a && k>=x){
+        ll p = k-a;
+        ll t = p/x;
+        ans+=t;
+        k -= t*x;
+        while(k>=a && k>=x){
+            ans++;
+            k-=x;
+        }
+    }
+    dbg(ans, k);
+    if(k>=b && k>=y){
+        ll p = k-b;
+        ll t = p/y;
+        ans+=t;
+        k -= t*y;
+        while(k>=b && k>=y){
+            ans++;
+            k-=y;
+        }
     }
     cout<<ans<<endl;
 }
@@ -108,4 +109,3 @@ int main()
         solve();
     }
 }
->>>>>>> 63e708f (22/05/25)

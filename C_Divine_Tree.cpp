@@ -69,21 +69,48 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
-    }
-    return sum;
-}
+
 void solve(){
-    ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
+    ll n, m;cin>>n>>m;
+    ll k = (1LL*n*(n+1))/2;
+    if(m<n || m>k){
+        cout<<"-1\n";
+        return;
+    }
+    if(m<n+n){
+        ll r = m%n+1;
+        cout<<r<<endl;
+        cout<<r<<" "<<1<<endl;
+        if(r!=n) cout<<r-1<<" "<<r+1<<endl;
+        for(int i = 1; i<n; i++){
+            if(i!=r && i+1 != r)cout<<i<<" "<<i+1<<endl;
+        }
+    }else if(m == k){
+        cout<<n<<endl;
+        // cout<<n<<" "<<1<<endl;
+        for(int i = n; i>1; i--)cout<<i<<" "<<i-1<<endl;
+    }
     else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+        cout<<n<<endl;
+        ll p = k-m+1 ;
+        // cout<<n<<" "<<p<<endl;
+        // cout<<p<<" "<<1<<endl;
+        // if(p<n-1)cout<<p-1<<" "<<p+1<<endl;
+        // // dbg(p);
+        // for(int i = 1; i<n-2; i++){
+        //     if(i!=p && i+1 != p)cout<<i<<" "<<i+1<<endl;
+        // }
+        // dbg(p);
+        // for(int i = n; i>p+1; i--)cout<<i<<" "<<i-1<<endl;
+        // cout<<p+1<<" "<<1<<endl;
+        // for(int i = 1; i<p; i++)cout<<i<<" "<<i+1<<endl;
+        ll tem = k-n;
+        ll r = tem%(n-1)+1;
+        cout<<n<<" "<<r<<endl;
+        if(r!=n-1) cout<<r-1<<" "<<r+1<<endl;
+        for(int i = 1; i<n-1; i++){
+            if(i!=r && i+1 != r)cout<<i<<" "<<i+1<<endl;
+        }
     }
 }
 

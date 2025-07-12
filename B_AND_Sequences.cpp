@@ -68,23 +68,30 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
-    }
-    return sum;
+const int mx = 1e9+7;
+
+ll fac(ll n){
+    ll ans = 1;
+    for(ll i = 1; i<=n; i++) ans = (1LL * i * ans)%mx;
+    return ans; 
 }
+
 void solve(){
     ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
-    else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+    vl v(n);
+    for(auto &u:v)cin>>u;
+    sort(all(v));
+    ll cnt = 0;
+    for(auto u:v){
+        if(u == v[0])cnt++;
+        if((u&v[0]) != v[0]){
+            cout<<"0\n";
+            return;
+        }
     }
+    ll ans = (1LL * cnt * (cnt -1))%mx;
+    ans = (1LL * ans * fac(n-2))%mx;
+    cout<<ans<<endl;
 }
 
 int main()

@@ -69,22 +69,41 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
-    }
-    return sum;
-}
+
 void solve(){
-    ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
-    else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+    ll n, q;cin>>n>>q;
+    string s; cin>>s;
+    vi suf0(n), suf1(n), pre0(n), pre1(n);
+    for(int i = 0; i<n; i++){
+        if(i==0){
+            pre0[i] = (s[i] == '0');
+            pre1[i] = (s[i] == '1');
+        }else{
+            pre0[i] = pre0[i-1]+(s[i] == '0');
+            pre1[i] = pre1[i-1]+(s[i] == '1');
+        }
     }
+    for(int i = n-1; i>=0; i--){
+        if(i == n-1){
+            suf0[i] = (s[i] == '0');
+            suf1[i] = (s[i] == '1');
+        }else{
+            suf0[i] = suf0[i+1]+(s[i] == '0');
+            suf1[i] = suf1[i+1]+(s[i] == '1');
+        }
+    }
+    while (q--)
+    {
+        ll x, y;
+        cin>>x>>y;
+        x--, y--;
+        if(s[x] == '0' && suf0[x]<suf0[0])yes;
+        else if(s[x] == '1' && suf1[x]<suf1[0])yes;
+        else if(s[y] == '0' && pre0[y]<pre0[n-1])yes;
+        else if(s[y] == '1' && pre1[y]<pre1[n-1])yes;
+        else no;
+    }
+    
 }
 
 int main()

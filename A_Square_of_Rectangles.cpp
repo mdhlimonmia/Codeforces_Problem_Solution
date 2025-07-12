@@ -69,22 +69,20 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
-    }
-    return sum;
-}
+
 void solve(){
-    ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
-    else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+    vector<pair<int,pii>>v(3);
+    for(int i = 0; i<3; i++){
+        cin>>v[i].S.F>>v[i].S.S;
+        v[i].F = v[i].S.F+v[i].S.S;
     }
+    sort(rall(v));
+    if(v[0].S.F+v[1].S.F + v[2].S.F == v[0].S.S && v[0].S.S==v[1].S.S && v[1].S.S  == v[2].S.S)yes;
+    else  if(v[0].S.S+v[1].S.S + v[2].S.S == v[0].S.F && v[0].S.F==v[1].S.F && v[1].S.F  == v[2].S.F)yes;
+    else if(v[0].S.F == v[1].S.F + v[2].S.F && v[0].S.F == v[0].S.S + v[1].S.S && v[1].S.S == v[2].S.S)yes;
+    else if(v[0].S.S == v[1].S.S + v[2].S.S && v[0].S.S == v[0].S.F + v[1].S.F && v[1].S.F == v[2].S.F)yes;
+    else no;
+    // dbg(v);
 }
 
 int main()

@@ -68,23 +68,46 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
-    }
-    return sum;
-}
+const int mx = 1e9;
 void solve(){
-    ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
-    else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+    ll n, m;cin>>n>>m;
+    vector<pair<int,int>>adj[n+1];
+    vector<pair<int,pii>>tem;
+    int u, v, w;
+    for(int i = 0; i<m; i++){
+        cin>>u>>v>>w;
+        adj[u].push_back({v, w});
+        adj[v].push_back({u, w});
+        tem.push_back({u, {v, w}});
     }
+    vi ans(n+1, mx);
+    for(int i = 1; i<=n; i++){
+        for(auto u:adj[i]){
+            ans[i] = min(ans[i], u.S);
+        }
+    }
+
+    // for(int i = 1; i<=n; i++){
+    //     int k = ans[i];
+    //     for(auto u:adj[i]){
+    //         k = max(k, ans[u.F]);
+    //     }
+    //     if(ans[i]!=k){
+    //         cout<<"-1\n";
+    //         return;
+    //     }
+    // }
+    // dbg(ans);
+    for(auto u:tem){
+        int x = u.F , y = u.S.F;
+        // dbg(x, y);
+        if(max(ans[x], ans[y]) != u.S.S){
+            cout<<"-1\n";
+            return;
+        }
+    }
+    for(int i = 1; i<=n; i++)cout<<ans[i]<<" ";
+    cout<<endl;
 }
 
 int main()

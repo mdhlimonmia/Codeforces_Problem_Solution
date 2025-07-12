@@ -69,22 +69,56 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
-ll sum_of_Digit(ll x) {
-    ll sum = 0;
-    while (x) {
-        sum += (x % 10);
-        x /= 10;
+int h, m, hh, mm;
+string digit1 = "01258", digit2 = "01528";
+bool check(int a, int tem){
+    int x = -1, y = -1;
+    string p = to_string(a);
+    if(a<10)p = '0'+p;
+    for(int i = 0; i<5; i++){
+        if(p[0] == digit1[i]){
+            x = i;
+        }
+        if(p[1] == digit1[i]){
+            y = i;
+        }
     }
-    return sum;
+    if(x  != -1 && y != -1){
+        int q = (digit2[y]-'0')*10 + (digit2[x]-'0');
+        if(q<tem)return 1;
+    }
+    return 0;
+
+}
+void print(int ah, int am){
+    string p = to_string(ah), q = to_string(am);
+    if(ah<10){
+        p = '0'+p;
+    }
+    if(am<10){
+        q = '0'+q;
+    }
+    p+=':'+q;
+    cout<<p<<endl;
 }
 void solve(){
-    ll n;cin>>n;
-    if(n%2 == 0)cout<<n/2<<" "<<n/2<<endl;
-    else{
-        int x = n/2, y = n/2 +1;
-        while(abs(sum_of_Digit(x) - sum_of_Digit(y))>1)x++, y--;
-        cout<<x<<' '<<y<<endl;
+    cin>>h>>m;
+    string s;cin>>s;
+    hh = (s[0]-'0')*10 + s[1]-'0';
+    mm = (s[3]-'0')*10 + s[4]-'0';
+    int ah = hh, am = mm;
+    while(ah<h){
+        if(check(ah, m) && check(am, h)){
+            print(ah, am);
+            return;
+        }
+        am++;
+        if(am>=m){
+            ah++;
+            am = 0;
+        }
     }
+    print(0,0);
 }
 
 int main()
