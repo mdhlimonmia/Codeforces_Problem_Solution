@@ -69,8 +69,23 @@ inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
 const int mx = 1e5+123;
+
 void solve(){
-    ll n;cin>>n;
+    ll n, m; cin>>n>>m;
+    string s[n];
+    for(int i = 0;i<n; i++)cin>>s[i];
+    int x, y; cin>>x>>y;
+    x--, y--;
+    for(int i = 0; i<8; i++){
+        int x1 = x+dx[i], y1 = y + dy[i];
+        if(x1>=0 && y1 >= 0 && x1<n && y1<m && s[x1][y1] == '.'){
+            no;
+            // dbg(x1, y1);
+            return;
+        }
+    }
+    yes;
+    
 }
 
 int main()
@@ -78,7 +93,7 @@ int main()
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

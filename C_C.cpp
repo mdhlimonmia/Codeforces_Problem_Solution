@@ -71,26 +71,35 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n;cin>>n;
+    ll l, n;cin>>n>>l;
     vl v(n);
-    for(auto &u:v)cin>>u;
-    int x = 0, y = 0;
     for(int i = 0; i<n; i++){
-        if(x==y){
-            if(v[i]<v[x]){
-                x = i;
-                y = i;
-            }else{
-                y = i;
-            }
-        }
-        else if(v[i]<v[y]){
-            yes;
-            cout<<x+1<<" "<<y+1<<" "<<i+1<<endl;
-            return;
-        }else if(v[i]>v[y]) y = i;
+        cin>>v[i];
     }
-    no;
+    sort(all(v));
+    ll ans = 0, x = 0;
+    for(int i = 1; i<n; i++){
+        if(v[i]-v[x]<l){
+            while(i<n && v[i]-v[x]<l){
+                ans++;
+                i++;
+            }
+            x = i;
+            // dbg(x);
+        }else x = i;
+    }
+    ll ans1 = 0, x1 = n-1;
+    for(int i = n-2; i>=0; i--){
+        if(v[x1]-v[i]<l){
+            while(i>=0 && v[x1]-v[i]<l){
+                ans1++;
+                i--;
+            }
+            x1 = i;
+            // dbg(x);
+        }else x1 = i;
+    }
+    cout<<min(ans, ans1)<<endl;
 }
 
 int main()
@@ -98,7 +107,7 @@ int main()
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

@@ -2,50 +2,53 @@
 using namespace std;
 #define endl '\n'
 #define Limon() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-#define lli long long int
+#define ll long long int
 
-int const mx = 1e6+123;
-vector<char>isPrime(mx+1, false);
-vector<int>primes;
-void primeGen(int n){
-    for(int i = 2; i*i<=n; i++){
-        if(!isPrime[i]){
-            for(int j = i*i; j<=n; j+=i)isPrime[j] = true;
+const int mx = 1e6+123;
+bitset<mx> isPrime;
+vector<int> primes;
+vector<ll>ans(mx);
+bool have0(int n){
+    bool f = 1;
+    ll x = 0, y = 1;
+    while(n>0){
+        x+=(y*(n%10));
+        if((isPrime[x] == 0) || n%10 == 0)f = 0;
+        y*=10;
+        n/=10;
+    }
+    // cout<<x<<" "<<n<<endl;
+    return f;
+}
+void primeGen(int n) {
+    for (int i = 3; i <= n; i += 2) isPrime[i] = 1;
+
+    int sq = sqrt(n);
+    for (int i = 3; i <= sq; i += 2) {
+        if (isPrime[i]) {
+            for (int j = i * i; j <= n; j += i) {
+                isPrime[j] = 0;
+            }
         }
     }
-    primes.push_back(2);
-    for(int i = 3; i<=n; i+=2){
-        if(!isPrime[i]){
-            int k = i;
-            bool t = true;
-            while(k>1){
-                // cout<<k<<endl;
-                if(k%10==0){
-                    t = false;
-                    break;
-                }
-                k/=10;
-            }
-            if(t)primes.push_back(i);
-        }
+
+    isPrime[2] = 1;
+    for (int i = 1; i <= n; i++) {
+        ans[i] = ans[i-1];
+        if(isPrime[i] == 1 && have0(i)==1)ans[i]++;
     }
 }
+
 void solve(){
     int n;cin>>n;
-    int ans = 0;
-    for(auto p:primes){
-        if(p>n)break;
-        // cout<<p<<" ";
-        ans++;
-    }
-    cout<<ans<<endl;
+    //ll ans = lower_bound(primes.begin(), primes.end(), n+1) - primes.begin();
+    cout<<ans[n]<<endl;
 }
 
 int main()
 {
     Limon();
-    int lim = 1e6;
-    primeGen(lim);
+    primeGen(mx);
     int _;cin>>_;
     while (_--)
     {

@@ -71,22 +71,9 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n;cin>>n;
-    vi v(n);
-    for(auto &u:v)cin>>u;
-    // sort(all(v));
-    ll x = 0, t=0;
-    for(auto u:v){
-        x ^= u;
-        if(u == 0)t++;
-        // dbg(u, x);
-    }
-    ll ans = 0;
-    for(auto u:v){
-        ans ^=(x^u);
-    }
-    if(ans == 0)cout<<x<<endl;
-    else cout<<"-1\n";
+    ll n,k,s;cin>>n>>k>>s;
+    ll sum = (((n*2)*(n*2 + 1))/2 - n)/2;
+    cout<<(s - sum)/(k-1)<<endl;
 }
 
 int main()

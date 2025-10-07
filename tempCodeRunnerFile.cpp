@@ -71,30 +71,11 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll k, a, b, x, y;cin>>k>>a>>b>>x>>y;
-    ll ans = 0;
-    if((x<y || (x==y && a<b)) && k>=a && k>=x){
-        ll p = k-a;
-        ll t = p/x;
-        ans+=t;
-        k -= t*x;
-        while(k>=a && k>=x){
-            ans++;
-            k-=x;
-        }
-    }
-    dbg(ans, k);
-    if(k>=b && k>=y){
-        ll p = k-b;
-        ll t = p/y;
-        ans+=t;
-        k -= t*y;
-        while(k>=b && k>=y){
-            ans++;
-            k-=y;
-        }
-    }
-    cout<<ans<<endl;
+    ll n,m;cin>>n>>m;
+    if(n<m)cout<<2<<endl;
+    else if(n==m || m == 1)cout<<"-1\n";
+    else if(n/2 >= m && (n/2 >1))cout<<"3\n";
+    else cout<<"-1\n";
 }
 
 int main()

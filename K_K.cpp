@@ -4,6 +4,7 @@
 using namespace std;
 
 typedef long long ll;
+typedef unsigned long long ull;
 typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<vi> vvi;
@@ -24,6 +25,9 @@ typedef double dl;
 #define sz(x) (int)x.size()
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
+#define POPCOUNT __builtin_popcountll /*number of set bit*/
+#define RIGHTMOST __builtin_ctzll
+#define LEFTMOST(x) (63-__builtin_clzll((x)))
 
 const double PI = acos(-1);
 const double eps = 1e-9;
@@ -51,6 +55,7 @@ template<typename T,typename...hello>void faltu(T arg,const hello&...rest){cerr<
 
 ll gcd ( ll a, ll b ) { return __gcd ( a, b ); }
 ll lcm ( ll a, ll b ) { return a * ( b / gcd ( a, b ) ); }
+ll getSetBit(ll x) {return __builtin_popcount(x);};
 
 int dx[] = { 0, 0, +1, -1, -1  +1, -1, +1 };
 int dy[] = { +1, -1, 0, 0, -1, +1, +1, -1 };
@@ -67,25 +72,20 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vl v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    ll ans = 0, i = 0, mx = 0;
-    while(i<n){
-        map<int,int>m;
-        m[mx]++;
-        int j;
-        for(j = i; j<n; j++){
-            mx = max(mx,v[j]);
-            if(m[v[j]]>0){
-                break;
-            }
-            m[v[j]]++;
-        }
-        i = j;
-        ans++;
+    string s;cin>>s;
+    ll x = 0, y = 0;
+    for(int i = 0; i<n; i++){
+        if(s[i] == '1')x++;
+        else y++;
     }
-    cout<<ans<<endl;
-
+    // if(x == 0 || y == 0 || (x%2 == 0 && y%2 == 0))cout<<"Bob\n";
+    // else cout<<"Alice\n";
+    if(n == 2){
+        if(s == "10" || s == "01")cout<<"Alice\n";
+        else cout<<"Bob\n";
+    }
+    else if(x != 0 && y != 0 && (x==1 || y==1 || n%2 != 0))cout<<"Alice\n";
+    else cout<<"Bob\n";
 }
 
 int main()
@@ -96,6 +96,7 @@ int main()
     cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
+        //cout<<"Case "<<tc<<": ";
         solve();
     }
 }

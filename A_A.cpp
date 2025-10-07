@@ -71,50 +71,9 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n;cin>>n;
-    vl v(n);
-    for(auto &u:v)cin>>u;
-    sort(rall(v));
-    map<int,int>mp, mp2;
-    for(auto u:v){
-        mp[u]++;
-    }
-    mp2 = mp;
-    ll x = 0;
-    for(auto u:v){
-        if(u>0)x++;
-        else if(mp[-u]>0){
-            x--;
-            mp[-u]--;
-        }
-        cout<<x<<" ";
-    }
-    cout<<endl;
-    sort(all(v));
-    x = 0;
-    for(auto u:v){
-        if(u>0 && mp2[u]>0){
-            x++;
-            cout<<x<<" ";
-        }
-        else if(u<0){
-            if(mp2[-u]>0){
-                mp2[-u]--;
-                cout<<x+1<<" ";
-            }
-            cout<<x<<" ";
-        }
-    }
-    cout<<endl;
-    // for(int i = 0; i<n; i++){
-    //     if(v[i]<0)v[i]*=-1;
-    // }
-    // sort(all(v));
-    // dbg(v);
-    // for(int i = 0; i<n; i++){
-
-    // }
-
+    ll w,h;cin>>w>>h;
+    if(w>=60 && h<=130)yes;
+    else no;
 }
 
 int main()
@@ -122,7 +81,7 @@ int main()
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

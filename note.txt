@@ -73,3 +73,8 @@ Euler’s Totient Function is used to count the number of integers less than or 
 21. Any even number will be one if( num = |num - 2^x| ) where x = 29 to 0
     And every odd number will be zero if (num = |num - 2^x|) where x = 29 to 0;
         https://codeforces.com/problemset/problem/1991/C
+
+22. insert() vs emplace(): In set<int>, both work similarly, but for custom or complex types (like classes or pairs), 
+   emplace() can be significantly faster.
+
+23. a = x + (x %(k+1))*k here a must be devided by k+1 that means a%(k+1) == 0 (Number Theory) 

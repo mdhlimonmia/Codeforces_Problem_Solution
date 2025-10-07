@@ -375,52 +375,70 @@ void solve() {
 }
 
 ////////////////Segment tree
-
-const int mx = 2e5+123;
-ll t[mx*4], a[mx];
- 
-void init ( int id, int b, int e )
-{
-    if ( b == e ) {
-        t[id] = a[b];
-        return;
+class SGT{
+    //*** must update the marge section
+    ll marge(ll left, ll right){
+        ll ans;
+        ans = min(left,right);
+        return ans;
     }
- 
-    int mid = ( b + e ) >> 1;
-    init ( id*2, b, mid );
-    init ( id*2+1, mid+1, e );
- 
-    t[id] = t[id*2] + t[id*2+1];
-}
- 
-void upd ( int id, int b, int e, int i, int val )
-{
-    if ( b > i || e < i ) return;
-    if ( b == e && b == i ) {
-        t[id] = val;
-        return;
+    //*** Must update lazy lection
+    void upLazy(ll id, ll b, ll e){
+        tree[id] += lazy[id];
+        if(b!=e){
+            lazy[id*2]+=lazy[id];
+            lazy[id*2+1]+=lazy[id];
+        }
+        lazy[id] = 0;
     }
- 
-    int mid = ( b + e ) >> 1;
-    upd ( id*2, b, mid, i, val );
-    upd ( id*2+1, mid+1, e, i, val );
- 
-    t[id] = t[id*2] + t[id*2+1];
-}
- 
-ll ask ( int id, int b, int e, int l, int r )
-{
-    if ( b > r || e < l ) return 0;
-    if ( l <= b && e <= r ) {
-        return t[id];
-    }
- 
-    int mid = ( b + e ) >> 1;
-    ll sumL = ask ( id*2, b, mid, l, r );
-    ll sumR = ask ( id*2+1, mid+1, e, l, r );
- 
-    return sumL + sumR;
-}
+    public:
+        vl tree, lazy;
+        //***must update this section
+        SGT(ll n){
+            tree.resize(n*4);// resize segment tree;
+            lazy.resize(n*4);//resize lazy tree;
+        }
+        //build segment tree
+        void build(ll id, ll b, ll e, ll arr[]){
+            if(b == e){
+                tree[id] = arr[b];
+                return;
+            }
+            ll mid = (b+e)>>1, l = id<<1, r = l|1;
+            build(l, b, mid, arr);
+            build(r, mid+1, e, arr);
+            tree[id] = marge(tree[l], tree[r]);
+        }
+        //update segment tree
+        void update(ll id, ll b, ll e, ll x, ll y, ll v){
+            //*** if have lazy tree
+            if(lazy[id] != 0){
+                upLazy(id, b, e);
+            }
+            if(x>e || y<b)return;
+            if(b>=x && e<=y){
+                lazy[id] = v;
+                upLazy(id, b, e); //*** If lazy tree
+                return;
+            }
+            ll mid = (b+e)>>1, l = id<<1, r = l|1;
+            update(l, b, mid, x, y, v);
+            update(r, mid+1, e, x, y, v);
+            tree[id] = marge(tree[l], tree[r]);
+        }
+        //quary section
+        ll ask(ll id, ll b, ll e, ll x, ll y){
+            if(lazy[id] != 0) upLazy(id, b, e); // *** if have lazy tree otherwise remove it
+            if(x>e || y<b)return infLL; //*** Must update return value
+            if(b>=x && e<=y){
+                return tree[id];
+            }
+            ll mid = (b+e)>>1, l = id<<1, r = l|1;
+            ll left = ask(l, b, mid, x, y);
+            ll right = ask(r, mid+1, e, x, y);
+            return marge(left, right);
+        }
+};
 ////////////
 /*to get number of different sets - count 1 in siz or siz.size()
 //clear parent and siz after DSU is used
