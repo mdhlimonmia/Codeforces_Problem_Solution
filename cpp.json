@@ -646,6 +646,15 @@
         "}"
         ],
         "description": "Function to calculate the length of the longest common subsequence using recursion and memoization."
+    },
+    "For Loop": {
+        "prefix": "loop",
+        "body": [
+            "for(ll ${1:i} = 0; ${1:i} < ${2:n}; ${1:i}++) {",
+            "    ${3:// code here}",
+            "}"
+        ],
+        "description": "Basic for loop from 0 to n-1"
     }
 
 }

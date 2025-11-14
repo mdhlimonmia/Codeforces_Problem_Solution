@@ -72,41 +72,73 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
+    ll q; cin>>q;
+    vl v(n);
+    map<ll,ll>mp;
+    for(ll i = 0; i < n; i++) {
+        cin>>v[i];
+        mp[v[i]]++;
     }
-    cout<<"-1\n";
+    sort(all(v));
+    // for(auto u:st)cout<<u<<" ";
+    // cout<<endl;
+    //n = unique(all(v)) - v.begin();
+    // dbg(v);
+    ll ans = 1;
+    for(int i = 2; i<=n; i++){
+        ll l = 0, r = n-1, t = infLL;
+        while(l<=r){
+            ll mid = (l+r)>>1;
+            if(v[mid]>=(i*4)){
+                t = mid;
+                r = mid-1;
+            }else l = mid+1;
+        }
+        // dbg(i, t);
+        ll c = 0;
+        // for(auto u:mp){
+        //     if(c>q || (t != infLL && u.F>=v[t]))break;
+        //     if(u.F % i == 0)continue;
+        //     else{
+        //         c += u.S;
+        //     }
+        // }
+        c = mp[i] + mp[i+i] + mp[i+i+i];
+        if(t != infLL){
+            ll tem = t-c;
+            if(tem<=q) ans = i;
+        }else{
+            ll tem = n-c;
+            if(tem<=q)ans = i;
+        }
+        // dbg(c, ans);
+    }
+    cout<<ans<<endl;
+
+}
+void solve2(){
+    ll n; cin>>n;
+    ll q; cin>>q;
+    vl v(n);
+    map<ll,ll>mp;
+    for(int i = 0; i<n; i++){
+        cin>>v[i];
+        mp[v[i]]++;
+    }
+    vl pre(n+1);
+    for(int i = 1; i<=n; i++){
+        pre[i] = pre[i-1] + mp[i];
+    }
+    ll ans = 1;
+    // dbg(v);
+    for(int i = 2; i<=n; i++){
+        ll k = i*4-1;
+        k = min(k, n);
+        ll c = pre[k] - mp[i] - mp[i*2] - mp[i*3];
+        // dbg(c);
+        if(c<=q)ans = i;
+    }
+    cout<<ans<<endl;
 }
 
 int main()
@@ -118,6 +150,6 @@ int main()
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
-        solve();
+        solve2();
     }
 }

@@ -72,41 +72,8 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
-    }
-    cout<<"-1\n";
+    ll m; cin>>m;
+
 }
 
 int main()

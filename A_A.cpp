@@ -71,9 +71,13 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll w,h;cin>>w>>h;
-    if(w>=60 && h<=130)yes;
-    else no;
+    ll n;cin>>n;
+    ll ans = n;
+    while(n>1){
+        ans += (n)/2;
+        n/=2;
+    }
+    cout<<ans<<endl;
 }
 
 int main()
@@ -81,7 +85,7 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

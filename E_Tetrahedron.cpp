@@ -68,45 +68,19 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
-
+const int mx = 1e7;
+ll mod = 1000000007 ;
+int dp[mx+1][4];
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
+    dp[0][0] = 1;
+    for(int i = 1; i<=n; i++){
+        dp[i][0] = (0LL + dp[i-1][1] + dp[i-1][2] + dp[i-1][3])%mod;
+        dp[i][1] = (0LL + dp[i-1][0] + dp[i-1][2] + dp[i-1][3])%mod;
+        dp[i][2] = (0LL + dp[i-1][0] + dp[i-1][1] + dp[i-1][3])%mod;
+        dp[i][3] = (0LL + dp[i-1][1] + dp[i-1][2] + dp[i-1][0])%mod;
     }
-    cout<<"-1\n";
+    cout<<dp[n][0]<<endl;
 }
 
 int main()
@@ -114,7 +88,7 @@ int main()
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

@@ -71,42 +71,24 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n;cin>>n;
-    vi v(n);
+    ll n,l, r, x;cin>>n>>l>>r>>x;
+    vl v(n);
     for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
+    ll ans = 0;
+    for(int i = 0; i<(1<<n); i++){
+        ll sum = 0, mn = infLL, mx = -infLL;
+        bool f = 0;
+        for(int j = 0; j<n; j++){
+            if(i&(1<<j)){
+                sum += v[j];
+                mx = max(mx, v[j]);
+                mn = min(mn, v[j]);
+                f = 1;
+            }
         }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
+        if(f && sum>=l && sum<=r &&( mx-mn)>=x)ans++;
     }
-    cout<<"-1\n";
+    cout<<ans<<endl;
 }
 
 int main()
@@ -114,7 +96,7 @@ int main()
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

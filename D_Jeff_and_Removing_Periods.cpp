@@ -68,56 +68,130 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
+const int mx = 1e5+1;
+
+struct  info
+{
+    int left, right, len;
+    int f;
+    set<int>st;
+    info(int _left = 0, int _right = 0, int _len = 0, int _f = 0){
+        left = _left;
+        right = _right;
+        len = _len;
+        f =  _f;
+    }
+};
+info tree[mx*4];
+class SGT{   
+    //*** must update the marge section
+    info marge(info left, info right){
+        // dbg(left.left, left.right, left.len, left.f);
+        // dbg(right.left, right.right, right.len, right.f);
+        info ans;
+        if(left.len<right.len){
+            ans.st = right.st;
+            for(auto u:left.st){
+                ans.st.insert(u);
+            }
+        }else{
+            ans.st = left.st;
+            for(auto u:right.st){
+                ans.st.insert(u);
+            }
+        }
+        ll k = ans.st.size();
+        // dbg(k, left.len, right.len);
+        ans.f =left.f;
+        ans.f +=right.f;
+        if(left.right != right.left){
+            // if(k <= left.len + right.len){
+            //     ans.f = 1;
+            //     // dbg(ans.f);
+            // }
+            ans.f++;
+        }
+        ans.len = k;
+        ans.left = left.left;
+        ans.right = right.right;
+        return ans;
+    }
+    //*** Must update lazy lection
+    // void upLazy(ll id, ll b, ll e){
+    //     tree[id] += lazy[id];
+    //     if(b!=e){
+    //         lazy[id*2]+=lazy[id];
+    //         lazy[id*2+1]+=lazy[id];
+    //     }
+    //     lazy[id] = 0;
+    // }
+    public:
+        //***must update this section
+        // SGT(ll n){
+        //     tree.resize(n*4);// resize segment tree;
+        //     lazy.resize(n*4);//resize lazy tree;
+        // }
+        //build segment tree
+        void build(ll id, ll b, ll e, ll arr[]){
+            if(b == e){
+                tree[id].left = arr[b];
+                tree[id].right = arr[b];
+                tree[id].len = 1;
+                tree[id].st.insert(arr[b]);
+                return;
+            }
+            ll mid = (b+e)>>1, l = id<<1, r = l|1;
+            build(l, b, mid, arr);
+            build(r, mid+1, e, arr);
+            tree[id] = marge(tree[l], tree[r]);
+        }
+        //quary section
+        info ask(ll id, ll b, ll e, ll x, ll y){
+            dbg(b, e, tree[id].left, tree[id].right, tree[id].f);
+            // if(lazy[id] != 0) upLazy(id, b, e); // *** if have lazy tree otherwise remove it
+            if(x>e || y<b)return info(0,0,0,0); //*** Must update return value
+            if(b>=x && e<=y){
+                return tree[id];
+            }
+            ll mid = (b+e)>>1, l = id<<1, r = l|1;
+            info left = ask(l, b, mid, x, y);
+            info right = ask(r, mid+1, e, x, y);
+            if(left.left == 0) return right;
+            if(right.left == 0) return left;
+            return marge(left, right);
+        }
+};
 
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
-    }
-    cout<<"-1\n";
+    // dbg(n);
+    ll v[n+1];
+    for(int i = 1; i<=n; i++)cin>>v[i];
+    // dbg(v);
+    SGT st;
+    st.build(1, 1, n, v);
+    dbg(tree[1].len, tree[1].f);
+    ll q; cin>>q;
+    while (q--)
+    {   ll l, r;
+        cin>>l>>r;
+        info ans = st.ask(1,1,n,l,r);
+        ll len = ans.len;
+        if(len < ans.f)len++;
+        cout<<len<<endl;
+    }    
 }
 
 int main()
 {
     optimize();
-
+    // cerr<<"Hello\n";
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
         solve();
+        // cerr<<"Limon\n";
     }
 }

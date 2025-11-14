@@ -72,41 +72,49 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
+    string s;
+    cin>>s;
+
+    ll a, b, c, d;
+    a = b = c = d = -1;
+    for(ll i = 0; i<n; i++){
+        if(s[i] == 'a'){
+            if(a == -1)a = i;
+            else b = i;
+        }else{
+            if(c==-1)c=i;
+            else d = i;
         }
     }
-    cout<<"-1\n";
+    ll x, y;
+    x = a, y = b;
+    ll tem = 0;
+    for(ll i = a; i<=b; i++){
+        if(s[i] == 'b'){
+            if(i-x <= y - i){
+                tem += (i-x);
+                x++;
+            }else{
+                tem += (y-i);
+                y--;
+            }
+        }
+    }
+    ll ans = 0;
+    x = c, y = d;
+    for(ll i = c; i<=d; i++){
+        if(s[i] == 'a'){
+            if(i-x <= y - i){
+                ans += (i-x);
+                x++;
+            }else{
+                ans += (y-i);
+                y--;
+            }
+        }
+    }
+    ans = min(ans, tem);
+    cout<<ans<<endl;
 }
 
 int main()

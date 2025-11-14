@@ -71,42 +71,32 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
+    ll n, x;cin>>n>>x;
+    vl v(n);
+    for(ll i = 0; i < n; i++) {
+        cin>>v[i];
+    }
+    sort(all(v));
+    ll s = 0, k = 0, r = 0;
+    vl ans;
+    for(int i = 0, j = n-1; i<=j; ){
+        ll tem = (s+v[j])/x;
+        if(tem>k){
+            ans.push_back(v[j]);
+            k = tem;
+            r+=v[j];
+            s+=v[j];
             j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
+        }else{
+            ans.push_back(v[i]);
+            s+=v[i];
             i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
         }
     }
-    cout<<"-1\n";
+    cout<<r<<endl;
+    for(auto u:ans)cout<<u<<" ";
+    cout<<endl;
+
 }
 
 int main()

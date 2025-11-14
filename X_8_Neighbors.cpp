@@ -72,20 +72,22 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n, m; cin>>n>>m;
-    string s[n];
-    for(int i = 0;i<n; i++)cin>>s[i];
-    int x, y; cin>>x>>y;
-    x--, y--;
-    for(int i = 0; i<8; i++){
-        int x1 = x+dx[i], y1 = y + dy[i];
-        if(x1>=0 && y1 >= 0 && x1<n && y1<m && s[x1][y1] == '.'){
-            no;
-            cout<<i<<" "<<x1<<" "<<y1<<endl;
-            return;
+    char s[n][m];
+    for(int i = 0;i<n; i++) {
+        for(int j = 0; j<m; j++){
+            cin>>s[i][j];
         }
     }
-    yes;
-    return;
+    int x, y; cin>>x>>y;
+    x--, y--;
+    // for(int i = 0; i<n; i++)dbg(s[i]);
+   if(s[x+1][y] != '.' && s[x-1][y] != '.' && s[x+1][y+1] != '.' && 
+      s[x+1][y-1] != '.' && s[x-1][y+1] != '.' && s[x-1][y-1] != '.' && s[x][y+1] != '.' && s[x][y-1] != '.'
+    )
+    {
+        cout<<"yes\n";
+    }
+    else cout<<"no\n";
 }
 
 int main()

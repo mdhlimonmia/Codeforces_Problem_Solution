@@ -71,42 +71,33 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
+    string s; cin>>s;
+    if(s == "first"){
+        ll n; cin>>n;
+        string ans;
+        int x;
+        while (n--)
+        {
+            cin>>x;
+            x--;
+            x%=26;
+            char c = x + 'a';
+            ans+=c;
+        }
+        cout<<ans<<endl;
+        
+    }else{
+        string k; cin>>k;
+        vl ans;
+        for(auto u:k){
+            int x = u-'a';
             x++;
+            ans.PB(x);
         }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
+        cout<<ans.size()<<endl;
+        for(auto u:ans)cout<<u<<" ";
+        cout<<endl;
     }
-    cout<<"-1\n";
 }
 
 int main()
@@ -114,7 +105,7 @@ int main()
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

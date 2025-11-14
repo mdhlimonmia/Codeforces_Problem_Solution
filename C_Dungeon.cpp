@@ -71,42 +71,64 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
+    ll n, m;cin>>n>>m;
+    multiset<int> v;
+    ll h;
+    for(ll i = 0; i < n; i++) {
+        cin>>h;
+        v.insert(h);
     }
-    cout<<"-1\n";
+    vll tem(m), c, z;
+    for(int i = 0; i<m; i++){
+        cin>>tem[i].F;
+    }
+    for(int i = 0; i<m; i++){
+        cin>>tem[i].S;
+    }
+    for(int i = 0; i<m; i++){
+        ll x = tem[i].F ,y = tem[i].S;
+        if(y == 0) z.PB({x,y});
+        else c.PB({x,y});
+    }
+    sort(all(c));
+    sort(all(z));
+    int j = 0;
+    ll ans = 0, l = c.size();
+    // dbg(c);
+    ll t = 0;
+    for(int i = 0; i<l; i++){
+        // while(j<n && v[j]<c[i].F)j++;
+        // if(j<n && v[j]>= c[i].F){
+        //     v[j] = max(v[j], c[i].S);
+        //     ans++;
+        //     if(j+1<n && v[j]<v[j+1] && i+1<l && c[i+1].F<=v[j])swap(v[j], v[j+1]);
+        //     j++;
+        // }
+        auto j = v.lower_bound(c[i].F);
+        if(j != v.end()){
+            ans++;
+            if(*j < c[i].S){
+                v.erase(j);
+                v.insert(c[i].S);
+            }
+        }
+        else break;
+    }
+    // dbg(ans);
+    // dbg(v);
+
+    l = z.size();
+    j = 0;
+    // dbg(v);
+    for(int i = 0; i<l; i++){
+       auto j = v.lower_bound(z[i].F);
+        if(j != v.end()){
+            ans++;
+            v.erase(j);
+        }
+        else break;
+    }
+    cout<<ans<<endl;
 }
 
 int main()

@@ -71,35 +71,65 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll l, n;cin>>n>>l;
-    vl v(n);
-    for(int i = 0; i<n; i++){
-        cin>>v[i];
+    ll x, n; cin>>x>>n;
+    ll k = (n-1)/2;
+    ll tem = 0;
+    if(n == 0){
+        cout<<x<<endl;
+        return;
     }
-    sort(all(v));
-    ll ans = 0, x = 0;
-    for(int i = 1; i<n; i++){
-        if(v[i]-v[x]<l){
-            while(i<n && v[i]-v[x]<l){
-                ans++;
-                i++;
-            }
-            x = i;
-            // dbg(x);
-        }else x = i;
+    if(x%2 == 0){
+        ll ans = x-1;
+        if(k%2 == 0){
+            tem = -(k*2);
+            // dbg(tem);
+            if(n%2 == 0) tem += n;
+            // dbg(tem);
+        }else{
+            if(n%2 != 0){
+                tem = ((n+n-1) - (k-1)*2);
+            }else tem = 1;
+        }
+        cout<<ans+tem<<endl;
     }
-    ll ans1 = 0, x1 = n-1;
-    for(int i = n-2; i>=0; i--){
-        if(v[x1]-v[i]<l){
-            while(i>=0 && v[x1]-v[i]<l){
-                ans1++;
-                i--;
-            }
-            x1 = i;
-            // dbg(x);
-        }else x1 = i;
+    else{
+        ll ans = x+1;
+        if(k%2 == 0){
+            tem = -(k*2);
+            // dbg(tem);
+            if(n%2 == 0) tem += n;
+            // dbg(tem);
+        }else{
+            if(n%2 != 0){
+                tem = ((n+n-1) - (k-1)*2);
+            }else tem = 1;
+        }
+        cout<<ans-tem<<endl;
     }
-    cout<<min(ans, ans1)<<endl;
+    // if(k%2 == 0){
+    //     tem = k*2;
+    //     if(n%2!=0){
+    //         tem -= n;
+    //     }
+    // }else {
+    //     tem = (k-1)*2;
+    //     if(n%2==0){
+    //         tem = (n+n-1) - tem;
+    //     }else{
+    //         tem = 1;
+    //     }
+    // }
+    // dbg(tem);
+    // ll ans;
+    // if(x%2==0){
+    //      ans = x-1;
+    //      tem = -tem;
+    // }
+    // else ans = x+1;
+
+    // if(k%2 == 0) ans+=tem;
+    // else ans -= tem;
+    // cout<<ans<<endl;
 }
 
 int main()
@@ -107,7 +137,7 @@ int main()
     optimize();
 
     int _ = 1;
-    // cin>>_;
+    cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

@@ -25,6 +25,9 @@ typedef double dl;
 #define sz(x) (int)x.size()
 #define yes cout<<"YES"<<endl
 #define no cout<<"NO"<<endl
+#define POPCOUNT __builtin_popcountll /*number of set bit*/
+#define RIGHTMOST __builtin_ctzll
+#define LEFTMOST(x) (63-__builtin_clzll((x)))
 
 const double PI = acos(-1);
 const double eps = 1e-9;
@@ -52,6 +55,7 @@ template<typename T,typename...hello>void faltu(T arg,const hello&...rest){cerr<
 
 ll gcd ( ll a, ll b ) { return __gcd ( a, b ); }
 ll lcm ( ll a, ll b ) { return a * ( b / gcd ( a, b ) ); }
+ll getSetBit(ll x) {return __builtin_popcount(x);};
 
 int dx[] = { 0, 0, +1, -1, -1  +1, -1, +1 };
 int dy[] = { +1, -1, 0, 0, -1, +1, +1, -1 };
@@ -68,18 +72,33 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vi a(n), b(n);
-    for(auto &u:a)cin>>u;
-    for(auto &u:b)cin>>u;
-    sort(all(a));
-    sort(all(b));
-    for(int i = 0; i<n; i++){
-        if(a[i]>b[i] || (a[i] != b[i] && b[i] - a[i] != 1)){
-            no;
-            return;
+    vl v(n);
+    for(ll i = 0; i < n; i++) {
+        cin>>v[i];
+    }
+    if(n == 1 && v[0] == 1){
+        cout<<v[0]<<endl;
+        return;
+    }
+    if(v[n/2] == n){
+        cout<<"-1\n";
+        return;
+    }
+    vl left, right;
+    for(int i = 0, j = n-1; i<=j;){
+        if(v[i]<v[j]){
+            left.PB(v[i]);
+            i++;
+        }else{
+            right.PB(v[j]);
+            j--;
         }
     }
-    yes;
+    reverse(all(left));
+    // reverse(all(right));
+    for(auto u:left)cout<<u<<" ";
+    for(auto u:right)cout<<u<<" ";
+    cout<<endl;
 }
 
 int main()
@@ -90,6 +109,7 @@ int main()
     cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
+        //cout<<"Case "<<tc<<": ";
         solve();
     }
 }

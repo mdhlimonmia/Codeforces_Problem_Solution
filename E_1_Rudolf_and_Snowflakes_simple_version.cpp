@@ -68,56 +68,55 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
+const int mx = 1e6;
 
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
+    for(int i = 2; i<1012; i++){
+        ll k = i*i, tem = n-1-i;
+        if(tem<= 0){
+            break;
         }
-        if(v[j] == y){
-            j--;
-            y--;
+        while(tem>0){
+            // dbg(k, tem);
+            tem-=k;
+            k*=i;
         }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
+        if(tem == 0){
+            // dbg(k, i);
+            yes;
             return;
         }
     }
-    cout<<"-1\n";
+    no;
+}
+set<ll>st;
+void preCal(){
+    for(int i = 2; i<=1000; i++){
+        ll k = i*i, val = i+1;
+        while(val+k<=mx){
+            val +=k;
+            // if(val>mx)break;
+            st.insert(val);
+            k*=i;
+        }
+    }
+}
+void solve1(){
+    ll n; cin>>n;
+    if(st.count(n))yes;
+    else no;
 }
 
 int main()
 {
     optimize();
-
+    preCal();
     int _ = 1;
     cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";
-        solve();
+        solve1();
     }
 }

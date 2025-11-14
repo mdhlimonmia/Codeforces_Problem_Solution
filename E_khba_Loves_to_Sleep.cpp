@@ -71,42 +71,41 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
+    ll n,k,x;cin>>n>>k>>x;
+    vl v(n);
+    for(ll i = 0; i < n; i++) {
+        cin>>v[i];
     }
-    cout<<"-1\n";
+    sort(all(v));
+    vll dif;
+    if(v[0] != 0) dif.push_back({v[0], 0});
+    for(int i = 1; i<n; i++){
+        dif.PB({v[i]-v[i-1], v[i-1]});
+    }
+    if(v[n-1] != x) dif.push_back({x-v[n-1], v[n-1]});
+    sort(rall(v));
+    
+    ll mindis = infLL, tem = k;
+    ll l = 0, r = x;
+    while(l<=r){
+        ll mid = (l+r)>>1;
+        ll port = 0;
+        for(int i = 0; i<dif.size(); i++){
+            if(dif[i].F>=mid){
+                port += (dif[i].F - mid + 1);
+            }
+        }
+        if(port>=k){
+            mindis = mid;
+            l = mid+1;
+        }else r = mid - 1;
+    }
+    ll ans = 0;
+    for(int i = 1; i<dif.size(); i++){
+        ll x = dif[i];
+        ll y = dif[i-1];
+        if(tem == 1) mindis = v[i];
+    }
 }
 
 int main()

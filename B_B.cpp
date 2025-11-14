@@ -71,9 +71,11 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n,k,s;cin>>n>>k>>s;
-    ll sum = (((n*2)*(n*2 + 1))/2 - n)/2;
-    cout<<(s - sum)/(k-1)<<endl;
+    ll a,b; cin>>a>>b;
+    if(a>1)cout<<1<<endl;
+    else if(b==2)cout<<3<<endl;
+    else cout<<2<<endl;
+    // ll n;cin>>n;
 }
 
 int main()

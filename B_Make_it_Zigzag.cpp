@@ -72,41 +72,41 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
+    ll ans = 0;
+    vl v(n+1);
+    for(ll i = 1; i <= n; i++) {
+        cin>>v[i];
     }
-    cout<<"-1\n";
+    ll mx = v[0], mx2 = 0;
+    for(int i = 1; i<n; i++){
+        mx = max(v[i],mx);
+        if(i&1){
+            if(v[i]>=v[i+1]){
+                if(v[i]<mx){
+                    v[i+1] = mx;
+                }else{
+                    mx = max(v[i+1],mx);
+                    v[i+1] = mx;
+                    ans += (v[i] - v[i+1])+1;
+                    v[i] = v[i+1]-1; 
+                }
+                // ans += (v[i] - v[i+1])+1;
+                // v[i] = v[i+1]-1;
+            }
+        }else{
+            if(v[i]<= v[i+1]){
+                if(mx>v[i+1]) v[i] = mx;
+                else{
+                    v[i] = mx;
+                    ans+=(v[i+1]-v[i])+1;
+                    mx = max(mx, v[i+1]);
+                    v[i+1] = v[i]-1;
+                }
+            }
+        }
+        mx2 = max(v[i], mx2);
+    }
+    cout<<ans<<endl;
 }
 
 int main()

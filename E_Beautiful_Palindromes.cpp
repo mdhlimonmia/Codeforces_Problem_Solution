@@ -71,42 +71,37 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
+    ll n,k;cin>>n>>k;
+    vl v(n);
+    set<ll>st;
+    for(ll i = 0; i < n; i++) {
+        cin>>v[i];
+        st.insert(v[i]);
     }
-    cout<<"-1\n";
+    vl tem;
+    for(int i = 1; i<=n; i++){
+        if(st.find(i) == st.end()) tem.push_back(i);
+    }
+    if(tem.size() == 0){
+        tem.push_back(v[0]);
+        tem.push_back(v[1]);
+        tem.push_back(v[2]);
+    }else if(tem.size() == 1){
+        for(auto u:st){
+            if(u != v[n-1]){
+                tem.push_back(u);
+                tem.push_back(v[n-1]);
+                break;
+            }
+        }
+    }else tem.push_back(v[0]);
+    int j = 0;
+    for(int i = 0; i<k; i++){
+        cout<<tem[j]<<" ";
+        j++;
+        j%=3;
+    }
+    cout<<endl;
 }
 
 int main()

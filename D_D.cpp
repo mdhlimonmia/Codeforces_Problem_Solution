@@ -71,12 +71,26 @@ inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 const int mx = 1e5+123;
 
 void solve(){
-    ll n,k;cin>>n>>k;
-    if(n>k){
-        if((n+k)%2 != 0)cout<<1<<endl;
-        else cout<<"0\n";
+    ll n;cin>>n;
+    vl v(n);
+    for(ll i = 0; i < n; i++) {
+        cin>>v[i];
     }
-    else cout<<abs(k-n)<<endl;
+    sort(all(v));
+    ll k = 0, mxx = 0;
+    for(int i = 0; i<n; i++){
+        while (v[i]%2 == 0)
+        {
+            k++;
+            v[i]/=2;
+        }
+        mxx = max(mxx, v[i]);
+    }
+    ll sum = accumulate(all(v), 0);
+    sum -= mxx;
+    mxx = mxx<<k;
+    sum+=mxx;
+    cout<<sum<<endl;
 }
 
 int main()

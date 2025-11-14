@@ -72,41 +72,25 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
+    ll l = 0, r = n;
+    ull ans = 1;
+    while(l<=r){
+        ull mid = l/2 + r/2;
+        if((l&1) && (r&1))mid++;
+        ull sum;
+        if(mid%2 == 0){
+            sum = (mid/2);
+            sum = 1uLL * sum * (mid+1);
+        }else{
+            sum =(mid+1)/2;
+            sum = 1uLL * sum * mid;
         }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
+        if(sum<=n){
+            ans = max(mid, ans);
+            l = mid+1;
+        }else r = mid-1;
     }
-    cout<<"-1\n";
+    cout<<ans<<endl;
 }
 
 int main()
@@ -114,7 +98,7 @@ int main()
     optimize();
 
     int _ = 1;
-    cin>>_;
+    // cin>>_;
     for (int tc = 1; tc<=_; tc++)
     {
         //cout<<"Case "<<tc<<": ";

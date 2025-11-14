@@ -72,38 +72,40 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
+    vl v(n), ev;
+    bool f = 0;
+    for(ll i = 0; i < n; i++) {
+        cin>>v[i];
+        if(v[i]%2 == 0)ev.push_back(v[i]);
+        if(v[i] == 1)f = 1;
+    }
+    if(f == 1){
+        cout<<v[0]<<" "<<v[1]<<endl;
+        return;
+    }
+    if(ev.size()>1){
+        cout<<ev[0]<<" "<<ev[1]<<endl;
+        return;
+    }
+    ll x, y, z;
+    x = y = z = 0;
+    for(int k = 1; k<n; k++){
+        if((v[k]%v[x])%2 == 0){
+            cout<<v[x]<<" "<<v[k]<<endl;
             return;
+        }
+        if((v[k]%v[y])%2 == 0){
+            cout<<v[y]<<" "<<v[k]<<endl;
+            return;
+        }
+        if((v[k]%v[z])%2 == 0){
+            cout<<v[z]<<" "<<v[k]<<endl;
+            return;
+        }
+        if(v[k]%2 != 0){
+            z = y;
+            y = x;
+            x = k;
         }
     }
     cout<<"-1\n";

@@ -68,51 +68,38 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
-
+const ll mx = 1e12+123;
+vl fac;
+void factorial(){
+    ll val = 6, nx = 4;
+    while(val<mx){
+        fac.push_back(val);
+        val*=nx;
+        nx++;
+    }
+}
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
+    ll ans = POPCOUNT(n);
+    ll l = fac.size();
+    for(int i = 0; i<(1<<l); i++){
+        ll k = 0, res = 0;
+        for(int j = 0; j<l; j++){
+            if(i&(1<<j)){
+                k+=fac[j];
+                res++;
+            }
         }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
+        if(k>n)continue;
+        ans = min(ans, res+POPCOUNT(n-k));
     }
-    cout<<"-1\n";
+    cout<<ans<<endl;
 }
 
 int main()
 {
     optimize();
-
+    factorial();
     int _ = 1;
     cin>>_;
     for (int tc = 1; tc<=_; tc++)

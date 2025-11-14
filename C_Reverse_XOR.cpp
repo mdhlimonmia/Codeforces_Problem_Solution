@@ -72,41 +72,30 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
+    ll k = POPCOUNT(n);
+    if(k&1)no;
+    else{
+        string s = "";
+        while(n){
+            if(n&1)s+='1';
+            else s+='0';
+            n/=2;
         }
-        if(v[j] == y){
-            j--;
-            y--;
+        while(s.size()>0 && s.back() == '0')s.pop_back();
+        reverse(all(s));
+        while(s.size()>0 && s.back() == '0')s.pop_back();
+        bool f = 0;
+        int l = s.size();
+        for(int i = 0; i<l; i++){
+            if(s[i] != s[l-i-1]){
+                no;
+                return;
+            }
         }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
+        // dbg(s);
+        if(l&1 && s[l/2] == '1')no;
+        else yes;
     }
-    cout<<"-1\n";
 }
 
 int main()

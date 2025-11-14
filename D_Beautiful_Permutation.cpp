@@ -38,7 +38,7 @@ const ll infLL = 9000000000000000000;
 #define mem(a,b) memset(a, b, sizeof(a) )
 #define sqr(a) ((a) * (a))
 
-#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define optimize() ios_base::sync_with_stdio(0);cout.flush()
 #define fraction() cout.unsetf(ios::floatfield); cout.precision(10); cout.setf(ios::fixed,ios::floatfield);
 #define file() freopen("input.txt","r",stdin);freopen("output.txt","w",stdout);
 //
@@ -68,51 +68,69 @@ inline ll modPow(ll b, ll p) { ll r = 1; while(p) { if(p&1) r = modMul(r, b); b 
 inline ll modInverse(ll a) { return modPow(a, MOD-2); }
 inline ll modDiv(ll a, ll b) { return modMul(a, modInverse(b)); }
 
-const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
+    cout<<"1 "<<1<<" "<<n<<endl;
+    ll x; cin>>x;
+    cout<<"2 "<<1<<" "<<n<<endl;
+    ll y; cin>>y;
+    ll l = y-x;
+    // dbg(l);
+    x = 1, y = n;
+    while(1){
+        ll mid = (x+y)>>1;
+        ll p1, p2, q1, q2;
+        cout<<"1 "<<x<<" "<<mid<<endl;
+        cin>>p1;
+        cout<<"2 "<<x<<" "<<mid<<endl;
+        cin>>p2;
+
+        ll i = p2-p1;
+        // dbg(i);
+        if(i == l && (mid - x + 1) == l){
+            cout<<"! "<<x<<" "<<mid<<endl;
             return;
         }
+        if(i == l){
+            y = mid;
+            continue;
+        }
+        if(i>0){
+            cout<<"! "<<mid-i+1<<" "<<mid-i+l<<endl;
+            return;
+        }
+        else {
+            x = mid+1;
+            continue;
+        }
+        cout<<"1 "<<mid+1<<" "<<y<<endl;
+        cin>>q1;
+        cout<<"2 "<<mid+1<<" "<<y<<endl;
+        cin>>q2;
+        ll j = q2-q1;
+        if(j == l && (y-(mid+1)+1) == l){
+            cout<<"! "<<mid+1<<" "<<y<<endl;
+            return;
+        }
+        else if(i>0 && j>0){
+            // dbg(i, j);
+            cout<<"! "<<mid-i+1<<" "<<mid-i+l<<endl;
+            return;
+        }
+        else if(i>0){
+            y = mid;
+        }
+        else if(j>0){
+            x = mid;
+        }
     }
-    cout<<"-1\n";
 }
 
 int main()
 {
-    optimize();
-
+    // optimize();
+     cout.flush();
     int _ = 1;
     cin>>_;
     for (int tc = 1; tc<=_; tc++)

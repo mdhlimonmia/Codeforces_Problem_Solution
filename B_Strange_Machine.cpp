@@ -72,41 +72,64 @@ const int mx = 1e5+123;
 
 void solve(){
     ll n;cin>>n;
-    vi v(n);
-    for(int i = 0; i<n; i++)cin>>v[i];
-    // int i = 1, l = n;
-    // while(i<l){
-    //     if(v[i] == i)i++;
-    //     if(v[l] == l)l--;
-    //     if(v[l] != l && v[i]!=i && v[l] != i && v[i] != l){
-    //         cout<<i<<" "<<l<<endl;
-    //         return;
-    //     }
-    // }
-    ll i = 0, j = n-1, x = 1, y = n;
-    while(i<j){
-        if(v[i] == x){
-            i++;
-            x++;
-        }
-        if(v[j] == y){
-            j--;
-            y--;
-        }
-        if(v[j] == x){
-            x++;
-            j--;
-        }
-        if(v[i] == y){
-            i++;
-            y--;
-        }
-        if(v[i] != x && v[i] != y && v[j]!=x && v[j]!= y){
-            cout<<i+1<<" "<<j+1<<endl;
-            return;
-        }
+    ll q; cin>>q;
+    string s; cin>>s;
+    vl v;
+    char c = s[0];
+    ll k = 0;
+    for(int i = 0; i<n; i++){
+        if(s[i] != c){
+            if(c == 'A'){
+                v.PB(k);
+                c = s[i];
+            }else{
+                v.PB(-k);
+                c = s[i];
+            }
+            k = 1;
+        }else k++;
     }
-    cout<<"-1\n";
+    if(k>0){
+        if(s[n-1] == 'A')v.PB(k);
+        else v.PB(-k);
+    }
+    // dbg(v);
+    ll l = v.size();
+    while (q--)
+    {
+        ll x; cin>>x;
+        ll ans = 0, i = 0;
+        if(l == 1 && s[0] == 'A'){
+            cout<<x<<endl;
+            continue;
+        }
+        while(x){
+            if(v[i] < 0){
+                if(x>=(1<<(-v[i]))){
+                    x>>=(-v[i]);
+                    ans += (-v[i]);
+                }else{
+                    while(x){
+                        ans++;
+                        x>>=1;
+                    }
+                }
+            }
+            else{
+                if(x>v[i]){
+                    x -= v[i];
+                    ans+=v[i];
+                }else{
+                    ans+=x;
+                    x = 0;
+                }
+            }
+            i++;
+            if(i>=l) i = 0;
+        }
+        cout<<ans<<endl;
+    }
+    
 }
 
 int main()

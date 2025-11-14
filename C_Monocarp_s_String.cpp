@@ -76,10 +76,16 @@ void solve(){
     cin>>s;
     // vl a, b;
     ll sum1 = 0, sum2 = 0;
+    vl a(n+1), b(n+1);
     for(int i = 0; i<n; i++){
-        if(s[i] == 'a')sum1++;
-        else sum2++;
+        if(s[i] == 'a'){
+            a[i+1] = 1;
+        }
+        else b[i+1] = 1;
+        a[i+1]+=a[i];
+        b[i+1]+=b[i];
     }
+    sum1 = a[n], sum2 = b[n];
     // if(s[0] == 'a')a.push_back(k);
     // else b.push_back(k);
     // ll sum1 = accumulate(all(a), 0);
@@ -128,21 +134,38 @@ void solve(){
     // }
     else{
         ll z = abs(sum1-sum2), ans = infLL;
-        for(ll i = z; i<n; i++){
-            ll x = sum1, y = sum2, t = 0, k = 0;
-            for(int j = 0; j<n; j++){
-                if(s[j] == 'a')x--;
-                else y--;
-                t++;
-                // dbg(x,y);
-                if(t > i){
-                    if(s[k] == 'a')x++;
-                    else y++;
-                    k++;
-                    t--;
+        // for(ll i = z; i<n; i++){
+        ll l = z, r = n-1;
+        while(l<=r){
+            ll mid = (l+r)>>1;
+            ll x,y;
+            bool tem = 0;
+            for(int j = 1, k = mid; k<=n; j++, k++){
+                // if(s[j] == 'a')x--;
+                // else y--;
+                // t++;
+                // // dbg(x,y);
+                // if(t > i){
+                //     if(s[k] == 'a')x++;
+                //     else y++;
+                //     k++;
+                //     t--;
+                // }
+                x = sum1 - (a[k]-a[j-1]);
+                y = sum2 - (b[k]-b[j-1]);
+
+                if(x > 0 && y> 0 && x==y){
+                    tem = 1;
+                    // cout<<i<<endl;
+                    // return;
+                    // ans = min(ans, i);
+                    break;
                 }
-                if(t==i && x==y && x > 0 && y> 0)ans = min(ans, i);
             }
+            if(tem){
+                ans = min(ans, mid);
+                r = mid-1;
+            }else l = mid+1;
         } 
         if(ans == infLL)ans = -1;
         cout<<ans<<endl;
